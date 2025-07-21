@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Defer.all() Script Order</title>
+</head>
+<body>
+    <h1>Script Execution Order Test with Defer.all()</h1>
+    <div id="output"></div>
+
+    <!-- External script that defines jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Inline script that uses jQuery -->
+    <script>
+        console.log('Inline script 1: jQuery version is', $.fn.jquery);
+        $('#output').append('<p>jQuery loaded: ' + $.fn.jquery + '</p>');
+    </script>
+    
+    <!-- Another external script -->
+    <script src="https://unpkg.com/lodash@4.17.21/lodash.min.js"></script>
+    
+    <!-- Inline script that uses lodash -->
+    <script>
+        console.log('Inline script 2: Lodash version is', _.VERSION);
+        $('#output').append('<p>Lodash loaded: ' + _.VERSION + '</p>');
+    </script>
+    
+    <!-- Final inline script -->
+    <script>
+        console.log('Final inline script executed');
+        $('#output').append('<p>All scripts executed successfully!</p>');
+    </script>
+</body>
+</html>
