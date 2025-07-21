@@ -1,0 +1,124 @@
+Edit Document
+
+Plugins
+A PostHTML plugin is a simple function with a
+single argument.
+Use posthtml-plugin-boilerplate boilerplate to
+create a new plugin.
+
+Synchronous
+js
+
+Copy to clipboard
+export default function postHTMLPluginName
+// do something for tree
+tree.match({ tag: 'img' }, (node) => {
+node = Object.assign(node, { attrs: { c
+return {
+tag: 'span',
+attrs: { class: 'img-wrapper' },
+content: node
+}
+})
+}
+
+Asynchronous
+js
+
+import request from 'request'
+export default function postHTMLPluginName
+let tasks = 0
+
+tree.match({ tag: 'a' }, (node) => {
+// skip local anchors
+if (!/^(https?:)?\/\//.test(node.attrs.
+return node
+}
+request.head(node.attrs.href, (err, res
+if (err) return done()
+if (resp.statusCode >= 400) {
+node.attrs.class += ' ' + 'Erroric'
+}
+if (resp.headers.contentType) {
+node.attrs.class += ' content-type_
+}
+done()
+})
+tasks += 1
+return node
+})
+function done() {
+tasks -= 1
+if (!tasks) cb(null, tree)
+}
+}
+
+Asynchronous with Promises
+js
+
+import request from 'request'
+import parser from 'posthtml-parser'
+export default (tree) => {
+return new Promise((resolve) => {
+
+tree.match({ tag: 'user-info' }, (node)
+request(`/api/user-info?${node.attrs.
+if (!err && body) node.content = pa
+resolve(tree)
+})
+})
+})
+}
+
+Messages
+Tree messages to store and pass metadata
+between plugins
+js
+
+export default function plugin (options = {
+return function (tree) {
+tree.messages.push({
+type: 'dependency',
+file: 'path/to/dependency.html',
+from: tree.options.from
+})
+return tree
+}
+}
+
+parser
+Tree method parsing string inside plugins.
+js
+
+export default function plugin (options = {
+return function (tree) {
+tree.match({ tag: 'include' }, functio
+node.tag = false;
+
+node.content = tree.parser(fs.readF
+return node
+})
+return tree
+}
+}
+
+render
+Tree method rendering tree to string inside
+plugins.
+js
+
+export default function plugin (options = {
+return function (tree) {
+var outerTree = ['\n', {tag: 'div', c
+var htmlWithoutSpaces = tree.render(o
+return tree.parser(htmlWithoutSpaces)
+}
+}
+
+NEXT
+
+Guide
+Contact the collaborators
+collaborators@posthtml.org
+
+

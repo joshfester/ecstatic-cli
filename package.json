@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@divriots/jampack": "^0.33.1",
+    "@shinsenter/defer.js": "^3.8.0",
+    "@swc/core": "^1.12.7",
+    "gulp": "^5.0.1",
+    "gulp-htmlnano": "^0.1.0",
+    "http-server": "^14.1.1",
+    "parcel": "^2.15.4",
+    "posthtml": "^0.16.6"
+  },
+  "scripts": {
+    "convert-http": "./bin/convert-http.sh",
+    "scrape": "./bin/httrack-americor.sh",
+    "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/* ./dist-jampack/ && jampack ./dist-jampack",
+    "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
+    "serve": "http-server ./dist-parcel",
+    "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
+  },
+  "@parcel/transformer-css": {
+    "errorRecovery": true
+  },
+  "htmlnano": {
+    "removeRedundantAttributes": false
+  }
+}

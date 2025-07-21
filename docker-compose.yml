@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  pagespeed:
+    image: crunchgeek/nginx-pagespeed:latest
+    container_name: pagespeed
+    ports:
+      - "8080:80" 
+    volumes:
+      - ./build/web:/etc/nginx/html:ro
+    environment:
+      NGINX_PAGESPEED: "on" 
+      NGINX_PAGESPEED_IMG: "on"
+      NGINX_PAGESPEED_JS: "on"
+      NGINX_PAGESPEED_CSS: "on"
+    restart: unless-stopped
