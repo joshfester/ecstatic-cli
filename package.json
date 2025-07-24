@@ -2,10 +2,6 @@
   "type": "module",
   "devDependencies": {
     "@divriots/jampack": "^0.33.1",
-    "@shinsenter/defer.js": "^3.8.0",
-    "@swc/core": "^1.12.7",
-    "gulp": "^5.0.1",
-    "gulp-htmlnano": "^0.1.0",
     "http-server": "^14.1.1",
     "parcel": "^2.15.4",
     "posthtml": "^0.16.6",
