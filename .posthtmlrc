@@ -1,0 +1,7 @@
+{
+    "plugins": {
+        "posthtml-externalize-inline-scripts": {
+            "dir": "inline"
+        }
+    }
+}

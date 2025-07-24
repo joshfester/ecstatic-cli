@@ -8,7 +8,8 @@
     "gulp-htmlnano": "^0.1.0",
     "http-server": "^14.1.1",
     "parcel": "^2.15.4",
-    "posthtml": "^0.16.6"
+    "posthtml": "^0.16.6",
+    "posthtml-externalize-inline-scripts": "file:./lib/posthtml"
   },
   "scripts": {
     "convert-http": "./bin/convert-http.sh",
