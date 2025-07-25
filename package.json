@@ -2,18 +2,25 @@
   "type": "module",
   "devDependencies": {
     "@divriots/jampack": "^0.33.1",
+    "@qwik.dev/partytown": "^0.11.2",
+    "dotenv": "^17.2.1",
     "http-server": "^14.1.1",
-    "parcel": "^2.15.4",
+    "parcel": "2.14.4",
+    "partytown": "^0.0.0",
     "posthtml": "^0.16.6",
-    "posthtml-externalize-inline-scripts": "file:./lib/posthtml"
+    "posthtml-defer-scripts": "file:./lib/posthtml/defer-scripts",
+    "posthtml-partytown": "file:./lib/posthtml/partytown"
   },
   "scripts": {
+    "all": "npm run parcel && npm run partytown && npm run jampack && npm run deploy",
     "convert-http": "./bin/convert-http.sh",
     "scrape": "./bin/httrack-americor.sh",
-    "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/* ./dist-jampack/ && jampack ./dist-jampack",
+    "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
     "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
+    "partytown": "partytown copylib './dist-parcel/~partytown'",
     "serve": "http-server ./dist-parcel",
-    "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
+    "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/",
+    "deploy": "node deploy.js"
   },
   "@parcel/transformer-css": {
     "errorRecovery": true

@@ -1,3 +1,4 @@
+.env
 .jampack
 .netlify
 .parcel-cache

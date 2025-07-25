@@ -1,7 +1,6 @@
 {
     "plugins": {
-        "posthtml-externalize-inline-scripts": {
-            "dir": "inline"
-        }
+        "posthtml-partytown": {},
+        "posthtml-defer-scripts": {}
     }
 }

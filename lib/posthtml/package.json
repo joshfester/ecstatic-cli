@@ -1,8 +1,0 @@
-{
-  "name": "posthtml-externalize-inline-scripts",
-  "version": "1.0.0",
-  "description": "PostHTML plugin to externalize inline scripts",
-  "main": "externalize-inline-scripts.js",
-  "type": "module",
-  "keywords": ["posthtml", "posthtml-plugin", "inline-scripts"]
-}

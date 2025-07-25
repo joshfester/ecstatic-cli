@@ -1,0 +1,12 @@
+{
+    "name": "posthtml-partytown",
+    "version": "1.0.0",
+    "description": "PostHTML plugin to mark third-party scripts with type=\"text/partytown\"",
+    "main": "index.js",
+    "type": "module",
+    "keywords": [
+        "posthtml",
+        "posthtml-plugin",
+        "partytown"
+    ]
+}
