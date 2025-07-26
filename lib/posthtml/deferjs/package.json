@@ -1,0 +1,14 @@
+{
+    "name": "posthtml-deferjs",
+    "version": "1.0.0",
+    "description": "PostHTML plugin to mark third-party scripts with type=\"text/plain\" for defer.js",
+    "main": "index.js",
+    "type": "module",
+    "keywords": [
+        "posthtml",
+        "posthtml-plugin",
+        "defer.js",
+        "defer",
+        "lazy-loading"
+    ]
+}

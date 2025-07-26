@@ -3,12 +3,14 @@
   "devDependencies": {
     "@divriots/jampack": "^0.33.1",
     "@qwik.dev/partytown": "^0.11.2",
+    "@shinsenter/defer.js": "^3.8.0",
     "dotenv": "^17.2.1",
     "http-server": "^14.1.1",
     "parcel": "2.14.4",
     "partytown": "^0.0.0",
     "posthtml": "^0.16.6",
     "posthtml-defer-scripts": "file:./lib/posthtml/defer-scripts",
+    "posthtml-deferjs": "file:./lib/posthtml/deferjs",
     "posthtml-partytown": "file:./lib/posthtml/partytown"
   },
   "scripts": {

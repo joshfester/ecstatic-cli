@@ -3,6 +3,9 @@
   "transformers": {
     "*.partytown": [
       "@parcel/transformer-js"
+    ],
+    "*.plain": [
+      "@parcel/transformer-js"
     ]
   }
 }
