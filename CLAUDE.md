@@ -2,16 +2,16 @@
 
 ## Overview
 
-This project is a web app that automates the process of website optimization. The goal is to take a slow website and turn it into one that passes Core Web Vitals and scores high in Google Pagespeed (Lighthouse).
+This project is a CLI tool that automates the process of website optimization. The goal is to take a slow website and turn it into one that passes Core Web Vitals and scores high in Google Pagespeed (Lighthouse).
 
-The app is run via NPM scripts in the package.json file.
+The tool is currently run via NPM scripts in the package.json file. Eventually the scripts will be unified into a proper CLI tool.
 
-The app should work by this process:
-- Download the taget website as static files
+The tool should work by this process:
+- (Optional) Download the taget website as static files
     - This part is handled by 'wget2', which is just 'wget' with some extra features/optimizations
     - Documentation for wget is here: https://www.gnu.org/software/wget/manual/wget.html
 - Optimize the HTML and assets (js, css, images, fonts, etc)
-- Upload to a CDN
+- (Optional) Upload to a CDN
 
 Some common pitfalls in this process:
 - URL query params
@@ -26,26 +26,26 @@ Some common pitfalls in this process:
 - POST requests
     - Sometimes a POST request needs to happen to render content on the page. This can be solved with URL rewrite rules at the CDN level
 
-I want to use ParcelJS as the core library for optimizations. Out of the box it provides minification and hashing. Other optimization steps can be added as plugins for Parcel or one of the libraries it uses like PostHTML/SWC/LightningCSS/etc.
+I want to use ParcelJS as the core library for optimizations. Out of the box it provides minification and content hashing. Other optimization steps can be added as plugins for Parcel or one of the libraries it uses like PostHTML/SWC/LightningCSS/etc. For now we're using Jampack to handle lazy loading and critical CSS optimizations, but eventually those will be moved into Parcel plugins.
 
-## Run the app
+## Run the tool
 
 1. `npm run scrape`
 2. `npm run convert-http`
 3. `npm run parcel`
 4. `npm run jampack`
-5. `npm run zip`
+5. `npm run deploy`
 
 I'm currently focused on the Parcel step. Do not worry about other steps.
 
 ## Parcel
 
 - ParcelJS is configured at {PROJECT_ROOT}/.parcelrc
-- Parcel uses PostHTML to parse each HTML file
-    - Config is at {PROJECT_ROOT}/.posthtmlrc
-    - Currently there are two plugins. Each are setup as a local NPM package (see {PROJECT_ROOT}/package.json):
-        - partytown
+    - Currently there are two custom plugins
+        - html-defer
+            - This plugin is a Parcel Transformer
+            - This plugin externalizes inline scripts and defers all (non-partytown) scripts
+        - html-partytown
+            - This plugin is a Parcel Optimizer
             - This plugin offloads scripts to a Web Worker
             - PartyTown docs are at {PROJECT_ROOT}/docs/partytown.md
-        - defer-scripts
-            - This plugin externalizes inline scripts and defers all (non-partytown) scripts
