@@ -1,11 +1,18 @@
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.partytown": [
-      "@parcel/transformer-js"
+    "*.html": [
+      "./lib/parcel/transformers/html-defer.js",
+      "..."
     ],
     "*.plain": [
       "@parcel/transformer-js"
+    ]
+  },
+  "optimizers": {
+    "*.html": [
+      "...",
+      "./lib/parcel/optimizers/html-defer-js.js"
     ]
   }
 }

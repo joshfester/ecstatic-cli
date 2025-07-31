@@ -2,25 +2,26 @@
   "type": "module",
   "devDependencies": {
     "@divriots/jampack": "^0.33.1",
+    "@farmfe/cli": "^1.0.5",
+    "@farmfe/core": "^1.7.10",
+    "@parcel/packager-raw-url": "^2.14.4",
+    "@parcel/transformer-jsonld": "^2.14.4",
     "@qwik.dev/partytown": "^0.11.2",
     "@shinsenter/defer.js": "^3.8.0",
     "dotenv": "^17.2.1",
     "http-server": "^14.1.1",
-    "parcel": "2.14.4",
-    "partytown": "^0.0.0",
-    "posthtml": "^0.16.6",
-    "posthtml-defer-scripts": "file:./lib/posthtml/defer-scripts",
-    "posthtml-deferjs": "file:./lib/posthtml/deferjs",
-    "posthtml-partytown": "file:./lib/posthtml/partytown"
+    "parcel": "2.14.4"
   },
   "scripts": {
     "all": "npm run parcel && npm run partytown && npm run jampack && npm run deploy",
     "convert-http": "./bin/convert-http.sh",
-    "scrape": "./bin/httrack-americor.sh",
+    "scrape": "./bin/httrack-americor-wp.sh",
     "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
     "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
+    "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "serve": "http-server ./dist-parcel",
+    "serve-scraped": "http-server ./scraped/web",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/",
     "deploy": "node deploy.js"
   },
@@ -29,5 +30,8 @@
   },
   "htmlnano": {
     "removeRedundantAttributes": false
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2"
   }
 }

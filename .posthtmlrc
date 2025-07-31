@@ -1,6 +1,0 @@
-{
-    "plugins": {
-        "posthtml-deferjs": {},
-        "posthtml-defer-scripts": {}
-    }
-}
