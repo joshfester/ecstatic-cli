@@ -49,3 +49,7 @@ I'm currently focused on the Parcel step. Do not worry about other steps.
             - This plugin is a Parcel Optimizer
             - This plugin offloads scripts to a Web Worker
             - PartyTown docs are at {PROJECT_ROOT}/docs/partytown.md
+        - html-defer-js
+            - This plugin is a Parcel Optimizer
+            - This plugin uses the defer.js library to defer scripts
+            - Defer.js docs are at {PROJECT_ROOT}/docs/deferjs.md

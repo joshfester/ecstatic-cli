@@ -15,7 +15,7 @@
   "scripts": {
     "all": "npm run parcel && npm run partytown && npm run jampack && npm run deploy",
     "convert-http": "./bin/convert-http.sh",
-    "scrape": "./bin/httrack-americor-wp.sh",
+    "scrape": "./bin/httrack-americor.sh",
     "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
     "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
     "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",

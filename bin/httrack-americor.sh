@@ -25,6 +25,10 @@ httrack "https://www.americanrelief.org/apply/" \
   '+*americanrelief.org/*.css' '+*americanrelief.org/*.js' '+*americanrelief.org/apply/' \
   '+*americanrelief.org/_image*' '+*mage.mux.com*' 
 
-wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/Debt.astro_astro_type_script_index_0_lang.RqXlQd7H.js
-wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/bootstrap.esm.BNVzI9OA.js
-wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/057.astro_astro_type_script_index_0_lang.BBliHKjh.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/bootstrap.esm.BFNZNp9d.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/lottie.BYPm7SUG.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/lottie_light.C7XGppdl.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/_sentry-release-injection-file.COGKKHzh.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/DebtTypeIcons.astro_astro_type_script_index_0_lang.D60Wsok-.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/075.astro_astro_type_script_index_0_lang.DrxwnLMJ.js
+wget --directory-prefix=./scraped/web/js https://www.americanrelief.org/_astro/_commonjsHelpers.CsCfRhM5.js
