@@ -10,6 +10,7 @@
     "http-server": "^14.1.1"
   },
   "scripts": {
+    "test": "node --test",
     "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
     "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
     "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
