@@ -4,14 +4,10 @@
 
 This project is a CLI tool that automates the process of website optimization. The goal is to take a slow website and turn it into one that passes Core Web Vitals and scores high in Google Pagespeed (Lighthouse).
 
-The tool is currently run via NPM scripts in the package.json file. Eventually the scripts will be unified into a proper CLI tool.
-
-The tool should work by this process:
-- (Optional) Download the taget website as static files
-    - This part is handled by 'wget2', which is just 'wget' with some extra features/optimizations
-    - Documentation for wget is here: https://www.gnu.org/software/wget/manual/wget.html
-- Optimize the HTML and assets (js, css, images, fonts, etc)
-- (Optional) Upload to a CDN
+The tool has these commands:
+- scrape    
+- optimize
+- deploy
 
 Some common pitfalls in this process:
 - URL query params
@@ -26,30 +22,41 @@ Some common pitfalls in this process:
 - POST requests
     - Sometimes a POST request needs to happen to render content on the page. This can be solved with URL rewrite rules at the CDN level
 
-I want to use ParcelJS as the core library for optimizations. Out of the box it provides minification and content hashing. Other optimization steps can be added as plugins for Parcel or one of the libraries it uses like PostHTML/SWC/LightningCSS/etc. For now we're using Jampack to handle lazy loading and critical CSS optimizations, but eventually those will be moved into Parcel plugins.
+## Tech Stack
 
-## Run the tool
+The CLI tool is powered by the Commander library. The entry point is at ./bin/ecstatic. Configuration is loaded via the c12 library.
 
-1. `npm run scrape`
-2. `npm run convert-http`
-3. `npm run parcel`
-4. `npm run jampack`
-5. `npm run deploy`
+- scrape
+    - Download the taget website as static files
+    - This is handled by either `httrack` or `wget2` (which is just 'wget' with some extra features/optimizations)
+- optimize
+    - Optimize HTML and all assets
+    - Parcel is the core. New features should be added as a Parcel plugin.
+        - Out of the box, Parcel provides minification and content hashing.
+        - Configuration is at {PROJECT_ROOT}/.parcelrc
+        - Custom plugins:
+            - html-defer
+                - This plugin is a Parcel Transformer
+                - This plugin adds attributes to scripts. The attributes determine if the script will get ignored, deferred, or offloaded
+            - html-defer-js
+                - This plugin is a Parcel Optimizer
+                - This plugin uses the defer.js library to defer/offload scripts
+    - Jampack is used to handle lazy loading assets and critical CSS optimizations.
+- Deploy
+    - Upload to CDN (currently only supporting BunnyCDN)
 
-I'm currently focused on the Parcel step. Do not worry about other steps.
+## Documentation
 
-## Parcel
-
-- ParcelJS is configured at {PROJECT_ROOT}/.parcelrc
-    - Currently there are two custom plugins
-        - html-defer
-            - This plugin is a Parcel Transformer
-            - This plugin externalizes inline scripts and defers all (non-partytown) scripts
-        - html-partytown
-            - This plugin is a Parcel Optimizer
-            - This plugin offloads scripts to a Web Worker
-            - PartyTown docs are at {PROJECT_ROOT}/docs/partytown.md
-        - html-defer-js
-            - This plugin is a Parcel Optimizer
-            - This plugin uses the defer.js library to defer scripts
-            - Defer.js docs are at {PROJECT_ROOT}/docs/deferjs.md
+- c12: {PROJECT_ROOT}/docs/c12.md
+- Commander: {PROJECT_ROOT}/docs/commander.md
+- Defer.js: {PROJECT_ROOT}/docs/deferjs.txt
+- Httrack: {PROJECT_ROOT}/docs/httrack.txt
+- Jampack: https://jampack.divriots.com/
+- Parcel:
+    - {PROJECT_ROOT}/docs/parcel-cli.txt
+    - {PROJECT_ROOT}/docs/parcel-html.txt
+    - {PROJECT_ROOT}/docs/parcel-production.txt
+    - {PROJECT_ROOT}/docs/parcel-plugins.txt
+    - {PROJECT_ROOT}/docs/parcel-plugins-transformer.txt
+    - {PROJECT_ROOT}/docs/parcel-plugins-optimizer.txt
+- Wget: {PROJECT_ROOT}/docs/wget.txt

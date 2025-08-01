@@ -2,7 +2,7 @@
   "extends": "@parcel/config-default",
   "transformers": {
     "*.html": [
-      "./lib/parcel/transformers/html-defer.js",
+      "./src/parcel/transformers/html-defer.js",
       "..."
     ],
     "*.plain": [
@@ -12,7 +12,7 @@
   "optimizers": {
     "*.html": [
       "...",
-      "./lib/parcel/optimizers/html-defer-js.js"
+      "./src/parcel/optimizers/html-defer-js.js"
     ]
   }
 }
