@@ -1,8 +1,9 @@
 import { Command } from 'commander';
-import { spawn } from 'child_process';
-import { loadEcstaticConfig, getConfig, resolvePath } from '../utils/config.js';
+import { getConfig, resolvePath } from '../utils/config.js';
 import { ensureDir, cleanDir } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
+import { runCommand } from '../utils/process.js';
+import { createCommand } from '../utils/command.js';
 
 export const scrapeCommand = new Command('scrape')
   .description('Download website as static files')
@@ -10,15 +11,7 @@ export const scrapeCommand = new Command('scrape')
   .option('-o, --output <dir>', 'Output directory (overrides config)')
   .option('-d, --depth <number>', 'Mirror depth (overrides config)', parseInt)
   .option('-m, --method <method>', 'Scraping method: httrack|wget (overrides config)')
-  .action(async (url, options) => {
-    try {
-      await loadEcstaticConfig();
-      await scrapeWebsite(url, options);
-    } catch (error) {
-      logger.error(`Scraping failed: ${error.message}`);
-      process.exit(1);
-    }
-  });
+  .action(createCommand('Scraping', scrapeWebsite));
 
 async function scrapeWebsite(url, options) {
   const config = getConfig();
@@ -56,26 +49,29 @@ async function scrapeWebsite(url, options) {
 }
 
 async function runHttrack(url, outputDir, options, config) {
+  const httrackConfig = config.scrape.httrack;
   const args = [
     url,
     '-O', outputDir,
-    '--debug-log',
     `--depth=${options.depth}`,
     `--ext-depth=${options.depth}`,
-    '--near',
-    '-a',
-    '-B',
-    '-N4',
     `--sockets=${config.scrape.sockets}`,
-    '--keep-links=0',
-    '--robots=0',
-    '-%c20',
-    `--timeout=${config.scrape.timeout}`,
-    '--updatehack',
-    '--mirror',
-    '--cache=2',
-    '-*'
+    `--timeout=${config.scrape.timeout}`
   ];
+
+  // Add configurable options
+  if (httrackConfig.debugLog) args.push('--debug-log');
+  if (httrackConfig.near) args.push('--near');
+  if (httrackConfig.stay) args.push('-a');
+  if (httrackConfig.both) args.push('-B');
+  if (httrackConfig.structure) args.push(`-N${httrackConfig.structure}`);
+  if (httrackConfig.keepLinks !== undefined) args.push(`--keep-links=${httrackConfig.keepLinks}`);
+  if (httrackConfig.robots !== undefined) args.push(`--robots=${httrackConfig.robots}`);
+  if (httrackConfig.connections) args.push(`-%c${httrackConfig.connections}`);
+  if (httrackConfig.updatehack) args.push('--updatehack');
+  if (httrackConfig.mirror) args.push('--mirror');
+  if (httrackConfig.cache !== undefined) args.push(`--cache=${httrackConfig.cache}`);
+  if (httrackConfig.excludeAll) args.push('-*');
 
   // Add URL-specific filters based on the domain
   const domain = new URL(url).hostname;
@@ -89,47 +85,30 @@ async function runHttrack(url, outputDir, options, config) {
 }
 
 async function runWget(url, outputDir, options, config) {
+  const wgetConfig = config.scrape.wget;
   const args = [
-    '--recursive',
-    '--page-requisites',
-    '--html-extension',
-    '--convert-links',
-    '--restrict-file-names=windows',
     '--domains', new URL(url).hostname,
-    '--no-parent',
     `--level=${options.depth}`,
     `--timeout=${config.scrape.timeout}`,
-    `--directory-prefix=${outputDir}`,
-    url
+    `--directory-prefix=${outputDir}`
   ];
+
+  // Add configurable options
+  if (wgetConfig.recursive) args.push('--recursive');
+  if (wgetConfig.pageRequisites) args.push('--page-requisites');
+  if (wgetConfig.htmlExtension) args.push('--html-extension');
+  if (wgetConfig.convertLinks) args.push('--convert-links');
+  if (wgetConfig.restrictFileNames) args.push(`--restrict-file-names=${wgetConfig.restrictFileNames}`);
+  if (wgetConfig.noParent) args.push('--no-parent');
+
+  args.push(url);
 
   return runCommand('wget', args);
 }
 
 async function runPostProcessing() {
   // Run the convert-http script to convert http: to https:
-  return runCommand('./bin/convert-http.sh', []);
+  const scriptPath = resolvePath('./bin/convert-http.sh');
+  return runCommand(scriptPath, []);
 }
 
-function runCommand(command, args) {
-  return new Promise((resolve, reject) => {
-    logger.info(`Running: ${command} ${args.join(' ')}`);
-
-    const child = spawn(command, args, {
-      stdio: 'inherit',
-      shell: true
-    });
-
-    child.on('close', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`Command "${command}" exited with code ${code}`));
-      }
-    });
-
-    child.on('error', (error) => {
-      reject(new Error(`Failed to start command "${command}": ${error.message}`));
-    });
-  });
-}

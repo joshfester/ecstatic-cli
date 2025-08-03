@@ -1,22 +1,15 @@
 import { Command } from 'commander';
 import https from 'https';
 import fs from 'fs';
-import { loadEcstaticConfig, getConfig, validateDeployConfig, resolvePath } from '../utils/config.js';
+import { getConfig, validateDeployConfig, resolvePath } from '../utils/config.js';
 import { dirExists, getAllFiles } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
+import { createCommand } from '../utils/command.js';
 
 export const deployCommand = new Command('deploy')
   .description('Upload optimized files to CDN')
   .argument('[dist-dir]', 'Distribution directory to deploy (overrides config)')
-  .action(async (distDir, options) => {
-    try {
-      await loadEcstaticConfig();
-      await deployWebsite(distDir);
-    } catch (error) {
-      logger.error(`Deployment failed: ${error.message}`);
-      process.exit(1);
-    }
-  });
+  .action(createCommand('Deployment', deployWebsite));
 
 async function deployWebsite(distDir) {
   const config = getConfig();

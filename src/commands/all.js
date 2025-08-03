@@ -1,6 +1,7 @@
 import { Command } from 'commander';
-import { loadEcstaticConfig, getConfig, resolvePath } from '../utils/config.js';
+import { getConfig, resolvePath } from '../utils/config.js';
 import * as logger from '../utils/logger.js';
+import { createCommand } from '../utils/command.js';
 
 // Import the individual command functions
 import { scrapeCommand } from './scrape.js';
@@ -17,15 +18,7 @@ export const allCommand = new Command('all')
   .option('--skip-jampack', 'Skip Jampack optimization')
   .option('--skip-partytown', 'Skip Partytown setup')
   .option('--skip-deploy', 'Skip deployment step')
-  .action(async (url, options) => {
-    try {
-      await loadEcstaticConfig();
-      await runCompletePipeline(url, options);
-    } catch (error) {
-      logger.error(`Pipeline failed: ${error.message}`);
-      process.exit(1);
-    }
-  });
+  .action(createCommand('Pipeline', runCompletePipeline));
 
 async function runCompletePipeline(url, options) {
   const config = getConfig();

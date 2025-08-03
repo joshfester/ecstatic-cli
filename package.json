@@ -30,7 +30,7 @@
     "@parcel/packager-raw-url": "^2.14.4",
     "@parcel/transformer-jsonld": "^2.14.4",
     "@qwik.dev/partytown": "^0.11.2",
-    "@shinsenter/defer.js": "^3.8.0",
+    "@shinsenter/defer.js": "file:../defer.js",
     "c12": "^3.2.0",
     "cheerio": "^1.1.2",
     "commander": "^12.1.0",

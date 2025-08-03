@@ -35,12 +35,16 @@ export default new Transformer({
       }
 
       // Skip scripts with non-JavaScript types
-      if (type && type !== 'text/javascript') {
+      if (type && type !== 'text/javascript' && type !== 'module') {
         return;
+      }
+      else if (type === 'module') {
+        $script.attr('data-deferjs-type', 'module');
       }
 
       // Check if this script should be offloaded to PartyTown
       let shouldOffload = false;
+      $script.removeAttr('defer');
 
       // Check external scripts
       if (src) {
@@ -54,9 +58,6 @@ export default new Transformer({
           shouldOffload = matchHosts.some(host => scriptContent.includes(host));
         }
       }
-
-      $script.removeAttr('async');
-      $script.removeAttr('defer');
 
       // Mark scripts for offloading or deferring (will be processed by the optimizer)
       if (shouldOffload) {

@@ -14,7 +14,29 @@ const defaults = {
     depth: 3,
     method: 'httrack',
     timeout: 10,
-    sockets: 16
+    sockets: 16,
+    httrack: {
+      debugLog: true,
+      near: true,
+      stay: true,           // -a flag
+      both: true,           // -B flag  
+      structure: 4,         // -N4 flag
+      keepLinks: 0,
+      robots: 0,
+      connections: 20,      // -%c20 flag
+      updatehack: true,
+      mirror: true,
+      cache: 2,
+      excludeAll: true      // -* flag
+    },
+    wget: {
+      recursive: true,
+      pageRequisites: true,
+      htmlExtension: true,
+      convertLinks: true,
+      restrictFileNames: 'windows',
+      noParent: true
+    }
   },
   build: {
     parcel: {
