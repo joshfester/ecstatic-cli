@@ -35,24 +35,18 @@ export default new Optimizer({
       Defer.all('script[type="text/plain"][data-ecstatic-offload]', 0, true);
     </script>`;
 
-    // Create the initialization script
-    const initScript = `<script data-ecstatic-ignore></script>`;
-
     // Inject at the end of body
     const $body = $('body');
     if ($body.length > 0) {
       $body.append(deferJsScript);
-      $body.append(initScript);
     } else {
       // Fallback: try to inject at end of <html>
       const $html = $('html');
       if ($html.length > 0) {
         $html.append(deferJsScript);
-        $html.append(initScript);
       } else {
         // Last resort: append to the document
         $.root().append(deferJsScript);
-        $.root().append(initScript);
       }
     }
 

@@ -49,6 +49,9 @@ const defaults = {
       enabled: true
     }
   },
+  htmlDefer: {
+    offloadPatterns: []
+  },
   deploy: {
     bunny: {
       accessKey: '',

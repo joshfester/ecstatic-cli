@@ -1,5 +1,6 @@
 import { Transformer } from '@parcel/plugin';
 import * as cheerio from 'cheerio';
+import { loadEcstaticConfig } from '../../utils/config.js';
 
 export default new Transformer({
   async transform({ asset }) {
@@ -11,14 +12,9 @@ export default new Transformer({
     const html = await asset.getCode();
     const $ = cheerio.load(html);
 
-    // Host patterns for PartyTown tagging (matching the original plugin)
-    const matchHosts = [
-      "googletagmanager.com",
-      "window.dataLayer",
-      "api.trustedform.com",
-      "trustpilot.com",
-      "posthog.com"
-    ];
+    // Get offload patterns from configuration
+    const config = await loadEcstaticConfig();
+    const offloadPatterns = config.htmlDefer?.offloadPatterns || [];
 
     const assets = [asset];
 
@@ -48,14 +44,14 @@ export default new Transformer({
 
       // Check external scripts
       if (src) {
-        shouldOffload = matchHosts.some(host => src.includes(host));
+        shouldOffload = offloadPatterns.some(pattern => src.includes(pattern));
       }
 
       // Check inline scripts
       if (!shouldOffload) {
         const scriptContent = $script.html();
         if (scriptContent) {
-          shouldOffload = matchHosts.some(host => scriptContent.includes(host));
+          shouldOffload = offloadPatterns.some(pattern => scriptContent.includes(pattern));
         }
       }
 

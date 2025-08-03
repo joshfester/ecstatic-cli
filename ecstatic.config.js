@@ -31,6 +31,27 @@ export default {
     }
   },
 
+  // HTML defer configuration
+  htmlDefer: {
+    // Patterns to match scripts that should be offloaded to PartyTown
+    // These can be domain names, API endpoints, or code snippets
+    offloadPatterns: [
+      "googletagmanager.com",
+      "window.dataLayer",
+      "api.trustedform.com",
+      "trustpilot.com",
+      "posthog.com",
+      "vi.ml314.com", // salon
+      "ml314.com/tag", //salon
+      "fundingchoicesmessages.google.com", // salon
+      "connect.facebook.net", // salon
+      "static.chartbeat.com", // salon
+      "accounts.google.com", // salon
+      "www.google-analytics.com", // salon
+      "ga(", // salon 
+    ]
+  },
+
   // Deployment configuration
   deploy: {
     bunny: {
