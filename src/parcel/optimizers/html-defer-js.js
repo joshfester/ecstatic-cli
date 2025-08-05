@@ -17,8 +17,14 @@ export default new Optimizer({
     const html = typeof contents === 'string' ? contents : contents.toString();
     const $ = cheerio.load(html);
 
-    // Find scripts marked with data-ecstatic and convert to type="text/plain"
-    $('script[data-ecstatic-defer], script[data-ecstatic-offload]').each((_, element) => {
+    // Find scripts marked with data-ecstatic-defer and convert to type="deferjs"
+    $('script[data-ecstatic-defer]').each((_, element) => {
+      const $script = $(element);
+      $script.attr('type', 'deferjs');
+    });
+
+    // Find scripts marked with data-ecstatic-offload and convert to type="text/plain"
+    $('script[data-ecstatic-offload]').each((_, element) => {
       const $script = $(element);
       $script.attr('type', 'text/plain');
     });
@@ -31,7 +37,6 @@ export default new Optimizer({
     // Create the defer.js script
     const deferJsScript = `<script data-ecstatic-ignore>
       ${deferJsContent}
-      Defer.all('script[type="text/plain"][data-ecstatic-defer]');
       Defer.all('script[type="text/plain"][data-ecstatic-offload]', 0, true);
     </script>`;
 

@@ -35,12 +35,11 @@ export default new Transformer({
         return;
       }
       else if (type === 'module') {
-        $script.attr('data-deferjs-type', 'module');
+        $script.attr('data-type', 'module');
       }
 
       // Check if this script should be offloaded to PartyTown
       let shouldOffload = false;
-      $script.removeAttr('defer');
 
       // Check external scripts
       if (src) {
@@ -58,6 +57,8 @@ export default new Transformer({
       // Mark scripts for offloading or deferring (will be processed by the optimizer)
       if (shouldOffload) {
         $script.attr('data-ecstatic-offload', '');
+        $script.removeAttr('defer');
+        $script.attr('async', '');
       }
       else {
         $script.attr('data-ecstatic-defer', '');
