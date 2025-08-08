@@ -12,9 +12,10 @@ export default new Transformer({
     const html = await asset.getCode();
     const $ = cheerio.load(html);
 
-    // Get offload patterns from configuration
+    // Get offload/defer patterns from configuration
     const config = await loadEcstaticConfig();
     const offloadPatterns = config.htmlDefer?.offloadPatterns || [];
+    const deferPatterns = config.htmlDefer?.deferPatterns || [];
 
     const assets = [asset];
 
@@ -23,6 +24,7 @@ export default new Transformer({
       const $script = $(element);
       const type = $script.attr('type');
       const src = $script.attr('src');
+      const id = $script.attr('id');
       const dataEcstaticIgnore = $script.attr('data-ecstatic-ignore');
 
       // Skip scripts marked to be ignored
@@ -34,9 +36,6 @@ export default new Transformer({
       if (type && type !== 'text/javascript' && type !== 'module') {
         return;
       }
-      else if (type === 'module') {
-        $script.attr('data-type', 'module');
-      }
 
       // Check if this script should be offloaded to PartyTown
       let shouldOffload = false;
@@ -44,6 +43,11 @@ export default new Transformer({
       // Check external scripts
       if (src) {
         shouldOffload = offloadPatterns.some(pattern => src.includes(pattern));
+      }
+
+      // Check ids
+      if (id && !shouldOffload) {
+        shouldOffload = offloadPatterns.some(pattern => id.includes(pattern));
       }
 
       // Check inline scripts
@@ -54,14 +58,46 @@ export default new Transformer({
         }
       }
 
+      // Check if this script should be deferred with Defer.js (opt-in)
+      let shouldDefer = false;
+
+      if (!shouldOffload) {
+        // Check external scripts
+        if (src) {
+          shouldDefer = deferPatterns.some(pattern => src.includes(pattern));
+        }
+
+        // Check ids
+        if (id && !shouldDefer) {
+          shouldDefer = deferPatterns.some(pattern => id.includes(pattern));
+        }
+
+        // Check inline scripts
+        if (!shouldDefer) {
+          const scriptContent = $script.html();
+          if (scriptContent) {
+            shouldDefer = deferPatterns.some(pattern => scriptContent.includes(pattern));
+          }
+        }
+      }
+
       // Mark scripts for offloading or deferring (will be processed by the optimizer)
       if (shouldOffload) {
+        if (type === 'module') {
+          // Preserve original module type for later handling
+          $script.attr('data-type', 'module');
+        }
         $script.attr('data-ecstatic-offload', '');
         $script.removeAttr('defer');
         $script.attr('async', '');
-      }
-      else {
+      } else if (shouldDefer) {
+        if (type === 'module') {
+          // Preserve original module type for later handling
+          $script.attr('data-type', 'module');
+        }
         $script.attr('data-ecstatic-defer', '');
+      } else {
+        // Default: do not modify the script
       }
 
       return;

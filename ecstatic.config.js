@@ -33,6 +33,7 @@ export default {
 
   // HTML defer configuration
   htmlDefer: {
+
     // Patterns to match scripts that should be offloaded to PartyTown
     // These can be domain names, API endpoints, or code snippets
     offloadPatterns: [
@@ -49,6 +50,14 @@ export default {
       "accounts.google.com", // salon
       "www.google-analytics.com", // salon
       "ga(", // salon 
+    ],
+
+    // Patterns to match scripts that should be deferred with Defer.js (opt-in)
+    // If empty or omitted, no scripts will be modified by default.
+    // These can be domain names, paths, or inline code snippets to match.
+    deferPatterns: [
+      "https://htlbid.com",
+      "homepage-salon-js"
     ]
   },
 

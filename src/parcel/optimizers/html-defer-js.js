@@ -16,18 +16,27 @@ export default new Optimizer({
 
     const html = typeof contents === 'string' ? contents : contents.toString();
     const $ = cheerio.load(html);
+    let useDeferJs = false;
 
     // Find scripts marked with data-ecstatic-defer and convert to type="deferjs"
     $('script[data-ecstatic-defer]').each((_, element) => {
       const $script = $(element);
       $script.attr('type', 'deferjs');
+      useDeferJs = true;
     });
 
     // Find scripts marked with data-ecstatic-offload and convert to type="text/plain"
     $('script[data-ecstatic-offload]').each((_, element) => {
       const $script = $(element);
       $script.attr('type', 'text/plain');
+      useDeferJs = true;
     });
+
+    if (!useDeferJs) {
+      return {
+        contents: $.html()
+      };
+    }
 
     // Inject defer.js and initialization
     // Read defer.js content

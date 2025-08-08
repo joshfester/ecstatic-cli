@@ -50,7 +50,8 @@ const defaults = {
     }
   },
   htmlDefer: {
-    offloadPatterns: []
+    offloadPatterns: [],
+    deferPatterns: []
   },
   deploy: {
     bunny: {
