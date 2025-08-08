@@ -88,8 +88,8 @@ export default new Transformer({
           $script.attr('data-type', 'module');
         }
         $script.attr('data-ecstatic-offload', '');
-        $script.removeAttr('defer');
-        $script.attr('async', '');
+        $script.removeAttr('async');
+        $script.attr('defer', '');
       } else if (shouldDefer) {
         if (type === 'module') {
           // Preserve original module type for later handling
