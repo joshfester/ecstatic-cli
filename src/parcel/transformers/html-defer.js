@@ -25,10 +25,9 @@ export default new Transformer({
       const type = $script.attr('type');
       const src = $script.attr('src');
       const id = $script.attr('id');
-      const dataEcstaticIgnore = $script.attr('data-ecstatic-ignore');
 
       // Skip scripts marked to be ignored
-      if (dataEcstaticIgnore !== undefined) {
+      if ($script.attr('data-ecstatic-ignore') !== undefined) {
         return;
       }
 

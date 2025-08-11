@@ -15,6 +15,7 @@ const defaults = {
     method: 'httrack',
     timeout: 10,
     sockets: 16,
+    extraFiles: [],
     httrack: {
       debugLog: true,
       near: true,

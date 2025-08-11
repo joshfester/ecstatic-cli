@@ -4,6 +4,7 @@ import { ensureDir, cleanDir } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
 import { createCommand } from '../utils/command.js';
+import path from 'path';
 
 export const scrapeCommand = new Command('scrape')
   .description('Download website as static files')
@@ -11,7 +12,13 @@ export const scrapeCommand = new Command('scrape')
   .option('-o, --output <dir>', 'Output directory (overrides config)')
   .option('-d, --depth <number>', 'Mirror depth (overrides config)', parseInt)
   .option('-m, --method <method>', 'Scraping method: httrack|wget (overrides config)')
+  .option('--include <pattern>', 'Include filter pattern (can be used multiple times)', collect, [])
+  .option('--exclude <pattern>', 'Exclude filter pattern (can be used multiple times)', collect, [])
   .action(createCommand('Scraping', scrapeWebsite));
+
+function collect(value, previous) {
+  return previous.concat([value]);
+}
 
 async function scrapeWebsite(url, options) {
   const config = getConfig();
@@ -20,12 +27,17 @@ async function scrapeWebsite(url, options) {
   const finalOptions = {
     output: options.output || config.paths.scraped,
     depth: options.depth || config.scrape.depth,
-    method: options.method || config.scrape.method
+    method: options.method || config.scrape.method,
+    includeFilters: options.include || [],
+    excludeFilters: options.exclude || []
   };
 
   const outputDir = resolvePath(finalOptions.output);
 
-  logger.step(1, 3, `Scraping ${url}`);
+  const extraFiles = config.scrape.extraFiles || [];
+  const totalSteps = extraFiles.length ? 4 : 3;
+
+  logger.step(1, totalSteps, `Scraping ${url}`);
   logger.info(`Output directory: ${outputDir}`);
   logger.info(`Method: ${finalOptions.method}`);
   logger.info(`Depth: ${finalOptions.depth}`);
@@ -41,15 +53,23 @@ async function scrapeWebsite(url, options) {
     throw new Error(`Unknown scraping method: ${finalOptions.method}`);
   }
 
-  logger.step(2, 3, 'Running post-processing');
+  let currentStep = 2;
+
+  if (extraFiles.length) {
+    logger.step(currentStep, totalSteps, 'Downloading additional files');
+    await downloadExtraFiles(extraFiles, outputDir, config);
+    currentStep++;
+  }
+
+  logger.step(currentStep, totalSteps, 'Running post-processing');
   await runPostProcessing();
 
-  logger.step(3, 3, 'Scraping completed');
+  logger.step(currentStep + 1, totalSteps, 'Scraping completed');
   logger.success(`Website scraped successfully to ${outputDir}`);
 }
 
 async function runHttrack(url, outputDir, options, config) {
-  const httrackConfig = config.scrape.httrack;
+  const httrackConfig = config.scrape.httrack || {};
   const args = [
     url,
     '-O', outputDir,
@@ -71,17 +91,41 @@ async function runHttrack(url, outputDir, options, config) {
   if (httrackConfig.updatehack) args.push('--updatehack');
   if (httrackConfig.mirror) args.push('--mirror');
   if (httrackConfig.cache !== undefined) args.push(`--cache=${httrackConfig.cache}`);
-  if (httrackConfig.excludeAll) args.push('-*');
 
-  // Add URL-specific filters based on the domain
-  const domain = new URL(url).hostname;
-  args.push(`+*${domain}/*.css`);
-  args.push(`+*${domain}/*.js`);
-  args.push(`+*${domain}/apply/`);
-  args.push(`+*${domain}/_image*`);
-  args.push('+*mage.mux.com*');
+  // Process filters
+  const filters = buildFilterList(url, httrackConfig, options);
+  args.push(...filters);
 
   return runCommand('httrack', args);
+}
+
+function buildFilterList(url, httrackConfig, options) {
+  const domain = new URL(url).hostname;
+  const filters = [];
+
+  // Start with config filters and substitute domain placeholders
+  const configFilters = httrackConfig.filters || [];
+  const processedConfigFilters = configFilters.map(filter =>
+    filter.replace(/\{domain\}/g, domain)
+  );
+
+  // Add CLI exclude filters (with - prefix)
+  const cliExcludeFilters = options.excludeFilters.map(filter =>
+    filter.startsWith('-') ? filter : `-${filter}`
+  );
+
+  // Add CLI include filters (with + prefix)  
+  const cliIncludeFilters = options.includeFilters.map(filter =>
+    filter.startsWith('+') ? filter : `+${filter}`
+  );
+
+  // Combine all filters: config filters first, then CLI filters
+  // CLI filters have precedence due to httrack's last-rule-wins behavior
+  filters.push(...processedConfigFilters);
+  filters.push(...cliExcludeFilters);
+  filters.push(...cliIncludeFilters);
+
+  return filters;
 }
 
 async function runWget(url, outputDir, options, config) {
@@ -106,9 +150,28 @@ async function runWget(url, outputDir, options, config) {
   return runCommand('wget', args);
 }
 
+async function downloadExtraFiles(extraFiles, outputDir, config) {
+  const restrict = config?.scrape?.wget?.restrictFileNames;
+
+  for (const entry of extraFiles) {
+    if (!entry?.url) continue;
+
+    const destDir = path.join(outputDir, entry.prefix || '');
+    ensureDir(destDir);
+
+    const args = [];
+    if (restrict) {
+      args.push(`--restrict-file-names=${restrict}`);
+    }
+    args.push(`--directory-prefix=${destDir}`);
+    args.push(entry.url);
+
+    await runCommand('wget', args);
+  }
+}
+
 async function runPostProcessing() {
   // Run the convert-http script to convert http: to https:
   const scriptPath = resolvePath('./bin/convert-http.sh');
   return runCommand(scriptPath, []);
 }
-
