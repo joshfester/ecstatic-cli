@@ -4,6 +4,7 @@ import { ensureDir, cleanDir } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
 import { createCommand } from '../utils/command.js';
+import { replaceDomains } from '../utils/domain-replacement.js';
 import path from 'path';
 
 export const scrapeCommand = new Command('scrape')
@@ -244,7 +245,7 @@ async function runPostProcessing(config) {
   // Run domain replacement if configured
   const domainReplacement = config?.scrape?.domainReplacement;
   if (domainReplacement?.source && domainReplacement?.target) {
-    const scriptPath = resolvePath('./bin/replace-domains.sh');
-    return runCommand(scriptPath, [domainReplacement.source, domainReplacement.target]);
+    const scrapedDir = resolvePath(config.paths.scraped);
+    await replaceDomains(scrapedDir, domainReplacement.source, domainReplacement.target);
   }
 }
