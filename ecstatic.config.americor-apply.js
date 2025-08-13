@@ -47,7 +47,7 @@ export default {
         wget: {
             recursive: true,
             pageRequisites: true,
-            htmlExtension: true,
+            adjustExtension: true,
             convertLinks: true,
             restrictFileNames: 'windows',
             noParent: true

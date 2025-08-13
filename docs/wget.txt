@@ -1,13 +1,3 @@
-Next: Overview, Previous: (dir), Up: (dir) [Contents][Index]
-
-Wget 1.25.0
-This file documents the GNU Wget utility for downloading network data.
-Copyright © 1996–2011, 2015, 2018–2024 Free Software Foundation, Inc.
-Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free
-Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no
-Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts. A copy of the license is included in
-the section entitled “GNU Free Documentation License”.
-
 Table of Contents
 1 Overview
 2 Invoking
@@ -30,79 +20,6 @@ Table of Contents
 4.2 Types of Files
 4.3 Directory-Based Limits
 4.4 Relative Links
-
-4.5 Following FTP Links
-5 Time-Stamping
-5.1 Time-Stamping Usage
-5.2 HTTP Time-Stamping Internals
-5.3 FTP Time-Stamping Internals
-6 Startup File
-6.1 Wgetrc Location
-6.2 Wgetrc Syntax
-6.3 Wgetrc Commands
-6.4 Sample Wgetrc
-7 Examples
-7.1 Simple Usage
-7.2 Advanced Usage
-7.3 Very Advanced Usage
-8 Various
-8.1 Proxies
-8.2 Distribution
-8.3 Web Site
-8.4 Mailing Lists
-Primary List
-Obsolete Lists
-8.5 Internet Relay Chat
-8.6 Reporting Bugs
-8.7 Portability
-8.8 Signals
-9 Appendices
-9.1 Robot Exclusion
-9.2 Security Considerations
-9.3 Contributors
-Appendix A Copying this manual
-A.1 GNU Free Documentation License
-Concept Index
-
-Next: Invoking, Previous: Wget 1.25.0, Up: Wget 1.25.0 [Contents][Index]
-
-1 Overview
-GNU Wget is a free utility for non-interactive download of files from the Web. It supports HTTP, HTTPS, and FTP
-protocols, as well as retrieval through HTTP proxies.
-This chapter is a partial overview of Wget’s features.
-Wget is non-interactive, meaning that it can work in the background, while the user is not logged on. This
-allows you to start a retrieval and disconnect from the system, letting Wget finish the work. By contrast, most of
-the Web browsers require constant user’s presence, which can be a great hindrance when transferring a lot of
-data.
-Wget can follow links in HTML, XHTML, and CSS pages, to create local versions of remote web sites, fully
-recreating the directory structure of the original site. This is sometimes referred to as “recursive downloading.”
-While doing that, Wget respects the Robot Exclusion Standard (/robots.txt). Wget can be instructed to
-convert the links in downloaded files to point at the local files, for offline viewing.
-File name wildcard matching and recursive mirroring of directories are available when retrieving via FTP. Wget
-can read the time-stamp information given by both HTTP and FTP servers, and store it locally. Thus Wget can
-see if the remote file has changed since last retrieval, and automatically retrieve the new version if it has. This
-makes Wget suitable for mirroring of FTP sites, as well as home pages.
-Wget has been designed for robustness over slow or unstable network connections; if a download fails due to a
-network problem, it will keep retrying until the whole file has been retrieved. If the server supports regetting, it
-will instruct the server to continue the download from where it left off.
-Wget supports proxy servers, which can lighten the network load, speed up retrieval and provide access behind
-firewalls. Wget uses the passive FTP downloading by default, active FTP being an option.
-Wget supports IP version 6, the next generation of IP. IPv6 is autodetected at compile-time, and can be disabled
-at either build or run time. Binaries built with IPv6 support work well in both IPv4-only and dual family
-environments.
-Built-in features offer mechanisms to tune which links you wish to follow (see Following Links).
-The progress of individual downloads is traced using a progress gauge. Interactive downloads are tracked using
-a “thermometer”-style gauge, whereas non-interactive ones are traced with dots, each dot representing a fixed
-amount of data received (1KB by default). Either gauge can be customized to your preferences.
-Most of the features are fully configurable, either through command line options, or via the initialization file
-.wgetrc (see Startup File). Wget allows you to define global startup files (/usr/local/etc/wgetrc by
-default) for site settings. You can also specify the location of a startup file with the –config option. To disable the
-reading of config files, use –no-config. If both –config and –no-config are given, –no-config is ignored.
-Finally, GNU Wget is free software. This means that everyone may use it, redistribute it and/or modify it under
-the terms of the GNU General Public License, as published by the Free Software Foundation (see the file
-COPYING that came with GNU Wget, for details).
-
-Next: Recursive Download, Previous: Overview, Up: Wget 1.25.0 [Contents][Index]
 
 2 Invoking
 By default, Wget is very simple to invoke. The basic syntax is:
@@ -134,7 +51,7 @@ URL is an acronym for Uniform Resource Locator. A uniform resource locator is a 
 a resource available via the Internet. Wget recognizes the URL syntax as per RFC1738. This is the most widely used
 form (square brackets denote optional parts):
 
-http://host[:port]/directory/file
+http://host[:port]/directory/file
 ftp://host[:port]/directory/file
 
 You can also encode your username and password within a URL:
@@ -170,7 +87,7 @@ host[:port]/dir/file
 
 These two alternative forms have been deprecated long time ago, and support is removed with version 1.22.0.
 
-Next: Basic Startup Options, Previous: URL Format, Up: Invoking [Contents][Index]
+Next: Basic Startup Options, Previous: URL Format, Up: Invoking [Contents][Index]
 
 2.2 Option Syntax
 Since Wget uses GNU getopt to process command-line arguments, every option has a long form along with the short
@@ -204,7 +121,7 @@ wget -X "" -X /~nobody,/~somebody
 Most options that do not accept arguments are boolean options, so named because their state can be captured with a
 yes-or-no (“boolean”) variable. For example, ‘--follow-ftp’ tells Wget to follow FTP links from HTML files
 
-and, on the other hand, ‘--no-glob’ tells it not to perform file globbing on FTP URLs. A boolean option is either
+and, on the other hand, ‘--no-glob’ tells it not to perform file globbing on FTP URLs. A boolean option is either
 affirmative or negative (beginning with ‘--no’). All such options share several properties.
 Unless stated otherwise, it is assumed that the default behavior is the opposite of what the option accomplishes. For
 example, the documented existence of ‘--follow-ftp’ assumes that the default is to not follow FTP links from
@@ -235,7 +152,7 @@ wgetrc command, use multiple instances of ‘-e’.
 
 Next: Download Options, Previous: Basic Startup Options, Up: Invoking [Contents][Index]
 
-2.4 Logging and Input File Options
+2.4 Logging and Input File Options
 ‘-o logfile’
 ‘--output-file=logfile’
 Log all messages to logfile. The messages are normally reported to standard error.
@@ -268,7 +185,7 @@ Read URLs from a local or external file. If ‘-’ is specified as file, URLs a
 If this function is used, no URLs need be present on the command line. If there are URLs both on the command
 line and in an input file, those on the command lines will be the first ones to be retrieved. If ‘--force-html’ is
 
-not specified, then file should consist of a series of URLs, one per line.
+not specified, then file should consist of a series of URLs, one per line.
 However, if you specify ‘--force-html’, the document will be regarded as ‘html’. In that case you may
 have problems with relative links, which you can solve either by adding <base href="url"> to the
 documents or by specifying ‘--base=url’ on the command line.
@@ -303,7 +220,7 @@ Be aware that the URL might contain private information like access tokens or cr
 When input is read from a file, force it to be treated as an HTML file. This enables you to retrieve relative links
 from existing HTML files on your local disk, by adding <base href="url"> to HTML, or using the ‘--
 
-base’ command-line option.
+base’ command-line option.
 ‘-B URL’
 ‘--base=URL’
 Resolves relative links using URL as the point of reference, when reading links from an HTML file specified via
@@ -336,7 +253,7 @@ to be built with libcares for this option to be available.
 ‘-t number’
 ‘--tries=number’
 
-Set number of tries to number. Specify 0 or ‘inf’ for infinite retrying. The default is to retry 20 times, with the
+Set number of tries to number. Specify 0 or ‘inf’ for infinite retrying. The default is to retry 20 times, with the
 exception of fatal errors like “connection refused” or “not found” (404), which are not retried.
 ‘-O file’
 ‘--output-document=file’
@@ -374,7 +291,7 @@ version to be preserved and any newer copies on the server to be ignored.
 When running Wget with ‘-N’, with or without ‘-r’ or ‘-p’, the decision as to whether or not to download a
 newer copy of a file depends on the local and remote timestamp and size of the file (see Time-Stamping). ‘-nc’
 
-may not be specified at the same time as ‘-N’.
+may not be specified at the same time as ‘-N’.
 A combination with ‘-O’/‘--output-document’ is only accepted if the given output file does not exist.
 Note that when ‘-nc’ is specified, files with the suffixes ‘.html’ or ‘.htm’ will be loaded from the local disk
 and parsed as if they had been retrieved from the Web.
@@ -411,7 +328,7 @@ tacked onto the end of the local file. This behavior can be desirable in certain
 However, if the file is bigger on the server because it’s been changed, as opposed to just appended to, you’ll end
 up with a garbled file. Wget has no way of verifying that the local file is really a valid prefix of the remote file.
 
-You need to be especially careful of this when using ‘-c’ in conjunction with ‘-r’, since every file will be
+You need to be especially careful of this when using ‘-c’ in conjunction with ‘-r’, since every file will be
 considered as an "incomplete download" candidate.
 Another instance where you’ll get a garbled file if you try to use ‘-c’ is if you have a lame HTTP proxy that
 inserts a “transfer interrupted” string into the local file. In the future a “rollback” option may be added to deal
@@ -447,7 +364,7 @@ if the filename exceeds the maximum length allotted for its display. In certain 
 “noscroll” parameter, Wget can be forced to display as much of the filename as possible without scrolling
 through it.
 
-Note that you can set the default style using the progress command in .wgetrc. That setting may be
+Note that you can set the default style using the progress command in .wgetrc. That setting may be
 overridden from the command line. For example, to force the bar output without scrolling, use ‘-progress=bar:force:noscroll’.
 ‘--show-progress’
 Force wget to display the progress bar in any verbosity.
@@ -479,7 +396,7 @@ wget --spider --force-html -i bookmarks.html
 This feature needs much more work for Wget to get close to the functionality of real web spiders.
 ‘-T seconds’
 
-‘--timeout=seconds’
+‘--timeout=seconds’
 Set the network timeout to seconds seconds. This is equivalent to specifying ‘--dns-timeout’, ‘-connect-timeout’, and ‘--read-timeout’, all at the same time.
 When interacting with the network, Wget can check for timeout and abort the operation if it takes too long. This
 prevents anomalies like hanging reads and infinite connects. The only timeout enabled by default is a 900-second
@@ -513,7 +430,7 @@ surprised if limiting the rate doesn’t work well with very small files.
 ‘-w seconds’
 ‘--wait=seconds’
 
-Wait the specified number of seconds between the retrievals. Use of this option is recommended, as it lightens the
+Wait the specified number of seconds between the retrievals. Use of this option is recommended, as it lightens the
 server load by making the requests less frequent. Instead of in seconds, the time can be specified in minutes using
 the m suffix, in hours using h suffix, or in days using d suffix.
 Specifying a large value for this option is useful if the network or the destination host is down, so that Wget can
@@ -549,7 +466,7 @@ download will be aborted after the file that exhausts the quota is completely do
 Setting quota to 0 or to ‘inf’ unlimits the download quota.
 ‘--no-dns-cache’
 
-Turn off caching of DNS lookups. Normally, Wget remembers the IP addresses it looked up from DNS so it
+Turn off caching of DNS lookups. Normally, Wget remembers the IP addresses it looked up from DNS so it
 doesn’t have to repeatedly contact the DNS server for the same (typically small) set of hosts it retrieves from.
 This cache exists in memory only; a new Wget run will contact DNS again.
 However, it has been reported that in some situations it is not desirable to cache host names, even for the duration
@@ -589,7 +506,7 @@ is, greater than 127) shall be escaped. This can be useful when saving filenames
 the one used locally.
 ‘-4’
 
-‘--inet4-only’
+‘--inet4-only’
 ‘-6’
 ‘--inet6-only’
 Force connecting to IPv4 or IPv6 addresses. With ‘--inet4-only’ or ‘-4’, Wget will only connect to IPv4
@@ -624,7 +541,7 @@ Specify the username user and password password for both FTP and HTTP file retri
 overridden using the ‘--ftp-user’ and ‘--ftp-password’ options for FTP connections and the ‘--httpuser’ and ‘--http-password’ options for HTTP connections.
 ‘--ask-password’
 
-Prompt for a password for each connection established. Cannot be specified when ‘--password’ is being used,
+Prompt for a password for each connection established. Cannot be specified when ‘--password’ is being used,
 because they are mutually exclusive.
 ‘--use-askpass=command’
 Prompt for a user and password using the specified command. If no command is specified then the command in
@@ -659,7 +576,7 @@ Next: HTTP Options, Previous: Download Options, Up: Invoking [Contents][Index]
 
 2.6 Directory Options
 
-‘-nd’
+‘-nd’
 ‘--no-directories’
 Do not create a hierarchy of directories when retrieving recursively. With this option turned on, all files will get
 saved to the current directory, without clobbering (if a name shows up more than once, the filenames will get
@@ -705,7 +622,7 @@ No options
 If you just want to get rid of the directory structure, this option is similar to a combination of ‘-nd’ and ‘-P’.
 However, unlike ‘-nd’, ‘--cut-dirs’ does not lose with subdirectories—for instance, with ‘-nH --cut-
 
-dirs=1’, a beta/ subdirectory will be placed to xemacs/beta, as one would expect.
+dirs=1’, a beta/ subdirectory will be placed to xemacs/beta, as one would expect.
 ‘-P prefix’
 ‘--directory-prefix=prefix’
 Set directory prefix to prefix. The directory prefix is the directory where all other files and subdirectories will be
@@ -741,7 +658,7 @@ Specify the username user and password password on an HTTP server. According to 
 Wget will encode them using either the basic (insecure), the digest, or the Windows NTLM authentication
 scheme.
 
-Another way to specify username and password is in the URL itself (see URL Format). Either method reveals
+Another way to specify username and password is in the URL itself (see URL Format). Either method reveals
 your password to anyone who bothers to run ps. To prevent the passwords from being seen, use the ‘--useaskpass’ or store them in .wgetrc or .netrc, and make sure to protect those files from other users with
 chmod. If the passwords are really important, do not leave them lying in those files either—edit the files and
 delete them after Wget has started the download.
@@ -776,7 +693,7 @@ cookie files in different locations:
 Netscape 4.x.
 The cookies are in ~/.netscape/cookies.txt.
 
-Mozilla and Netscape 6.x.
+Mozilla and Netscape 6.x.
 Mozilla’s cookie file is also named cookies.txt, located somewhere under ~/.mozilla, in the
 directory of your profile. The full path usually ends up looking somewhat like
 ~/.mozilla/default/some-weird-string/cookies.txt.
@@ -810,7 +727,7 @@ connection has closed on the very same byte.
 With this option, Wget will ignore the Content-Length header—as if it never existed.
 ‘--header=header-line’
 
-Send header-line along with the rest of the headers in each HTTP request. The supplied header is sent as-is,
+Send header-line along with the rest of the headers in each HTTP request. The supplied header is sent as-is,
 which means it must contain name and value separated by colon, and must not contain newlines.
 You may define more than one additional header by specifying ‘--header’ more than once.
 
@@ -845,7 +762,7 @@ using the basic authentication scheme.
 Security considerations similar to those with ‘--http-password’ pertain here as well.
 ‘--referer=url’
 
-Include ‘Referer: url’ header in HTTP request. Useful for retrieving documents with server-side processing that
+Include ‘Referer: url’ header in HTTP request. Useful for retrieving documents with server-side processing that
 assume they are always being retrieved by interactive web browsers and only come out properly when Referer is
 set to one of the pages that point to them.
 ‘--save-headers’
@@ -881,7 +798,7 @@ send every character in the POST request without stripping trailing newline or f
 control characters in the text will also be sent as-is in the POST request.
 Please be aware that Wget needs to know the size of the POST data in advance. Therefore the argument to -post-file must be a regular file; specifying a FIFO or something like /dev/stdin won’t work. It’s not
 
-quite clear how to work around this limitation inherent in HTTP/1.0. Although HTTP/1.1 introduces chunked
+quite clear how to work around this limitation inherent in HTTP/1.0. Although HTTP/1.1 introduces chunked
 transfer that doesn’t require knowing the request length in advance, a client can’t use chunked unless it knows
 it’s talking to an HTTP/1.1 server. And it can’t know that until it receives a response, which in turn requires the
 request to have been completed – a chicken-and-egg problem.
@@ -916,7 +833,7 @@ contents to the server. Please be aware that Wget needs to know the contents of 
 hence the argument to ‘--body-file’ should be a regular file. See ‘--post-file’ for a more detailed
 explanation. Only one of ‘--body-data’ and ‘--body-file’ should be specified.
 
-If Wget is redirected after the request is completed, Wget will suspend the current method and send a GET
+If Wget is redirected after the request is completed, Wget will suspend the current method and send a GET
 request till the redirection is completed. This is true for all redirection response codes except 307 Temporary
 Redirect which is used to explicitly specify that the request method should not change. Another exception is
 when the method is set to POST, in which case the redirection rules specified under ‘--post-data’ are
@@ -951,7 +868,7 @@ the server responds with an error code normally not retried by Wget. Such errors
 Unavailable) and 429 (Too Many Requests). Retries enabled by this option are performed subject to the normal
 retry timing and retry count limitations of Wget.
 
-Using this option is intended to support special use cases only and is generally not recommended, as it can force
+Using this option is intended to support special use cases only and is generally not recommended, as it can force
 retries even in cases where the server is actually trying to decrease its load. Please use wisely and only if you
 know what you are doing.
 
@@ -986,7 +903,7 @@ As of Wget 1.10, the default is to verify the server’s certificate against the
 breaking the SSL handshake and aborting the download if the verification fails. Although this provides more
 secure downloads, it does break interoperability with some sites that worked with previous Wget versions,
 
-particularly those using self-signed, expired, or otherwise invalid certificates. This option forces an “insecure”
+particularly those using self-signed, expired, or otherwise invalid certificates. This option forces an “insecure”
 mode of operation that turns the certificate verification errors into warnings and allows you to proceed.
 If you encounter “certificate verification” errors or ones saying that “common name doesn’t match requested host
 name”, you can use this option to bypass the verification and proceed with the download. Only use this option if
@@ -1021,7 +938,7 @@ installation time.
 Specifies a CRL file in file. This is needed for certificates that have been revocated by the CAs.
 ‘--pinnedpubkey=file/hashes’
 
-Tells wget to use the specified public key file (or hashes) to verify the peer. This can be a path to a file which
+Tells wget to use the specified public key file (or hashes) to verify the peer. This can be a path to a file which
 contains a single public key in PEM or DER format, or any number of base64 encoded sha256 hashes preceded
 by “sha256//” and separated by “;”
 When negotiating a TLS or SSL connection, the server sends a certificate indicating its identity. A public key is
@@ -1057,7 +974,7 @@ Strict-Transport-Security header and that therefore has specified a concrete HST
 applied). Lines starting with a dash (#) are ignored by Wget. Please note that in spite of this convenient humanreadability hand-hacking the HSTS database is generally not a good idea.
 An HSTS entry line consists of several fields separated by one or more whitespace:
 
-<hostname> SP [<port>] SP <include subdomains> SP <created> SP <max-age>
+<hostname> SP [<port>] SP <include subdomains> SP <created> SP <max-age>
 The hostname and port fields indicate the hostname and port to which the given HSTS policy applies. The port
 field may be zero, and it will, in most of the cases. That means that the port number will not be taken into
 account when deciding whether such HSTS policy should be applied on a given request (only the hostname will
@@ -1095,7 +1012,7 @@ Set the maximum size of the WARC files to size.
 Write CDX index files.
 ‘--warc-dedup=file’
 
-Do not store records listed in this CDX file.
+Do not store records listed in this CDX file.
 ‘--no-warc-compression’
 Do not compress WARC files with GZIP.
 ‘--no-warc-digests’
@@ -1128,7 +1045,7 @@ or her directory. Depending on the options used, either Wget will refuse to writ
 globbing/recursion/time-stamping operation fail, or the symbolic link will be deleted and replaced with the actual
 .listing file, or the listing will be written to a .listing.number file.
 
-Even though this situation isn’t a problem, though, root should never run Wget in a non-trusted user’s
+Even though this situation isn’t a problem, though, root should never run Wget in a non-trusted user’s
 directory. A user could do something as simple as linking index.html to /etc/passwd and asking root to
 run Wget with ‘-N’ or ‘-r’ so the file will be overwritten.
 ‘--no-glob’
@@ -1165,7 +1082,7 @@ because it was recursed to, this option has no effect. Symbolic links are always
 
 2.10 FTPS Options
 
-‘--ftps-implicit’
+‘--ftps-implicit’
 This option tells Wget to use FTPS implicitly. Implicit FTPS consists of initializing SSL/TLS from the very
 beginning of the control connection. This option does not send an AUTH TLS command: it assumes the server
 speaks FTPS and directly starts an SSL/TLS connection. If the attempt is successful, the session continues just
@@ -1200,7 +1117,7 @@ Turn on recursive retrieving. See Recursive Download, for more details. The defa
 Set the maximum number of subdirectories that Wget will recurse into to depth. In order to prevent one from
 accidentally downloading very large websites when using recursion this is limited to a depth of 5 by default, i.e.,
 
-it will traverse at most 5 directories deep starting from the provided URL. Set ‘-l 0’ or ‘-l inf’ for infinite
+it will traverse at most 5 directories deep starting from the provided URL. Set ‘-l 0’ or ‘-l inf’ for infinite
 recursion depth.
 
 wget -r -l 0 http://site/1.html
@@ -1237,7 +1154,7 @@ then the link in doc.html will be modified to point to http://hostname/bar/img.g
 Because of this, local browsing works reliably: if a linked file was downloaded, the link will refer to its local
 name; if it was not downloaded, the link will refer to its full Internet address rather than presenting a broken link.
 
-The fact that the former links are converted to relative links ensures that you can move the downloaded hierarchy
+The fact that the former links are converted to relative links ensures that you can move the downloaded hierarchy
 to another directory.
 Note that only at the end of the download can Wget know which links have been downloaded. Because of that,
 the work done by ‘-k’ will be performed at the end of all the downloads.
@@ -1273,7 +1190,7 @@ external document 2.html. Say that 2.html is similar but that its image is 2.gif
 Say this continues up to some arbitrarily high number.
 If one executes the command:
 
-wget -r -l 2 http://site/1.html
+wget -r -l 2 http://site/1.html
 
 then 1.html, 1.gif, 2.html, 2.gif, and 3.html will be downloaded. As you can see, 3.html is without
 its requisite 3.gif because Wget is simply counting the number of hops (up to 2) away from 1.html in order
@@ -1309,7 +1226,7 @@ Turn on strict parsing of HTML comments. The default is to terminate comments at
 According to specifications, HTML comments are expressed as SGML declarations. Declaration is special
 markup that begins with ‘<!’ and ends with ‘>’, such as ‘<!DOCTYPE ...>’, that may contain comments
 
-between a pair of ‘--’ delimiters. HTML comments are “empty declarations”, SGML declarations without any
+between a pair of ‘--’ delimiters. HTML comments are “empty declarations”, SGML declarations without any
 non-comment text. Therefore, ‘<!--foo-->’ is a valid comment, and so is ‘<!--one-- --two-->’, but
 ‘<!--1--2-->’ is not.
 On the other hand, most HTML writers don’t perceive comments as anything other than text delimited with ‘<!-’ and ‘-->’, which is not quite the same. For example, something like ‘<!------------>’ works as a valid
@@ -1342,7 +1259,7 @@ type, wget has to be compiled with libpcre support.
 Set domains to be followed. domain-list is a comma-separated list of domains. Note that it does not turn on ‘-H’.
 ‘--exclude-domains domain-list’
 
-Specify the domains that are not to be followed (see Spanning Hosts).
+Specify the domains that are not to be followed (see Spanning Hosts).
 ‘--follow-ftp’
 Follow FTP links from HTML documents. Without this option, Wget will ignore all the FTP links.
 ‘--follow-tags=list’
@@ -1376,7 +1293,7 @@ from the same hosts (see Relative Links).
 ‘-I list’
 ‘--include-directories=list’
 
-Specify a comma-separated list of directories you wish to follow when downloading (see Directory-Based
+Specify a comma-separated list of directories you wish to follow when downloading (see Directory-Based
 Limits). Elements of list may contain wildcards.
 ‘-X list’
 ‘--exclude-directories=list’
@@ -1407,7 +1324,7 @@ SSL verification failure.
 Username/password authentication failure.
 7
 
-Protocol errors.
+Protocol errors.
 8
 Server issued an error response.
 With the exceptions of 0 and 1, the lower-numbered exit codes take precedence over higher-numbered ones, when
@@ -1442,7 +1359,7 @@ files locally.
 You should be warned that recursive downloads can overload the remote servers. Because of that, many
 administrators frown upon them and may ban access from your site if they detect very fast downloads of big
 
-amounts of content. When downloading from Internet servers, consider using the ‘-w’ option to introduce a delay
+amounts of content. When downloading from Internet servers, consider using the ‘-w’ option to introduce a delay
 between accesses to the server. The download will take a while longer, but the server administrator will not be
 alarmed by your rudeness.
 Of course, recursive download may cause problems on your machine. If left to run unchecked, it can easily fill up
@@ -1473,7 +1390,7 @@ Next: Types of Files, Previous: Following Links, Up: Following Links [Contents][
 
 4.1 Spanning Hosts
 
-Wget’s recursive retrieval normally refuses to visit hosts different than the one you specified on the command line.
+Wget’s recursive retrieval normally refuses to visit hosts different than the one you specified on the command line.
 This is a reasonable default; without it, every retrieval would have the potential to turn your Wget into a small
 version of google.
 However, visiting different hosts, or host spanning, is sometimes a useful option. Maybe the images are served from
@@ -1507,7 +1424,7 @@ Next: Directory-Based Limits, Previous: Spanning Hosts, Up: Following Links [Con
 When downloading material from the web, you will often want to restrict the retrieval to only certain file types. For
 example, if you are interested in downloading GIFs, you will not be overjoyed to get loads of PostScript documents,
 
-and vice versa.
+and vice versa.
 Wget offers two options to deal with this problem. Each option description lists a short name, a long name, and the
 equivalent command in .wgetrc.
 ‘-A acclist’
@@ -1544,7 +1461,7 @@ PostScript files.
 Note that these two options do not affect the downloading of HTML files (as determined by a ‘.htm’ or ‘.html’
 filename prefix). This behavior may not be desirable for all users, and may be changed for future versions of Wget.
 
-Note, too, that query strings (strings at the end of a URL beginning with a question mark (‘?’) are not included as
+Note, too, that query strings (strings at the end of a URL beginning with a question mark (‘?’) are not included as
 part of the filename for accept/reject rules, even though these will actually contribute to the name chosen for the
 local file. It is expected that a future version of Wget will provide an option to allow matching against query strings.
 Finally, it’s worth noting that the accept/reject lists are matched twice against downloaded files: once against the
@@ -1580,7 +1497,7 @@ simply be ignored. The directories are absolute paths.
 So, if you wish to download from ‘http://host/people/bozo/’ following only links to bozo’s
 colleagues in the /people directory and the bogus scripts in /cgi-bin, you can specify:
 
-wget -I /people,/cgi-bin http://host/people/bozo/
+wget -I /people,/cgi-bin http://host/people/bozo/
 ‘-X list’
 ‘--exclude list’
 ‘exclude_directories = list’
@@ -1611,7 +1528,7 @@ Next: Following FTP Links, Previous: Directory-Based Limits, Up: Following Links
 When ‘-L’ is turned on, only the relative links are ever followed. Relative links are here defined those that do not
 refer to the web server root. For example, these links are relative:
 
-<a href="foo.gif">
+<a href="foo.gif">
 <a href="foo/bar.gif">
 <a href="../foo/bar.gif">
 
@@ -1624,732 +1541,3 @@ These links are not relative:
 Using this option guarantees that recursive retrieval will not span hosts, even without ‘-H’. In simple cases it also
 allows downloads to “just work” without having to convert links.
 This option is probably not very useful and might be removed in a future release.
-
-Previous: Relative Links, Up: Following Links [Contents][Index]
-
-4.5 Following FTP Links
-The rules for FTP are somewhat specific, as it is necessary for them to be. FTP links in HTML documents are often
-included for purposes of reference, and it is often inconvenient to download them by default.
-To have FTP links followed from HTML documents, you need to specify the ‘--follow-ftp’ option. Having done
-that, FTP links will span hosts regardless of ‘-H’ setting. This is logical, as FTP links rarely point to the same host
-where the HTTP server resides. For similar reasons, the ‘-L’ options has no effect on such downloads. On the other
-hand, domain acceptance (‘-D’) and suffix rules (‘-A’ and ‘-R’) apply normally.
-Also note that followed links to FTP directories will not be retrieved recursively further.
-
-Next: Startup File, Previous: Following Links, Up: Wget 1.25.0 [Contents][Index]
-
-5 Time-Stamping
-One of the most important aspects of mirroring information from the Internet is updating your archives.
-Downloading the whole archive again and again, just to replace a few changed files is expensive, both in terms of
-wasted bandwidth and money, and the time to do the update. This is why all the mirroring tools offer the option of
-
-incremental updating.
-Such an updating mechanism means that the remote server is scanned in search of new files. Only those new files
-will be downloaded in the place of the old ones.
-A file is considered new if one of these two conditions are met:
-1. A file of that name does not already exist locally.
-2. A file of that name does exist, but the remote file was modified more recently than the local file.
-To implement this, the program needs to be aware of the time of last modification of both local and remote files. We
-call this information the time-stamp of a file.
-The time-stamping in GNU Wget is turned on using ‘--timestamping’ (‘-N’) option, or through
-timestamping = on directive in .wgetrc. With this option, for each file it intends to download, Wget will
-check whether a local file of the same name exists. If it does, and the remote file is not newer, Wget will not
-download it.
-If the local file does not exist, or the sizes of the files do not match, Wget will download the remote file no matter
-what the time-stamps say.
-Time-Stamping Usage
-HTTP Time-Stamping Internals
-FTP Time-Stamping Internals
-
-Next: HTTP Time-Stamping Internals, Previous: Time-Stamping, Up: Time-Stamping [Contents][Index]
-
-5.1 Time-Stamping Usage
-The usage of time-stamping is simple. Say you would like to download a file so that it keeps its date of modification.
-
-wget -S http://www.gnu.ai.mit.edu/
-
-A simple ls -l shows that the timestamp on the local file equals the state of the Last-Modified header, as
-returned by the server. As you can see, the time-stamping info is preserved locally, even without ‘-N’ (at least for
-HTTP).
-Several days later, you would like Wget to check if the remote file has changed, and download it if it has.
-
-wget -N http://www.gnu.ai.mit.edu/
-
-Wget will ask the server for the last-modified date. If the local file has the same timestamp as the server, or a newer
-one, the remote file will not be re-fetched. However, if the remote file is more recent, Wget will proceed to fetch it.
-The same goes for FTP. For example:
-
-wget "ftp://ftp.ifi.uio.no/pub/emacs/gnus/*"
-
-(The quotes around that URL are to prevent the shell from trying to interpret the ‘*’.)
-After download, a local directory listing will show that the timestamps match those on the remote server. Reissuing
-the command with ‘-N’ will make Wget re-fetch only the files that have been modified since the last download.
-If you wished to mirror the GNU archive every week, you would use a command like the following, weekly:
-
-wget --timestamping -r ftp://ftp.gnu.org/pub/gnu/
-
-Note that time-stamping will only work for files for which the server gives a timestamp. For HTTP, this depends on
-getting a Last-Modified header. For FTP, this depends on getting a directory listing with dates in a format that
-Wget can parse (see FTP Time-Stamping Internals).
-
-Next: FTP Time-Stamping Internals, Previous: Time-Stamping Usage, Up: Time-Stamping [Contents][Index]
-
-5.2 HTTP Time-Stamping Internals
-Time-stamping in HTTP is implemented by checking of the Last-Modified header. If you wish to retrieve the
-file foo.html through HTTP, Wget will check whether foo.html exists locally. If it doesn’t, foo.html will be
-retrieved unconditionally.
-If the file does exist locally, Wget will first check its local time-stamp (similar to the way ls -l checks it), and then
-send a HEAD request to the remote server, demanding the information on the remote file.
-The Last-Modified header is examined to find which file was modified more recently (which makes it “newer”).
-If the remote file is newer, it will be downloaded; if it is older, Wget will give up.2
-When ‘--backup-converted’ (‘-K’) is specified in conjunction with ‘-N’, server file ‘X’ is compared to local
-file ‘X.orig’, if extant, rather than being compared to local file ‘X’, which will always differ if it’s been converted
-by ‘--convert-links’ (‘-k’).
-Arguably, HTTP time-stamping should be implemented using the If-Modified-Since request.
-
-Previous: HTTP Time-Stamping Internals, Up: Time-Stamping [Contents][Index]
-
-5.3 FTP Time-Stamping Internals
-In theory, FTP time-stamping works much the same as HTTP, only FTP has no headers—time-stamps must be
-ferreted out of directory listings.
-If an FTP download is recursive or uses globbing, Wget will use the FTP LIST command to get a file listing for the
-directory containing the desired file(s). It will try to analyze the listing, treating it like Unix ls -l output,
-extracting the time-stamps. The rest is exactly the same as for HTTP. Note that when retrieving individual files from
-an FTP server without using globbing or recursion, listing files will not be downloaded (and thus files will not be
-time-stamped) unless ‘-N’ is specified.
-Assumption that every directory listing is a Unix-style listing may sound extremely constraining, but in practice it is
-not, as many non-Unix FTP servers use the Unixoid listing format because most (all?) of the clients understand it.
-Bear in mind that RFC959 defines no standard way to get a file list, let alone the time-stamps. We can only hope that
-a future standard will define this.
-Another non-standard solution includes the use of MDTM command that is supported by some FTP servers (including
-the popular wu-ftpd), which returns the exact time of the specified file. Wget may support this command in the
-future.
-
-Next: Examples, Previous: Time-Stamping, Up: Wget 1.25.0 [Contents][Index]
-
-6 Startup File
-Once you know how to change default settings of Wget through command line arguments, you may wish to make
-some of those settings permanent. You can do that in a convenient way by creating the Wget startup file
-—.wgetrc.
-Besides .wgetrc is the “main” initialization file, it is convenient to have a special facility for storing passwords.
-Thus Wget reads and interprets the contents of $HOME/.netrc, if it finds it. You can find .netrc format in your
-system manuals.
-Wget reads .wgetrc upon startup, recognizing a limited set of commands.
-Wgetrc Location
-Wgetrc Syntax
-Wgetrc Commands
-Sample Wgetrc
-
-Next: Wgetrc Syntax, Previous: Startup File, Up: Startup File [Contents][Index]
-
-6.1 Wgetrc Location
-When initializing, Wget will look for a global startup file, /usr/local/etc/wgetrc by default (or some prefix
-other than /usr/local, if Wget was not installed there) and read commands from there, if it exists.
-Then it will look for the user’s file. If the environmental variable WGETRC is set, Wget will try to load that file.
-Failing that, no further attempts will be made.
-If WGETRC is not set, Wget will try to load $HOME/.wgetrc.
-The fact that user’s settings are loaded after the system-wide ones means that in case of collision user’s wgetrc
-overrides the system-wide wgetrc (in /usr/local/etc/wgetrc by default). Fascist admins, away!
-
-Next: Wgetrc Commands, Previous: Wgetrc Location, Up: Startup File [Contents][Index]
-
-6.2 Wgetrc Syntax
-The syntax of a wgetrc command is simple:
-
-variable = value
-
-The variable will also be called command. Valid values are different for different commands.
-The commands are case-, underscore- and minus-insensitive. Thus ‘DIr__PrefiX’, ‘DIr-PrefiX’ and
-‘dirprefix’ are the same. Empty lines, lines beginning with ‘#’ and lines containing white-space only are
-discarded.
-Commands that expect a comma-separated list will clear the list on an empty command. So, if you wish to reset the
-rejection list specified in global wgetrc, you can do it with:
-
-reject =
-
-Next: Sample Wgetrc, Previous: Wgetrc Syntax, Up: Startup File [Contents][Index]
-
-6.3 Wgetrc Commands
-
-The complete set of commands is listed below. Legal values are listed after the ‘=’. Simple Boolean values can be
-set or unset using ‘on’ and ‘off’ or ‘1’ and ‘0’.
-Some commands take pseudo-arbitrary values. address values can be hostnames or dotted-quad IP addresses. n can
-be any positive integer, or ‘inf’ for infinity, where appropriate. string values can be any non-empty string.
-Most of these commands have direct command-line equivalents. Also, any wgetrc command can be specified on the
-command line using the ‘--execute’ switch (see Basic Startup Options.)
-accept/reject = string
-Same as ‘-A’/‘-R’ (see Types of Files).
-add_hostdir = on/off
-Enable/disable host-prefixed file names. ‘-nH’ disables it.
-ask_password = on/off
-Prompt for a password for each connection established. Cannot be specified when ‘--password’ is being used,
-because they are mutually exclusive. Equivalent to ‘--ask-password’.
-auth_no_challenge = on/off
-If this option is given, Wget will send Basic HTTP authentication information (plaintext username and password)
-for all requests. See ‘--auth-no-challenge’.
-background = on/off
-Enable/disable going to background—the same as ‘-b’ (which enables it).
-backup_converted = on/off
-Enable/disable saving pre-converted files with the suffix ‘.orig’—the same as ‘-K’ (which enables it).
-backups = number
-Use up to number backups for a file. Backups are rotated by adding an incremental counter that starts at ‘1’. The
-default is ‘0’.
-base = string
-Consider relative URLs in input files (specified via the ‘input’ command or the ‘--input-file’/‘-i’
-option, together with ‘force_html’ or ‘--force-html’) as being relative to string—the same as ‘-base=string’.
-bind_address = address
-Bind to address, like the ‘--bind-address=address’.
-ca_certificate = file
-Set the certificate authority bundle file to file. The same as ‘--ca-certificate=file’.
-
-ca_directory = directory
-Set the directory used for certificate authorities. The same as ‘--ca-directory=directory’.
-cache = on/off
-When set to off, disallow server-caching. See the ‘--no-cache’ option.
-certificate = file
-Set the client certificate file name to file. The same as ‘--certificate=file’.
-certificate_type = string
-Specify the type of the client certificate, legal values being ‘PEM’ (the default) and ‘DER’ (aka ASN1). The same
-as ‘--certificate-type=string’.
-check_certificate = on/off
-If this is set to off, the server certificate is not checked against the specified client authorities. The default is “on”.
-The same as ‘--check-certificate’.
-connect_timeout = n
-Set the connect timeout—the same as ‘--connect-timeout’.
-content_disposition = on/off
-Turn on recognition of the (non-standard) ‘Content-Disposition’ HTTP header—if set to ‘on’, the same
-as ‘--content-disposition’.
-trust_server_names = on/off
-If set to on, construct the local file name from redirection URLs rather than original URLs.
-continue = on/off
-If set to on, force continuation of preexistent partially retrieved files. See ‘-c’ before setting it.
-convert_links = on/off
-Convert non-relative links locally. The same as ‘-k’.
-cookies = on/off
-When set to off, disallow cookies. See the ‘--cookies’ option.
-cut_dirs = n
-Ignore n remote directory components. Equivalent to ‘--cut-dirs=n’.
-debug = on/off
-Debug mode, same as ‘-d’.
-default_page = string
-
-Default page name—the same as ‘--default-page=string’.
-delete_after = on/off
-Delete after download—the same as ‘--delete-after’.
-dir_prefix = string
-Top of directory tree—the same as ‘-P string’.
-dirstruct = on/off
-Turning dirstruct on or off—the same as ‘-x’ or ‘-nd’, respectively.
-dns_cache = on/off
-Turn DNS caching on/off. Since DNS caching is on by default, this option is normally used to turn it off and is
-equivalent to ‘--no-dns-cache’.
-dns_timeout = n
-Set the DNS timeout—the same as ‘--dns-timeout’.
-domains = string
-Same as ‘-D’ (see Spanning Hosts).
-dot_bytes = n
-Specify the number of bytes “contained” in a dot, as seen throughout the retrieval (1024 by default). You can
-postfix the value with ‘k’ or ‘m’, representing kilobytes and megabytes, respectively. With dot settings you can
-tailor the dot retrieval to suit your needs, or you can use the predefined styles (see Download Options).
-dot_spacing = n
-Specify the number of dots in a single cluster (10 by default).
-dots_in_line = n
-Specify the number of dots that will be printed in each line throughout the retrieval (50 by default).
-egd_file = file
-Use string as the EGD socket file name. The same as ‘--egd-file=file’.
-exclude_directories = string
-Specify a comma-separated list of directories you wish to exclude from download—the same as ‘-X string’
-(see Directory-Based Limits).
-exclude_domains = string
-Same as ‘--exclude-domains=string’ (see Spanning Hosts).
-follow_ftp = on/off
-
-Follow FTP links from HTML documents—the same as ‘--follow-ftp’.
-follow_tags = string
-Only follow certain HTML tags when doing a recursive retrieval, just like ‘--follow-tags=string’.
-force_html = on/off
-If set to on, force the input filename to be regarded as an HTML document—the same as ‘-F’.
-ftp_password = string
-Set your FTP password to string. Without this setting, the password defaults to ‘-wget@’, which is a useful
-default for anonymous FTP access.
-This command used to be named passwd prior to Wget 1.10.
-ftp_proxy = string
-Use string as FTP proxy, instead of the one specified in environment.
-ftp_user = string
-Set FTP user to string.
-This command used to be named login prior to Wget 1.10.
-glob = on/off
-Turn globbing on/off—the same as ‘--glob’ and ‘--no-glob’.
-header = string
-Define a header for HTTP downloads, like using ‘--header=string’.
-compression = string
-Choose the compression type to be used. Legal values are ‘auto’ (the default), ‘gzip’, and ‘none’. The same
-as ‘--compression=string’.
-adjust_extension = on/off
-Add a ‘.html’ extension to ‘text/html’ or ‘application/xhtml+xml’ files that lack one, a ‘.css’
-extension to ‘text/css’ files that lack one, and a ‘.br’, ‘.Z’, ‘.zlib’ or ‘.gz’ to compressed files like ‘-E’.
-Previously named ‘html_extension’ (still acceptable, but deprecated).
-http_keep_alive = on/off
-Turn the keep-alive feature on or off (defaults to on). Turning it off is equivalent to ‘--no-http-keepalive’.
-http_password = string
-Set HTTP password, equivalent to ‘--http-password=string’.
-http_proxy = string
-
-Use string as HTTP proxy, instead of the one specified in environment.
-http_user = string
-Set HTTP user to string, equivalent to ‘--http-user=string’.
-https_only = on/off
-When in recursive mode, only HTTPS links are followed (defaults to off).
-https_proxy = string
-Use string as HTTPS proxy, instead of the one specified in environment.
-ignore_case = on/off
-When set to on, match files and directories case insensitively; the same as ‘--ignore-case’.
-ignore_length = on/off
-When set to on, ignore Content-Length header; the same as ‘--ignore-length’.
-ignore_tags = string
-Ignore certain HTML tags when doing a recursive retrieval, like ‘--ignore-tags=string’.
-include_directories = string
-Specify a comma-separated list of directories you wish to follow when downloading—the same as ‘-I
-string’.
-iri = on/off
-When set to on, enable internationalized URI (IRI) support; the same as ‘--iri’.
-inet4_only = on/off
-Force connecting to IPv4 addresses, off by default. You can put this in the global init file to disable Wget’s
-attempts to resolve and connect to IPv6 hosts. Available only if Wget was compiled with IPv6 support. The same
-as ‘--inet4-only’ or ‘-4’.
-inet6_only = on/off
-Force connecting to IPv6 addresses, off by default. Available only if Wget was compiled with IPv6 support. The
-same as ‘--inet6-only’ or ‘-6’.
-input = file
-Read the URLs from string, like ‘-i file’.
-keep_session_cookies = on/off
-When specified, causes ‘save_cookies = on’ to also save session cookies. See ‘--keep-sessioncookies’.
-limit_rate = rate
-
-Limit the download speed to no more than rate bytes per second. The same as ‘--limit-rate=rate’.
-load_cookies = file
-Load cookies from file. See ‘--load-cookies file’.
-local_encoding = encoding
-Force Wget to use encoding as the default system encoding. See ‘--local-encoding’.
-logfile = file
-Set logfile to file, the same as ‘-o file’.
-max_redirect = number
-Specifies the maximum number of redirections to follow for a resource. See ‘--max-redirect=number’.
-mirror = on/off
-Turn mirroring on/off. The same as ‘-m’.
-netrc = on/off
-Turn reading netrc on or off.
-no_clobber = on/off
-Same as ‘-nc’.
-no_parent = on/off
-Disallow retrieving outside the directory hierarchy, like ‘--no-parent’ (see Directory-Based Limits).
-no_proxy = string
-Use string as the comma-separated list of domains to avoid in proxy loading, instead of the one specified in
-environment.
-output_document = file
-Set the output filename—the same as ‘-O file’.
-page_requisites = on/off
-Download all ancillary documents necessary for a single HTML page to display properly—the same as ‘-p’.
-passive_ftp = on/off
-Change setting of passive FTP, equivalent to the ‘--passive-ftp’ option.
-password = string
-Specify password string for both FTP and HTTP file retrieval. This command can be overridden using the
-‘ftp_password’ and ‘http_password’ command for FTP and HTTP respectively.
-post_data = string
-
-Use POST as the method for all HTTP requests and send string in the request body. The same as ‘--postdata=string’.
-post_file = file
-Use POST as the method for all HTTP requests and send the contents of file in the request body. The same as ‘-post-file=file’.
-prefer_family = none/IPv4/IPv6
-When given a choice of several addresses, connect to the addresses with specified address family first. The
-address order returned by DNS is used without change by default. The same as ‘--prefer-family’, which
-see for a detailed discussion of why this is useful.
-private_key = file
-Set the private key file to file. The same as ‘--private-key=file’.
-private_key_type = string
-Specify the type of the private key, legal values being ‘PEM’ (the default) and ‘DER’ (aka ASN1). The same as ‘-private-type=string’.
-progress = string
-Set the type of the progress indicator. Legal types are ‘dot’ and ‘bar’. Equivalent to ‘-progress=string’.
-protocol_directories = on/off
-When set, use the protocol name as a directory component of local file names. The same as ‘--protocoldirectories’.
-proxy_password = string
-Set proxy authentication password to string, like ‘--proxy-password=string’.
-proxy_user = string
-Set proxy authentication user name to string, like ‘--proxy-user=string’.
-quiet = on/off
-Quiet mode—the same as ‘-q’.
-quota = quota
-Specify the download quota, which is useful to put in the global wgetrc. When download quota is specified,
-Wget will stop retrieving after the download sum has become greater than quota. The quota can be specified in
-bytes (default), kbytes ‘k’ appended) or mbytes (‘m’ appended). Thus ‘quota = 5m’ will set the quota to 5
-megabytes. Note that the user’s startup file overrides system settings.
-random_file = file
-Use file as a source of randomness on systems lacking /dev/random.
-
-random_wait = on/off
-Turn random between-request wait times on or off. The same as ‘--random-wait’.
-read_timeout = n
-Set the read (and write) timeout—the same as ‘--read-timeout=n’.
-reclevel = n
-Recursion level (depth)—the same as ‘-l n’.
-recursive = on/off
-Recursive on/off—the same as ‘-r’.
-referer = string
-Set HTTP ‘Referer:’ header just like ‘--referer=string’. (Note that it was the folks who wrote the
-HTTP spec who got the spelling of “referrer” wrong.)
-relative_only = on/off
-Follow only relative links—the same as ‘-L’ (see Relative Links).
-remote_encoding = encoding
-Force Wget to use encoding as the default remote server encoding. See ‘--remote-encoding’.
-remove_listing = on/off
-If set to on, remove FTP listings downloaded by Wget. Setting it to off is the same as ‘--no-removelisting’.
-restrict_file_names = unix/windows
-Restrict the file names generated by Wget from URLs. See ‘--restrict-file-names’ for a more detailed
-description.
-retr_symlinks = on/off
-When set to on, retrieve symbolic links as if they were plain files; the same as ‘--retr-symlinks’.
-retry_connrefused = on/off
-When set to on, consider “connection refused” a transient error—the same as ‘--retry-connrefused’.
-robots = on/off
-Specify whether the norobots convention is respected by Wget, “on” by default. This switch controls both the
-/robots.txt and the ‘nofollow’ aspect of the spec. See Robot Exclusion, for more details about this. Be
-sure you know what you are doing before turning this off.
-save_cookies = file
-Save cookies to file. The same as ‘--save-cookies file’.
-
-save_headers = on/off
-Same as ‘--save-headers’.
-secure_protocol = string
-Choose the secure protocol to be used. Legal values are ‘auto’ (the default), ‘SSLv2’, ‘SSLv3’, and ‘TLSv1’.
-The same as ‘--secure-protocol=string’.
-server_response = on/off
-Choose whether or not to print the HTTP and FTP server responses—the same as ‘-S’.
-show_all_dns_entries = on/off
-When a DNS name is resolved, show all the IP addresses, not just the first three.
-span_hosts = on/off
-Same as ‘-H’.
-spider = on/off
-Same as ‘--spider’.
-strict_comments = on/off
-Same as ‘--strict-comments’.
-timeout = n
-Set all applicable timeout values to n, the same as ‘-T n’.
-timestamping = on/off
-Turn timestamping on/off. The same as ‘-N’ (see Time-Stamping).
-use_server_timestamps = on/off
-If set to ‘off’, Wget won’t set the local file’s timestamp by the one on the server (same as ‘--no-useserver-timestamps’).
-tries = n
-Set number of retries per URL—the same as ‘-t n’.
-use_proxy = on/off
-When set to off, don’t use proxy even when proxy-related environment variables are set. In that case it is the
-same as using ‘--no-proxy’.
-user = string
-Specify username string for both FTP and HTTP file retrieval. This command can be overridden using the
-‘ftp_user’ and ‘http_user’ command for FTP and HTTP respectively.
-
-user_agent = string
-User agent identification sent to the HTTP Server—the same as ‘--user-agent=string’.
-verbose = on/off
-Turn verbose on/off—the same as ‘-v’/‘-nv’.
-wait = n
-Wait n seconds between retrievals—the same as ‘-w n’.
-wait_retry = n
-Wait up to n seconds between retries of failed retrievals only—the same as ‘--waitretry=n’. Note that this is
-turned on by default in the global wgetrc.
-
-Previous: Wgetrc Commands, Up: Startup File [Contents][Index]
-
-6.4 Sample Wgetrc
-This is the sample initialization file, as given in the distribution. It is divided in two section—one for global usage
-(suitable for global startup file), and one for local usage (suitable for $HOME/.wgetrc). Be careful about the
-things you change.
-Note that almost all the lines are commented out. For a command to have any effect, you must remove the ‘#’
-character at the beginning of its line.
-
-###
-### Sample Wget initialization file .wgetrc
-###
-## You can use this file to change the default behaviour of wget or to
-##
-##
-##
-##
-##
-##
-##
-##
-##
-##
-##
-##
-
-avoid having to type many many command-line options. This file does
-not contain a comprehensive list of commands -- look at the manual
-to find out what you can put into this file. You can find this here:
-$ info wget.info 'Startup File'
-Or online here:
-https://www.gnu.org/software/wget/manual/wget.html#Startup-File
-Wget initialization file can reside in /usr/local/etc/wgetrc
-(global, for all users) or $HOME/.wgetrc (for a single user).
-To use the settings in this file, you will have to uncomment them,
-as well as change them, in most cases, as the values on the
-
-## commented-out lines are the default values (e.g. "off").
-##
-## Command are case-, underscore- and minus-insensitive.
-## For example ftp_proxy, ftp-proxy and ftpproxy are the same.
-
-##
-## Global settings (useful for setting up in /usr/local/etc/wgetrc).
-## Think well before you change them, since they may reduce wget's
-## functionality, and make it behave contrary to the documentation:
-##
-# You can set retrieve quota for beginners by specifying a value
-# optionally followed by 'K' (kilobytes) or 'M' (megabytes). The
-# default quota is unlimited.
-#quota = inf
-# You can lower (or raise) the default number of retries when
-# downloading a file (default is 20).
-#tries = 20
-# Lowering the maximum depth of the recursive retrieval is handy to
-# prevent newbies from going too "deep" when they unwittingly start
-# the recursive retrieval. The default is 5.
-#reclevel = 5
-# By default Wget uses "passive FTP" transfer where the client
-# initiates the data connection to the server rather than the other
-# way around. That is required on systems behind NAT where the client
-#
-#
-#
-#
-
-computer cannot be easily reached from the Internet. However, some
-firewalls software explicitly supports active FTP and in fact has
-problems supporting passive transfer. If you are in such
-environment, use "passive_ftp = off" to revert to active FTP.
-
-#passive_ftp = off
-# The "wait" command below makes Wget wait between every connection.
-# If, instead, you want Wget to wait only between retries of failed
-# downloads, set waitretry to maximum number of seconds to wait (Wget
-# will use "linear backoff", waiting 1 second after the first failure
-# on a file, 2 seconds after the second failure, etc. up to this max).
-#waitretry = 10
-
-##
-
-## Local settings (for a user to set in his $HOME/.wgetrc). It is
-## *highly* undesirable to put these settings in the global file, since
-## they are potentially dangerous to "normal" users.
-##
-## Even when setting up your own ~/.wgetrc, you should know what you
-## are doing before doing so.
-##
-# Set this to on to use timestamping by default:
-#timestamping = off
-# It is a good idea to make Wget send your email address in a `From:'
-# header with your request (so that server administrators can contact
-# you in case of errors). Wget does *not* send `From:' by default.
-#header = From: Your Name <username@site.domain>
-# You can set up other headers, like Accept-Language.
-# is *not* sent by default.
-#header = Accept-Language: en
-
-Accept-Language
-
-# You can set the default proxies for Wget to use for http, https, and ftp.
-# They will override the value in the environment.
-#https_proxy = http://proxy.yoyodyne.com:18023/
-#http_proxy = http://proxy.yoyodyne.com:18023/
-#ftp_proxy = http://proxy.yoyodyne.com:18023/
-# If you do not want to use proxy at all, set this to off.
-#use_proxy = on
-# You can customize the retrieval outlook.
-# binary, mega and micro.
-#dot_style = default
-
-Valid options are default,
-
-# Setting this to off makes Wget not download /robots.txt. Be sure to
-# know *exactly* what /robots.txt is and how it is used before changing
-# the default!
-#robots = on
-# It can be useful to make Wget wait between connections.
-# the number of seconds you want Wget to wait.
-
-Set this to
-
-#wait = 0
-# You can force creating directory structure, even if a single is being
-# retrieved, by setting this to on.
-
-#dirstruct = off
-# You can turn on recursive retrieving by default (don't do this if
-# you are not sure you know what it means) by setting this to on.
-#recursive = off
-# To always back up file X as X.orig before converting its links (due
-# to -k / --convert-links / convert_links = on having been specified),
-# set this variable to on:
-#backup_converted = off
-# To have Wget follow FTP links from HTML files by default, set this
-# to on:
-#follow_ftp = off
-# To try ipv6 addresses first:
-#prefer-family = IPv6
-# Set default IRI support state
-#iri = off
-# Force the default system encoding
-#localencoding = UTF-8
-# Force the default remote server encoding
-#remoteencoding = UTF-8
-# Turn on to prevent following non-HTTPS links when in recursive mode
-#httpsonly = off
-# Tune HTTPS security (auto, SSLv2, SSLv3, TLSv1, PFS)
-#secureprotocol = auto
-
-Next: Various, Previous: Startup File, Up: Wget 1.25.0 [Contents][Index]
-
-7 Examples
-The examples are divided into three sections loosely based on their complexity.
-Simple Usage
-
-Advanced Usage
-Very Advanced Usage
-
-Next: Advanced Usage, Previous: Examples, Up: Examples [Contents][Index]
-
-7.1 Simple Usage
-Say you want to download a URL. Just type:
-
-wget http://fly.srk.fer.hr/
-
-But what will happen if the connection is slow, and the file is lengthy? The connection will probably fail before
-the whole file is retrieved, more than once. In this case, Wget will try getting the file until it either gets the whole
-of it, or exceeds the default number of retries (this being 20). It is easy to change the number of tries to 45, to
-insure that the whole file will arrive safely:
-
-wget --tries=45 http://fly.srk.fer.hr/jpg/flyweb.jpg
-
-Now let’s leave Wget to work in the background, and write its progress to log file log. It is tiring to type ‘-tries’, so we shall use ‘-t’.
-
-wget -t 45 -o log http://fly.srk.fer.hr/jpg/flyweb.jpg &
-
-The ampersand at the end of the line makes sure that Wget works in the background. To unlimit the number of
-retries, use ‘-t inf’.
-The usage of FTP is as simple. Wget will take care of login and password.
-
-wget ftp://gnjilux.srk.fer.hr/welcome.msg
-
-If you specify a directory, Wget will retrieve the directory listing, parse it and convert it to HTML. Try:
-
-wget ftp://ftp.gnu.org/pub/gnu/
-links index.html
-
-Next: Very Advanced Usage, Previous: Simple Usage, Up: Examples [Contents][Index]
-
-7.2 Advanced Usage
-You have a file that contains the URLs you want to download? Use the ‘-i’ switch:
-
-wget -i file
-
-If you specify ‘-’ as file name, the URLs will be read from standard input.
-Create a five levels deep mirror image of the GNU web site, with the same directory structure the original has,
-with only one try per document, saving the log of the activities to gnulog:
-
-wget -r https://www.gnu.org/ -o gnulog
-
-The same as the above, but convert the links in the downloaded files to point to local files, so you can view the
-documents off-line:
-
-wget --convert-links -r https://www.gnu.org/ -o gnulog
-
-Retrieve only one HTML page, but make sure that all the elements needed for the page to be displayed, such as
-inline images and external style sheets, are also downloaded. Also make sure the downloaded page references
-the downloaded links.
-
-wget -p --convert-links http://www.example.com/dir/page.html
-
-The HTML page will be saved to www.example.com/dir/page.html, and the images, stylesheets, etc.,
-somewhere under www.example.com/, depending on where they were on the remote server.
-The same as the above, but without the www.example.com/ directory. In fact, I don’t want to have all those
-random server directories anyway—just save all those files under a download/ subdirectory of the current
-directory.
-
-wget -p --convert-links -nH -nd -Pdownload \
-http://www.example.com/dir/page.html
-
-Retrieve the index.html of ‘www.lycos.com’, showing the original server headers:
-
-wget -S http://www.lycos.com/
-Save the server headers with the file, perhaps for post-processing.
-
-wget --save-headers http://www.lycos.com/
-more index.html
-
-Retrieve the first two levels of ‘wuarchive.wustl.edu’, saving them to /tmp.
-
-wget -r -l2 -P/tmp ftp://wuarchive.wustl.edu/
-
-You want to download all the GIFs from a directory on an HTTP server. You tried ‘wget
-http://www.example.com/dir/*.gif’, but that didn’t work because HTTP retrieval does not support
-globbing. In that case, use:
-
-wget -r -l1 --no-parent -A.gif http://www.example.com/dir/
-
-More verbose, but the effect is the same. ‘-r -l1’ means to retrieve recursively (see Recursive Download),
-with maximum depth of 1. ‘--no-parent’ means that references to the parent directory are ignored (see
-Directory-Based Limits), and ‘-A.gif’ means to download only the GIF files. ‘-A "*.gif"’ would have
-worked too.
-Suppose you were in the middle of downloading, when Wget was interrupted. Now you do not want to clobber
-the files already present. It would be:
-
-wget -nc -r https://www.gnu.org/
-
-If you want to encode your own username and password to HTTP or FTP, use the appropriate URL syntax (see
-URL Format).
-
-wget ftp://hniksic:mypassword@unix.example.com/.emacs
-
-Note, however, that this usage is not advisable on multi-user systems because it reveals your password to anyone
-who looks at the output of ps.
-You would like the output documents to go to standard output instead of to files?
-
-wget -O - http://jagor.srce.hr/ http://www.srce.hr/
-
-You can also combine the two options and make pipelines to retrieve the documents from remote hotlists:
-
-wget -O - http://cool.list.com/ | wget --force-html -i -
-
-Previous: Advanced Usage, Up: Examples [Contents][Index]
-
-7.3 Very Advanced Usage
-If you wish Wget to keep a mirror of a page (or FTP subdirectories), use ‘--mirror’ (‘-m’), which is the
-shorthand for ‘-r -l inf -N’. You can put Wget in the crontab file asking it to recheck a site each Sunday:
-
-crontab
-0 0 * * 0 wget --mirror https://www.gnu.org/ -o /home/me/weeklog
-
-In addition to the above, you want the links to be converted for local viewing. But, after having read this
-manual, you know that link conversion doesn’t play well with timestamping, so you also want Wget to back up
-the original HTML files before the conversion. Wget invocation would look like this:
-
-wget --mirror --convert-links --backup-converted
-
-\
-
-https://www.gnu.org/ -o /home/me/weeklog
-
-But you’ve also noticed that local viewing doesn’t work all that well when HTML files are saved under
-extensions other than ‘.html’, perhaps because they were served as index.cgi. So you’d like Wget to
-rename all the files served with content-type ‘text/html’ or ‘application/xhtml+xml’ to
-name.html.
-
-wget --mirror --convert-links --backup-converted \
---adjust-extension -o /home/me/weeklog
-https://www.gnu.org/
-
-Or, with less typing:
-
-\
-
-wget -m -k -K -E https://www.gnu.org/ -o /home/me/weeklog

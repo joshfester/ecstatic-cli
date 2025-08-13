@@ -16,7 +16,7 @@
     "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "serve": "http-server ./dist-parcel",
-    "serve-scraped": "http-server ./scraped/web",
+    "serve-scraped": "http-server ./scraped",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
   },
   "@parcel/transformer-css": {

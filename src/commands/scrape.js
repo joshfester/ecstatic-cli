@@ -9,11 +9,19 @@ import path from 'path';
 export const scrapeCommand = new Command('scrape')
   .description('Download website as static files')
   .argument('<url>', 'URL to scrape')
-  .option('-o, --output <dir>', 'Output directory (overrides config)')
-  .option('-d, --depth <number>', 'Mirror depth (overrides config)', parseInt)
-  .option('-m, --method <method>', 'Scraping method: httrack|wget (overrides config)')
+  .option('--output <dir>', 'Output directory (overrides config)')
+  .option('--depth <number>', 'Mirror depth (overrides config)', parseInt)
+  .option('--method <method>', 'Scraping method: httrack|wget (overrides config)')
   .option('--include <pattern>', 'Include filter pattern (can be used multiple times)', collect, [])
   .option('--exclude <pattern>', 'Exclude filter pattern (can be used multiple times)', collect, [])
+  // Wget-specific CLI flags (CLI overrides config)
+  .option('--mirror', 'Use wget --mirror (overrides --recursive and --level)')
+  .option('--no-clobber', 'Do not overwrite existing files')
+  .option('--execute <command>', 'Wget --execute directive (repeatable)', collect, [])
+  .option('--user-agent <string>', 'HTTP User-Agent string for wget')
+  .option('--no-host-directories', 'Disable host-prefixed directories')
+  .option('--adjust-extension', 'Append .html/.css extensions to matching content types')
+  .option('--wait <interval>', 'Wait interval between requests (e.g., 1, 1d, 1m, 1h)')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {
@@ -24,12 +32,39 @@ async function scrapeWebsite(url, options) {
   const config = getConfig();
 
   // Merge CLI options with config, giving precedence to CLI options
+  const cfgWget = (config.scrape && config.scrape.wget) || {};
+  const cliWget = {
+    mirror: options.mirror,
+    noClobber: options.noClobber,
+    execute: options.execute,
+    userAgent: options.userAgent,
+    noHostDirectories: options.noHostDirectories,
+    adjustExtension: options.adjustExtension,
+    wait: options.wait
+  };
+
+  const mergedWget = {
+    recursive: cfgWget.recursive,
+    pageRequisites: cfgWget.pageRequisites,
+    convertLinks: cfgWget.convertLinks,
+    restrictFileNames: cfgWget.restrictFileNames,
+    noParent: cfgWget.noParent,
+    mirror: cliWget.mirror !== undefined ? cliWget.mirror : cfgWget.mirror,
+    noClobber: cliWget.noClobber !== undefined ? cliWget.noClobber : cfgWget.noClobber,
+    execute: Array.isArray(cliWget.execute) && cliWget.execute.length ? cliWget.execute : (cfgWget.execute || []),
+    userAgent: cliWget.userAgent !== undefined ? cliWget.userAgent : (cfgWget.userAgent || ''),
+    noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
+    adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
+    wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait
+  };
+
   const finalOptions = {
     output: options.output || config.paths.scraped,
     depth: options.depth || config.scrape.depth,
     method: options.method || config.scrape.method,
     includeFilters: options.include || [],
-    excludeFilters: options.exclude || []
+    excludeFilters: options.exclude || [],
+    wget: mergedWget
   };
 
   const outputDir = resolvePath(finalOptions.output);
@@ -41,6 +76,17 @@ async function scrapeWebsite(url, options) {
   logger.info(`Output directory: ${outputDir}`);
   logger.info(`Method: ${finalOptions.method}`);
   logger.info(`Depth: ${finalOptions.depth}`);
+
+  // Summarize effective wget options for traceability
+  if (finalOptions.method === 'wget') {
+    const w = finalOptions.wget || {};
+    logger.info(
+      `Wget summary: ${w.mirror ? '--mirror' : (w.recursive ? `--recursive --level=${finalOptions.depth}` : 'non-recursive')}`
+    );
+    logger.info(
+      `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${w.userAgent ? 'custom' : 'default'}, execute=[${(w.execute || []).join(', ')}]`
+    );
+  }
 
   // Clean and ensure output directory exists
   cleanDir(outputDir);
@@ -62,7 +108,7 @@ async function scrapeWebsite(url, options) {
   }
 
   logger.step(currentStep, totalSteps, 'Running post-processing');
-  await runPostProcessing();
+  await runPostProcessing(config);
 
   logger.step(currentStep + 1, totalSteps, 'Scraping completed');
   logger.success(`Website scraped successfully to ${outputDir}`);
@@ -129,21 +175,45 @@ function buildFilterList(url, httrackConfig, options) {
 }
 
 async function runWget(url, outputDir, options, config) {
-  const wgetConfig = config.scrape.wget;
+  const host = new URL(url).hostname;
+  const wgetOpts = options.wget || (config.scrape && config.scrape.wget) || {};
   const args = [
-    '--domains', new URL(url).hostname,
-    `--level=${options.depth}`,
+    '--domains', host,
     `--timeout=${config.scrape.timeout}`,
     `--directory-prefix=${outputDir}`
   ];
 
-  // Add configurable options
-  if (wgetConfig.recursive) args.push('--recursive');
-  if (wgetConfig.pageRequisites) args.push('--page-requisites');
-  if (wgetConfig.htmlExtension) args.push('--html-extension');
-  if (wgetConfig.convertLinks) args.push('--convert-links');
-  if (wgetConfig.restrictFileNames) args.push(`--restrict-file-names=${wgetConfig.restrictFileNames}`);
-  if (wgetConfig.noParent) args.push('--no-parent');
+  for (const e of wgetOpts.execute) {
+    args.push('--execute', e);
+  }
+
+  // HTTP User-Agent
+  if (wgetOpts.userAgent) {
+    args.push(`--user-agent='${wgetOpts.userAgent}'`);
+  }
+
+  // Simple boolean flags
+  if (wgetOpts.noClobber) args.push('--no-clobber');
+  if (wgetOpts.noHostDirectories) args.push('--no-host-directories');
+  if (wgetOpts.adjustExtension) args.push('--adjust-extension');
+
+  // Existing options we continue to honor
+  if (wgetOpts.convertLinks) args.push('--convert-links');
+  if (wgetOpts.pageRequisites) args.push('--page-requisites');
+  if (wgetOpts.restrictFileNames) args.push(`--restrict-file-names=${wgetOpts.restrictFileNames}`);
+  if (wgetOpts.noParent) args.push('--no-parent');
+
+  // Wait interval
+  if (wgetOpts.wait !== undefined && wgetOpts.wait !== null && wgetOpts.wait !== '') {
+    args.push(`--wait=${wgetOpts.wait}`);
+  }
+
+  // Mirror overrides recursive/level
+  if (wgetOpts.mirror) {
+    args.push('--mirror');
+  } else if (wgetOpts.recursive) {
+    args.push('--recursive', `--level=${options.depth}`);
+  }
 
   args.push(url);
 
@@ -170,8 +240,11 @@ async function downloadExtraFiles(extraFiles, outputDir, config) {
   }
 }
 
-async function runPostProcessing() {
-  // Run the convert-http script to convert http: to https:
-  const scriptPath = resolvePath('./bin/convert-http.sh');
-  return runCommand(scriptPath, []);
+async function runPostProcessing(config) {
+  // Run domain replacement if configured
+  const domainReplacement = config?.scrape?.domainReplacement;
+  if (domainReplacement?.source && domainReplacement?.target) {
+    const scriptPath = resolvePath('./bin/replace-domains.sh');
+    return runCommand(scriptPath, [domainReplacement.source, domainReplacement.target]);
+  }
 }

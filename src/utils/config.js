@@ -33,10 +33,24 @@ const defaults = {
     wget: {
       recursive: true,
       pageRequisites: true,
-      htmlExtension: true,
-      convertLinks: true,
+      convertLinks: false,
       restrictFileNames: 'windows',
-      noParent: true
+      noParent: true,
+
+      // When true, use wget --mirror (overrides --recursive and --level)
+      mirror: false,
+      // Do not overwrite existing files
+      noClobber: false,
+      // .wgetrc-style commands (repeatable). Defaults to robots=off.
+      // Example: ['robots=off', 'cookies=on']
+      execute: ['robots=off'],
+      // Custom HTTP User-Agent string. If empty/falsy, wget default is used.
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36',
+      // Disable host-prefixed directories (wget -nH/--no-host-directories)
+      noHostDirectories: true,
+      adjustExtension: true,
+      // Wait between requests, e.g. 1, 500ms, 1m, 1h
+      wait: 1
     }
   },
   build: {

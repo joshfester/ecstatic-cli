@@ -11,13 +11,77 @@ export default {
     // Scraping configuration
     scrape: {
         depth: 3,
-        method: 'wget', // 'httrack' or 'wget'
+        method: 'httrack', // 'httrack' or 'wget'
         timeout: 10,
         sockets: 16,
 
+        // HTTrack-specific configuration
+        httrack: {
+            debugLog: false,
+            near: true,
+            stay: true, // -a flag
+            both: true, // -B flag
+            structure: 4, // N4 structure
+            keepLinks: 0,
+            robots: 0,
+            connections: 20,
+            updatehack: true,
+            mirror: true,
+            cache: 2,
+            excludeAll: true, // Add '-*' to exclude everything first
+
+            // Filter patterns for httrack
+            // These are applied in order: excludes first, then includes
+            // Use {domain} placeholder for automatic domain substitution
+            filters: [
+                '-*', // Exclude everything first
+                '+*{domain}/*.css', // Include CSS files from domain
+                '+*{domain}/*.js', // Include JS files from domain
+                '+*{domain}/apply/', // Include /apply/ path from domain
+                '+*{domain}/_image*', // Include image patterns from domain
+                '+*mage.mux.com*' // Include external CDN (mux.com for videos)
+            ]
+        },
+
+        // Wget-specific configuration
         wget: {
-            mirror: true
-        }
+            recursive: true,
+            pageRequisites: true,
+            adjustExtension: true,
+            convertLinks: true,
+            restrictFileNames: 'windows',
+            noParent: true
+        },
+        extraFiles: [
+            {
+                url: "https://www.americanrelief.org/_astro/bootstrap.esm.BNVzI9OA.js",
+                prefix: "/web/js"
+            },
+            {
+                url: "https://www.americanrelief.org/_astro/077.astro_astro_type_script_index_0_lang.BBliHKjh.js",
+                prefix: "/web/js"
+            },
+            {
+                url: "https://www.americanrelief.org/_astro/lottie.BapSpgza.js",
+                prefix: "/web/js"
+            },
+            {
+                url: "https://www.americanrelief.org/_astro/lottie_light.CgpOreIb.js",
+                prefix: "/web/js"
+            },
+            {
+                url: "https://www.americanrelief.org/_astro/_commonjsHelpers.CqkleIqs.js",
+                prefix: "/web/js"
+            },
+            /*{
+                url: "https://www.americanrelief.org/_astro/075.astro_astro_type_script_index_0_lang.DrxwnLMJ.js",
+                prefix: "./scraped/web/js"
+            },
+            {
+                url: "https://www.americanrelief.org/_astro/_commonjsHelpers.CsCfRhM5.js",
+                prefix: "./scraped/web/js"
+            }*/
+        ]
     },
 
     // Build configuration
