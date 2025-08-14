@@ -24,7 +24,7 @@ const defaults = {
       dir_up_down: 'down',  // 'up' (-U), 'down' (-D), 'both' (-B)
       keepLinks: 0,
       robots: 0,
-      connections: 20,      // -%c20 flag
+      connections_per_second: 1,      // -%c flag
       updatehack: true,
       mirror: true
     },

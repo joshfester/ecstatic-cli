@@ -141,13 +141,13 @@ async function runHttrack(url, outputDir, options, config) {
   // Add configurable options
   if (httrackConfig.debugLog) args.push('--debug-log');
   if (httrackConfig.near) args.push('--near');
-  
+
   // Always pass -a flag (stay on same host)
   args.push('-a');
-  
+
   // Always pass -N1004 structure flag
   args.push('-N1004');
-  
+
   // Handle dir_up_down option for directory traversal
   if (httrackConfig.dir_up_down === 'up') {
     args.push('-U');
@@ -156,15 +156,15 @@ async function runHttrack(url, outputDir, options, config) {
   } else if (httrackConfig.dir_up_down === 'both') {
     args.push('-B');
   }
-  
+
   // HTTP User-Agent
   if (options.userAgent) {
     args.push(`--user-agent=${options.userAgent}`);
   }
-  
+
   if (httrackConfig.keepLinks !== undefined) args.push(`--keep-links=${httrackConfig.keepLinks}`);
   if (httrackConfig.robots !== undefined) args.push(`--robots=${httrackConfig.robots}`);
-  if (httrackConfig.connections) args.push(`-%c${httrackConfig.connections}`);
+  if (httrackConfig.connections_per_second) args.push(`-%c${httrackConfig.connections_per_second}`);
   if (httrackConfig.updatehack) args.push('--updatehack');
   if (httrackConfig.mirror) args.push('--mirror');
 
