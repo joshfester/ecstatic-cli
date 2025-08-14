@@ -12,9 +12,8 @@ const defaults = {
   },
   scrape: {
     depth: 3,
-    method: 'httrack',
+    method: 'httrack', // or 'wget'
     timeout: 10,
-    sockets: 16,
     extraFiles: [],
     // Custom HTTP User-Agent string for both httrack and wget
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36',
@@ -25,6 +24,8 @@ const defaults = {
       debugLog: false,
       near: true,
       dir_up_down: 'down',  // 'up' (-U), 'down' (-D), 'both' (-B)
+      extDepth: 0,          // httrack --ext-depth option
+      sockets: 2,          // httrack --sockets option
       keepLinks: 0,
       robots: 0,
       connections_per_second: 1,      // -%c flag

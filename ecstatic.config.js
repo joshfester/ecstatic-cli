@@ -11,15 +11,13 @@ export default {
     // Scraping configuration
     scrape: {
         depth: 3,
-        method: 'wget', // 'httrack' or 'wget'
+        method: 'httrack',
         timeout: 10,
-        sockets: 16,
 
-        wget: {
+        httrack: {
             mirror: true,
-            excludeDirectories: 'wp-json',
-            proxy: 'https://jerry:Jerry1999@5.78.119.93:8888',
-            reject: ['*?p=*']
+            exclude: ['*/wp-json/*', '*?p=*'],
+            proxy: 'https://jerry:Jerry1999@5.78.119.93:8888'
         }
     },
 

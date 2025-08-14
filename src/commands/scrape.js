@@ -132,12 +132,14 @@ function buildHttrackOptions(options, config) {
 
 async function runHttrack(url, outputDir, options, config) {
   const httrackConfig = options.httrack || config.scrape.httrack || {};
+  const extDepth = httrackConfig.extDepth || options.depth;
+  const sockets = httrackConfig.sockets || 16;
   const args = [
     url,
     '-O', outputDir,
     `--depth=${options.depth}`,
-    `--ext-depth=${options.depth}`,
-    `--sockets=${config.scrape.sockets}`,
+    `--ext-depth=${extDepth}`,
+    `--sockets=${sockets}`,
     `--timeout=${config.scrape.timeout}`
   ];
 
