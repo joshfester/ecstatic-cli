@@ -50,7 +50,9 @@ const defaults = {
       noHostDirectories: true,
       adjustExtension: true,
       // Wait between requests, e.g. 1, 500ms, 1m, 1h
-      wait: 1
+      wait: 1,
+      // File patterns to reject during scraping
+      reject: []
 
       // proxy: 'http://proxy.company.com:8080',              // Basic proxy
       // noProxy: false                                       // Disable proxy usage

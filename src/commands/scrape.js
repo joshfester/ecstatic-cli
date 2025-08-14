@@ -24,6 +24,7 @@ export const scrapeCommand = new Command('scrape')
   .option('--adjust-extension', 'Append .html/.css extensions to matching content types')
   .option('--wait <interval>', 'Wait interval between requests (e.g., 1, 1d, 1m, 1h)')
   .option('--exclude-directories <list>', 'Comma-separated list of directories to exclude')
+  .option('--reject <pattern>', 'Reject files matching pattern (can be used multiple times)', collect, [])
   .option('--proxy <url>', 'HTTP/HTTPS proxy URL (supports username:password@proxy.com:port)')
   .option('--no-proxy', 'Disable proxy usage even if environment variables are set')
   .action(createCommand('Scraping', scrapeWebsite));
@@ -46,6 +47,7 @@ async function scrapeWebsite(url, options) {
     adjustExtension: options.adjustExtension,
     wait: options.wait,
     excludeDirectories: options.excludeDirectories,
+    reject: options.reject,
     proxy: options.proxy,
     noProxy: options.noProxy
   };
@@ -64,6 +66,7 @@ async function scrapeWebsite(url, options) {
     adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
     wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
     excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories,
+    reject: Array.isArray(cliWget.reject) && cliWget.reject.length ? cliWget.reject : (cfgWget.reject || []),
     proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgWget.proxy,
     noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgWget.noProxy
   };
@@ -210,6 +213,11 @@ async function runWget(url, outputDir, options, config) {
   // Exclude directories
   if (wgetOpts.excludeDirectories) {
     args.push(`--exclude-directories=${wgetOpts.excludeDirectories}`);
+  }
+
+  // Reject patterns
+  if (wgetOpts.reject && Array.isArray(wgetOpts.reject) && wgetOpts.reject.length > 0) {
+    args.push(`--reject=${wgetOpts.reject.join(',')}`);
   }
 
   // Proxy settings
