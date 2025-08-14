@@ -36,49 +36,24 @@ function collect(value, previous) {
 async function scrapeWebsite(url, options) {
   const config = getConfig();
 
-  // Merge CLI options with config, giving precedence to CLI options
-  const cfgWget = (config.scrape && config.scrape.wget) || {};
-  const cliWget = {
-    mirror: options.mirror,
-    noClobber: options.noClobber,
-    execute: options.execute,
-    userAgent: options.userAgent,
-    noHostDirectories: options.noHostDirectories,
-    adjustExtension: options.adjustExtension,
-    wait: options.wait,
-    excludeDirectories: options.excludeDirectories,
-    reject: options.reject,
-    proxy: options.proxy,
-    noProxy: options.noProxy
-  };
-
-  const mergedWget = {
-    recursive: cfgWget.recursive,
-    pageRequisites: cfgWget.pageRequisites,
-    convertLinks: cfgWget.convertLinks,
-    restrictFileNames: cfgWget.restrictFileNames,
-    noParent: cfgWget.noParent,
-    mirror: cliWget.mirror !== undefined ? cliWget.mirror : cfgWget.mirror,
-    noClobber: cliWget.noClobber !== undefined ? cliWget.noClobber : cfgWget.noClobber,
-    execute: Array.isArray(cliWget.execute) && cliWget.execute.length ? cliWget.execute : (cfgWget.execute || []),
-    noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
-    adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
-    wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
-    excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories,
-    reject: Array.isArray(cliWget.reject) && cliWget.reject.length ? cliWget.reject : (cfgWget.reject || []),
-    proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgWget.proxy,
-    noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgWget.noProxy
-  };
-
   const finalOptions = {
     output: options.output || config.paths.scraped,
     depth: options.depth || config.scrape.depth,
     method: options.method || config.scrape.method,
-    includeFilters: options.include || [],
-    excludeFilters: options.exclude || [],
-    userAgent: options.userAgent || config.scrape.userAgent,
-    wget: mergedWget
+    userAgent: options.userAgent || config.scrape.userAgent
   };
+
+  // Build method-specific configuration
+  if (finalOptions.method === 'wget') {
+    finalOptions.wget = buildWgetOptions(options, config);
+    finalOptions.includeFilters = options.include || [];
+    finalOptions.excludeFilters = options.exclude || [];
+  } else if (finalOptions.method === 'httrack') {
+    const httrackOpts = buildHttrackOptions(options, config);
+    finalOptions.httrack = httrackOpts.httrack;
+    finalOptions.includeFilters = httrackOpts.includeFilters;
+    finalOptions.excludeFilters = httrackOpts.excludeFilters;
+  }
 
   const outputDir = resolvePath(finalOptions.output);
 
@@ -127,8 +102,17 @@ async function scrapeWebsite(url, options) {
   logger.success(`Website scraped successfully to ${outputDir}`);
 }
 
+function buildHttrackOptions(options, config) {
+  return {
+    httrack: config.scrape.httrack || {},
+    userAgent: options.userAgent || config.scrape.userAgent,
+    includeFilters: options.include || [],
+    excludeFilters: options.exclude || []
+  };
+}
+
 async function runHttrack(url, outputDir, options, config) {
-  const httrackConfig = config.scrape.httrack || {};
+  const httrackConfig = options.httrack || config.scrape.httrack || {};
   const args = [
     url,
     '-O', outputDir,
@@ -202,6 +186,41 @@ function buildFilterList(url, httrackConfig, options) {
   filters.push(...cliIncludeFilters);
 
   return filters;
+}
+
+function buildWgetOptions(options, config) {
+  const cfgWget = (config.scrape && config.scrape.wget) || {};
+  const cliWget = {
+    mirror: options.mirror,
+    noClobber: options.noClobber,
+    execute: options.execute,
+    userAgent: options.userAgent,
+    noHostDirectories: options.noHostDirectories,
+    adjustExtension: options.adjustExtension,
+    wait: options.wait,
+    excludeDirectories: options.excludeDirectories,
+    reject: options.reject,
+    proxy: options.proxy,
+    noProxy: options.noProxy
+  };
+
+  return {
+    recursive: cfgWget.recursive,
+    pageRequisites: cfgWget.pageRequisites,
+    convertLinks: cfgWget.convertLinks,
+    restrictFileNames: cfgWget.restrictFileNames,
+    noParent: cfgWget.noParent,
+    mirror: cliWget.mirror !== undefined ? cliWget.mirror : cfgWget.mirror,
+    noClobber: cliWget.noClobber !== undefined ? cliWget.noClobber : cfgWget.noClobber,
+    execute: Array.isArray(cliWget.execute) && cliWget.execute.length ? cliWget.execute : (cfgWget.execute || []),
+    noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
+    adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
+    wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
+    excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories,
+    reject: Array.isArray(cliWget.reject) && cliWget.reject.length ? cliWget.reject : (cfgWget.reject || []),
+    proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgWget.proxy,
+    noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgWget.noProxy
+  };
 }
 
 async function runWget(url, outputDir, options, config) {
