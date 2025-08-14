@@ -24,6 +24,8 @@ export const scrapeCommand = new Command('scrape')
   .option('--adjust-extension', 'Append .html/.css extensions to matching content types')
   .option('--wait <interval>', 'Wait interval between requests (e.g., 1, 1d, 1m, 1h)')
   .option('--exclude-directories <list>', 'Comma-separated list of directories to exclude')
+  .option('--proxy <url>', 'HTTP/HTTPS proxy URL (supports username:password@proxy.com:port)')
+  .option('--no-proxy', 'Disable proxy usage even if environment variables are set')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {
@@ -43,7 +45,9 @@ async function scrapeWebsite(url, options) {
     noHostDirectories: options.noHostDirectories,
     adjustExtension: options.adjustExtension,
     wait: options.wait,
-    excludeDirectories: options.excludeDirectories
+    excludeDirectories: options.excludeDirectories,
+    proxy: options.proxy,
+    noProxy: options.noProxy
   };
 
   const mergedWget = {
@@ -59,7 +63,9 @@ async function scrapeWebsite(url, options) {
     noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
     adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
     wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
-    excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories
+    excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories,
+    proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgWget.proxy,
+    noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgWget.noProxy
   };
 
   const finalOptions = {
@@ -88,7 +94,7 @@ async function scrapeWebsite(url, options) {
       `Wget summary: ${w.mirror ? '--mirror' : (w.recursive ? `--recursive --level=${finalOptions.depth}` : 'non-recursive')}`
     );
     logger.info(
-      `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${w.userAgent ? 'custom' : 'default'}, execute=[${(w.execute || []).join(', ')}]`
+      `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${w.userAgent ? 'custom' : 'default'}, proxy=${w.proxy ?? 'none'}, noProxy=${!!w.noProxy}, execute=[${(w.execute || []).join(', ')}]`
     );
   }
 
@@ -204,6 +210,23 @@ async function runWget(url, outputDir, options, config) {
   // Exclude directories
   if (wgetOpts.excludeDirectories) {
     args.push(`--exclude-directories=${wgetOpts.excludeDirectories}`);
+  }
+
+  // Proxy settings
+  if (wgetOpts.noProxy) {
+    args.push('--no-proxy');
+  } else if (wgetOpts.proxy) {
+    // For wget, we use environment variables or --execute to set proxy
+    // Using --execute is more explicit and reliable
+    const proxyUrl = wgetOpts.proxy;
+    if (proxyUrl.startsWith('http://')) {
+      args.push('--execute', `http_proxy=${proxyUrl}`);
+    } else if (proxyUrl.startsWith('https://')) {
+      args.push('--execute', `https_proxy=${proxyUrl}`);
+    } else {
+      args.push('--execute', `http_proxy=${'http://' + proxyUrl}`);
+      args.push('--execute', `https_proxy=${'https://' + proxyUrl}`);
+    }
   }
 
   // Existing options we continue to honor

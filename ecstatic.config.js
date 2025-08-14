@@ -17,7 +17,8 @@ export default {
 
         wget: {
             mirror: true,
-            excludeDirectories: 'wp-json'
+            excludeDirectories: 'wp-json',
+            proxy: 'https://jerry:Jerry1999@5.78.119.93:8888'
         }
     },
 
