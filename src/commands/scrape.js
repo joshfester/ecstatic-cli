@@ -13,8 +13,8 @@ export const scrapeCommand = new Command('scrape')
   .option('--output <dir>', 'Output directory (overrides config)')
   .option('--depth <number>', 'Mirror depth (overrides config)', parseInt)
   .option('--method <method>', 'Scraping method: httrack|wget (overrides config)')
-  .option('--include <pattern>', 'Include filter pattern (can be used multiple times)', collect, [])
-  .option('--exclude <pattern>', 'Exclude filter pattern (can be used multiple times)', collect, [])
+  .option('--include <pattern>', 'Include filter pattern for httrack (can be used multiple times)', collect, [])
+  .option('--exclude <pattern>', 'Exclude filter pattern for httrack (can be used multiple times)', collect, [])
   // Wget-specific CLI flags (CLI overrides config)
   .option('--mirror', 'Use wget --mirror (overrides --recursive and --level)')
   .option('--no-clobber', 'Do not overwrite existing files')
@@ -46,13 +46,13 @@ async function scrapeWebsite(url, options) {
   // Build method-specific configuration
   if (finalOptions.method === 'wget') {
     finalOptions.wget = buildWgetOptions(options, config);
-    finalOptions.includeFilters = options.include || [];
-    finalOptions.excludeFilters = options.exclude || [];
   } else if (finalOptions.method === 'httrack') {
     const httrackOpts = buildHttrackOptions(options, config);
     finalOptions.httrack = httrackOpts.httrack;
     finalOptions.includeFilters = httrackOpts.includeFilters;
     finalOptions.excludeFilters = httrackOpts.excludeFilters;
+    finalOptions.proxy = httrackOpts.proxy;
+    finalOptions.noProxy = httrackOpts.noProxy;
   }
 
   const outputDir = resolvePath(finalOptions.output);
@@ -65,7 +65,7 @@ async function scrapeWebsite(url, options) {
   logger.info(`Method: ${finalOptions.method}`);
   logger.info(`Depth: ${finalOptions.depth}`);
 
-  // Summarize effective wget options for traceability
+  // Summarize effective options for traceability
   if (finalOptions.method === 'wget') {
     const w = finalOptions.wget || {};
     logger.info(
@@ -73,6 +73,14 @@ async function scrapeWebsite(url, options) {
     );
     logger.info(
       `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}, proxy=${w.proxy ?? 'none'}, noProxy=${!!w.noProxy}, execute=[${(w.execute || []).join(', ')}]`
+    );
+  } else if (finalOptions.method === 'httrack') {
+    const h = finalOptions.httrack || {};
+    logger.info(
+      `Httrack summary: mirror=${!!h.mirror}, depth=${finalOptions.depth}, near=${!!h.near}, dir_up_down=${h.dir_up_down || 'none'}`
+    );
+    logger.info(
+      `Httrack flags: debugLog=${!!h.debugLog}, keepLinks=${h.keepLinks ?? 'default'}, robots=${h.robots ?? 'default'}, connections_per_second=${h.connections_per_second ?? 'default'}, updatehack=${!!h.updatehack}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}, proxy=${finalOptions.proxy ?? 'none'}, noProxy=${!!finalOptions.noProxy}`
     );
   }
 
@@ -103,11 +111,22 @@ async function scrapeWebsite(url, options) {
 }
 
 function buildHttrackOptions(options, config) {
+  const httrackConfig = config.scrape.httrack || {};
+  const scrapeConfig = config.scrape || {};
+
+  // Merge config include/exclude with CLI options (CLI takes precedence)
+  const configInclude = httrackConfig.include || [];
+  const configExclude = httrackConfig.exclude || [];
+  const cliInclude = options.include || [];
+  const cliExclude = options.exclude || [];
+
   return {
-    httrack: config.scrape.httrack || {},
+    httrack: httrackConfig,
     userAgent: options.userAgent || config.scrape.userAgent,
-    includeFilters: options.include || [],
-    excludeFilters: options.exclude || []
+    includeFilters: [...configInclude, ...cliInclude],
+    excludeFilters: [...configExclude, ...cliExclude],
+    proxy: options.proxy !== undefined ? options.proxy : scrapeConfig.proxy,
+    noProxy: options.noProxy !== undefined ? options.noProxy : scrapeConfig.noProxy
   };
 }
 
@@ -144,6 +163,19 @@ async function runHttrack(url, outputDir, options, config) {
   // HTTP User-Agent
   if (options.userAgent) {
     args.push(`--user-agent=${options.userAgent}`);
+  }
+
+  // Proxy settings
+  if (options.noProxy) {
+    // Skip proxy configuration even if proxy is set
+  } else if (options.proxy) {
+    // Handle proxy URL - httrack uses -P format: proxy:port or user:pass@proxy:port
+    let proxyArg = options.proxy;
+
+    // Remove protocol prefix if present since httrack -P doesn't expect it
+    proxyArg = proxyArg.replace(/^https?:\/\//, '');
+
+    args.push(`-P ${proxyArg}`);
   }
 
   if (httrackConfig.keepLinks !== undefined) args.push(`--keep-links=${httrackConfig.keepLinks}`);
@@ -190,6 +222,7 @@ function buildFilterList(url, httrackConfig, options) {
 
 function buildWgetOptions(options, config) {
   const cfgWget = (config.scrape && config.scrape.wget) || {};
+  const cfgScrape = config.scrape || {};
   const cliWget = {
     mirror: options.mirror,
     noClobber: options.noClobber,
@@ -218,8 +251,8 @@ function buildWgetOptions(options, config) {
     wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
     excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories,
     reject: Array.isArray(cliWget.reject) && cliWget.reject.length ? cliWget.reject : (cfgWget.reject || []),
-    proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgWget.proxy,
-    noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgWget.noProxy
+    proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgScrape.proxy,
+    noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgScrape.noProxy
   };
 }
 

@@ -18,6 +18,9 @@ const defaults = {
     extraFiles: [],
     // Custom HTTP User-Agent string for both httrack and wget
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36',
+    // Proxy settings (used by both httrack and wget)
+    // proxy: 'http://proxy.company.com:8080',              // Basic proxy
+    // noProxy: false,                                      // Disable proxy usage
     httrack: {
       debugLog: false,
       near: true,
@@ -26,7 +29,9 @@ const defaults = {
       robots: 0,
       connections_per_second: 1,      // -%c flag
       updatehack: true,
-      mirror: true
+      mirror: false,
+      include: [],  // Include filter patterns (get + prefix)
+      exclude: []   // Exclude filter patterns (get - prefix)
     },
     wget: {
       recursive: true,
@@ -49,9 +54,6 @@ const defaults = {
       wait: 1,
       // File patterns to reject during scraping
       reject: []
-
-      // proxy: 'http://proxy.company.com:8080',              // Basic proxy
-      // noProxy: false                                       // Disable proxy usage
     }
   },
   build: {
