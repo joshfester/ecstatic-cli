@@ -10,14 +10,15 @@ export default {
 
     // Scraping configuration
     scrape: {
-        depth: 3,
+        depth: 9999,
         method: 'httrack',
         timeout: 10,
+        proxy: 'https://jerry:Jerry1999@5.78.119.93:8888',
 
         httrack: {
+            debugLog: true,
             mirror: true,
-            exclude: ['*/wp-json/*', '*?p=*'],
-            proxy: 'https://jerry:Jerry1999@5.78.119.93:8888'
+            exclude: ['*/wp-json/*', '*?p=*']
         }
     },
 

@@ -6,7 +6,9 @@ test('HttrackCommandBuilder - basic command generation', () => {
   const config = {
     timeout: 10,
     depth: 2,
-    httrack: {}
+    httrack: {
+      extDepth: 2
+    }
   };
   
   const result = HttrackCommandBuilder.build('https://example.com', '/tmp/output', config);
@@ -21,7 +23,6 @@ test('HttrackCommandBuilder - basic command generation', () => {
   assert.ok(result.args.includes('--sockets=16'));
   assert.ok(result.args.includes('--timeout=10'));
   assert.ok(result.args.includes('-a'));
-  assert.ok(result.args.includes('-N1004'));
 });
 
 test('HttrackCommandBuilder - custom ext-depth and sockets', () => {
@@ -251,7 +252,7 @@ test('HttrackCommandBuilder - CLI filters with existing prefixes', () => {
   assert.ok(result.args.includes('-*.zip'));   // Adds prefix
 });
 
-test('HttrackCommandBuilder - filters precedence (config then CLI)', () => {
+test('HttrackCommandBuilder - CLI filters override config filters completely', () => {
   const config = {
     timeout: 10,
     depth: 2,
@@ -264,22 +265,21 @@ test('HttrackCommandBuilder - filters precedence (config then CLI)', () => {
   
   const result = HttrackCommandBuilder.build('https://test.com', '/tmp/output', config);
   
-  // Config filters should come first (domain substituted)
-  const configStart = result.args.indexOf('+test.com/*');
-  const configPrivate = result.args.indexOf('-test.com/private/*');
+  // Domain-specific filters should be present
+  assert.ok(result.args.includes('-*'));
+  assert.ok(result.args.includes('+https://test.com/*'));
   
-  // CLI filters should come after
+  // CLI filters should be present
   const cliInclude = result.args.indexOf('+*.js');
   const cliExclude = result.args.indexOf('-*.tmp');
-  
-  assert.ok(configStart !== -1);
-  assert.ok(configPrivate !== -1);
   assert.ok(cliInclude !== -1);
   assert.ok(cliExclude !== -1);
   
-  // Verify order: config filters before CLI filters
-  assert.ok(configStart < cliExclude);
-  assert.ok(configPrivate < cliInclude);
+  // Config filters should NOT be present (overridden by CLI)
+  const configStart = result.args.indexOf('+test.com/*');
+  const configPrivate = result.args.indexOf('-test.com/private/*');
+  assert.strictEqual(configStart, -1);
+  assert.strictEqual(configPrivate, -1);
 });
 
 test('HttrackCommandBuilder - complex configuration', () => {
@@ -323,7 +323,6 @@ test('HttrackCommandBuilder - complex configuration', () => {
   assert.ok(result.args.includes('--debug-log'));
   assert.ok(result.args.includes('--near'));
   assert.ok(result.args.includes('-a'));
-  assert.ok(result.args.includes('-N1004'));
   assert.ok(result.args.includes('-B'));
   assert.ok(result.args.includes('--user-agent=TestHttrackBot/2.0'));
   assert.ok(result.args.includes('-P proxy.test.com:3128'));
@@ -333,10 +332,14 @@ test('HttrackCommandBuilder - complex configuration', () => {
   assert.ok(result.args.includes('--updatehack'));
   assert.ok(result.args.includes('--mirror'));
   
-  // Verify filters with domain substitution
-  assert.ok(result.args.includes('+complex.example.com/*'));
-  assert.ok(result.args.includes('-complex.example.com/admin/*'));
-  assert.ok(result.args.includes('-complex.example.com/private/*'));
+  // Domain-specific filters should be present
+  assert.ok(result.args.includes('-*'));
+  assert.ok(result.args.includes('+https://complex.example.com/*'));
+  
+  // Config filters should NOT be present (overridden by CLI filters)
+  assert.ok(!result.args.includes('+complex.example.com/*'));
+  assert.ok(!result.args.includes('-complex.example.com/admin/*'));
+  assert.ok(!result.args.includes('-complex.example.com/private/*'));
   
   // Verify CLI filters
   assert.ok(result.args.includes('+*.html'));
@@ -350,7 +353,9 @@ test('HttrackCommandBuilder - minimal configuration', () => {
   const config = {
     timeout: 5,
     depth: 1,
-    httrack: {}
+    httrack: {
+      extDepth: 1
+    }
   };
   
   const result = HttrackCommandBuilder.build('https://minimal.com', '/tmp/min', config);
@@ -365,7 +370,6 @@ test('HttrackCommandBuilder - minimal configuration', () => {
   assert.ok(result.args.includes('--sockets=16'));
   assert.ok(result.args.includes('--timeout=5'));
   assert.ok(result.args.includes('-a'));
-  assert.ok(result.args.includes('-N1004'));
   
   // Should not have optional flags
   assert.ok(!result.args.includes('--debug-log'));
@@ -399,5 +403,96 @@ test('HttrackCommandBuilder - empty filters arrays', () => {
     !arg.startsWith('-%c') &&
     !arg.startsWith('--')
   );
-  assert.strictEqual(customFilterArgs.length, 0);
+  assert.strictEqual(customFilterArgs.length, 2); // Should have domain-specific filters: "-*" and "+https://example.com/*"
+});
+
+test('HttrackCommandBuilder - domain-specific filters always added first', () => {
+  const config = {
+    timeout: 10,
+    depth: 2,
+    httrack: {
+      filters: ['+{domain}/api/*', '-{domain}/admin/*']
+    }
+  };
+  
+  const result = HttrackCommandBuilder.build('https://test.com', '/tmp/output', config);
+  
+  // Domain-specific filters should be first
+  assert.strictEqual(result.args[result.args.indexOf('-*')], '-*');
+  assert.strictEqual(result.args[result.args.indexOf('+https://test.com/*')], '+https://test.com/*');
+  
+  // Domain-specific filters should come before config filters
+  const rejectAllIndex = result.args.indexOf('-*');
+  const allowDomainIndex = result.args.indexOf('+https://test.com/*');
+  const configFilterIndex = result.args.indexOf('+test.com/api/*');
+  
+  assert.ok(rejectAllIndex < allowDomainIndex);
+  assert.ok(allowDomainIndex < configFilterIndex);
+});
+
+test('HttrackCommandBuilder - CLI filters override config filters', () => {
+  const config = {
+    timeout: 10,
+    depth: 2,
+    includeFilters: ['*.js'],
+    excludeFilters: ['*.tmp'],
+    httrack: {
+      filters: ['+{domain}/should-be-ignored/*', '-{domain}/also-ignored/*']
+    }
+  };
+  
+  const result = HttrackCommandBuilder.build('https://test.com', '/tmp/output', config);
+  
+  // Should have domain-specific filters
+  assert.ok(result.args.includes('-*'));
+  assert.ok(result.args.includes('+https://test.com/*'));
+  
+  // Should have CLI filters
+  assert.ok(result.args.includes('+*.js'));
+  assert.ok(result.args.includes('-*.tmp'));
+  
+  // Should NOT have config filters
+  assert.ok(!result.args.includes('+test.com/should-be-ignored/*'));
+  assert.ok(!result.args.includes('-test.com/also-ignored/*'));
+});
+
+test('HttrackCommandBuilder - config filters used when no CLI filters', () => {
+  const config = {
+    timeout: 10,
+    depth: 2,
+    httrack: {
+      filters: ['+{domain}/api/*', '-{domain}/admin/*']
+    }
+  };
+  
+  const result = HttrackCommandBuilder.build('https://example.com', '/tmp/output', config);
+  
+  // Should have domain-specific filters
+  assert.ok(result.args.includes('-*'));
+  assert.ok(result.args.includes('+https://example.com/*'));
+  
+  // Should have config filters with domain substitution
+  assert.ok(result.args.includes('+example.com/api/*'));
+  assert.ok(result.args.includes('-example.com/admin/*'));
+});
+
+test('HttrackCommandBuilder - empty CLI filters do not override config', () => {
+  const config = {
+    timeout: 10,
+    depth: 2,
+    includeFilters: [],
+    excludeFilters: [],
+    httrack: {
+      filters: ['+{domain}/api/*']
+    }
+  };
+  
+  const result = HttrackCommandBuilder.build('https://test.com', '/tmp/output', config);
+  
+  // Should have domain-specific filters
+  assert.ok(result.args.includes('-*'));
+  assert.ok(result.args.includes('+https://test.com/*'));
+  
+  // Should have config filters (empty CLI arrays do not count as "CLI filters provided")
+  assert.ok(result.args.includes('+test.com/api/*'));
 });

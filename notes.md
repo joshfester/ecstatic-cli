@@ -3,6 +3,10 @@
 - No way to filter url's
     - accept/reject rules will download html files first, then delete them based on rules
 
+# httrack
+
+- Can't get proxy to work
+
 # americor-apply
 
 - don't defer the inline script that has addressDob

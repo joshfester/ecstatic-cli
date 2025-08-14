@@ -28,7 +28,7 @@ const defaults = {
       sockets: 2,          // httrack --sockets option
       keepLinks: 0,
       robots: 0,
-      connections_per_second: 1,      // -%c flag
+      connections_per_second: 2,      // -%c flag
       updatehack: true,
       mirror: false,
       include: [],  // Include filter patterns (get + prefix)

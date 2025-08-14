@@ -30,6 +30,7 @@ export class HttrackCommandBuilder {
 
     // HTTP User-Agent
     if (mergedConfig.userAgent) {
+      // The user agent needs to be wrapped in quotes because it contains spaces and special chars
       args.push(`--user-agent='${mergedConfig.userAgent}'`);
     }
 
@@ -70,27 +71,35 @@ export class HttrackCommandBuilder {
     const domain = new URL(url).hostname;
     const filters = [];
 
-    // Start with config filters and substitute domain placeholders
-    const configFilters = httrackConfig.filters || [];
-    const processedConfigFilters = configFilters.map(filter =>
-      filter.replace(/\{domain\}/g, domain)
-    );
+    // Always add domain-specific filters first to restrict to target domain
+    filters.push('-*'); // Reject all URLs
+    filters.push(`+https://${domain}/*`); // Allow URLs from target domain
 
-    // Add CLI exclude filters (with - prefix)
-    const cliExcludeFilters = (mergedConfig.excludeFilters || []).map(filter =>
+    // Check if CLI filters are provided (non-empty arrays)
+    const excludeFiltersArray = mergedConfig.excludeFilters || [];
+    const includeFiltersArray = mergedConfig.includeFilters || [];
+
+    const cliExcludeFilters = excludeFiltersArray.map(filter =>
       filter.startsWith('-') ? filter : `-${filter}`
     );
-
-    // Add CLI include filters (with + prefix)  
-    const cliIncludeFilters = (mergedConfig.includeFilters || []).map(filter =>
+    const cliIncludeFilters = includeFiltersArray.map(filter =>
       filter.startsWith('+') ? filter : `+${filter}`
     );
 
-    // Combine all filters: config filters first, then CLI filters
-    // CLI filters have precedence due to httrack's last-rule-wins behavior
-    filters.push(...processedConfigFilters);
-    filters.push(...cliExcludeFilters);
-    filters.push(...cliIncludeFilters);
+    const hasCliFilters = excludeFiltersArray.length > 0 || includeFiltersArray.length > 0;
+
+    if (hasCliFilters) {
+      // If CLI filters are provided, use only CLI filters (ignore config filters)
+      filters.push(...cliExcludeFilters);
+      filters.push(...cliIncludeFilters);
+    } else {
+      // If no CLI filters, use config filters
+      const configFilters = httrackConfig.filters || [];
+      const processedConfigFilters = configFilters.map(filter =>
+        filter.replace(/\{domain\}/g, domain)
+      );
+      filters.push(...processedConfigFilters);
+    }
 
     return filters;
   }
