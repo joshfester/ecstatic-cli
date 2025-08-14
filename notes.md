@@ -1,3 +1,8 @@
+# wget
+
+- No way to filter url's
+    - accept/reject rules will download html files first, then delete them based on rules
+
 # americor-apply
 
 - don't defer the inline script that has addressDob

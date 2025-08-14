@@ -16,19 +16,17 @@ const defaults = {
     timeout: 10,
     sockets: 16,
     extraFiles: [],
+    // Custom HTTP User-Agent string for both httrack and wget
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36',
     httrack: {
-      debugLog: true,
+      debugLog: false,
       near: true,
-      stay: true,           // -a flag
-      both: true,           // -B flag  
-      structure: 4,         // -N4 flag
+      dir_up_down: 'down',  // 'up' (-U), 'down' (-D), 'both' (-B)
       keepLinks: 0,
       robots: 0,
       connections: 20,      // -%c20 flag
       updatehack: true,
-      mirror: true,
-      cache: 2,
-      excludeAll: true      // -* flag
+      mirror: true
     },
     wget: {
       recursive: true,
@@ -44,8 +42,6 @@ const defaults = {
       // .wgetrc-style commands (repeatable). Defaults to robots=off.
       // Example: ['robots=off', 'cookies=on']
       execute: ['robots=off'],
-      // Custom HTTP User-Agent string. If empty/falsy, wget default is used.
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.7103.48 Safari/537.36',
       // Disable host-prefixed directories (wget -nH/--no-host-directories)
       noHostDirectories: true,
       adjustExtension: true,

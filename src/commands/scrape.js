@@ -61,7 +61,6 @@ async function scrapeWebsite(url, options) {
     mirror: cliWget.mirror !== undefined ? cliWget.mirror : cfgWget.mirror,
     noClobber: cliWget.noClobber !== undefined ? cliWget.noClobber : cfgWget.noClobber,
     execute: Array.isArray(cliWget.execute) && cliWget.execute.length ? cliWget.execute : (cfgWget.execute || []),
-    userAgent: cliWget.userAgent !== undefined ? cliWget.userAgent : (cfgWget.userAgent || ''),
     noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
     adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
     wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
@@ -77,6 +76,7 @@ async function scrapeWebsite(url, options) {
     method: options.method || config.scrape.method,
     includeFilters: options.include || [],
     excludeFilters: options.exclude || [],
+    userAgent: options.userAgent || config.scrape.userAgent,
     wget: mergedWget
   };
 
@@ -97,7 +97,7 @@ async function scrapeWebsite(url, options) {
       `Wget summary: ${w.mirror ? '--mirror' : (w.recursive ? `--recursive --level=${finalOptions.depth}` : 'non-recursive')}`
     );
     logger.info(
-      `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${w.userAgent ? 'custom' : 'default'}, proxy=${w.proxy ?? 'none'}, noProxy=${!!w.noProxy}, execute=[${(w.execute || []).join(', ')}]`
+      `Wget flags: noClobber=${!!w.noClobber}, noHostDirectories=${!!w.noHostDirectories}, adjustExtension=${!!w.adjustExtension}, wait=${w.wait ?? 'none'}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}, proxy=${w.proxy ?? 'none'}, noProxy=${!!w.noProxy}, execute=[${(w.execute || []).join(', ')}]`
     );
   }
 
@@ -141,15 +141,32 @@ async function runHttrack(url, outputDir, options, config) {
   // Add configurable options
   if (httrackConfig.debugLog) args.push('--debug-log');
   if (httrackConfig.near) args.push('--near');
-  if (httrackConfig.stay) args.push('-a');
-  if (httrackConfig.both) args.push('-B');
-  if (httrackConfig.structure) args.push(`-N${httrackConfig.structure}`);
+  
+  // Always pass -a flag (stay on same host)
+  args.push('-a');
+  
+  // Always pass -N1004 structure flag
+  args.push('-N1004');
+  
+  // Handle dir_up_down option for directory traversal
+  if (httrackConfig.dir_up_down === 'up') {
+    args.push('-U');
+  } else if (httrackConfig.dir_up_down === 'down') {
+    args.push('-D');
+  } else if (httrackConfig.dir_up_down === 'both') {
+    args.push('-B');
+  }
+  
+  // HTTP User-Agent
+  if (options.userAgent) {
+    args.push(`--user-agent=${options.userAgent}`);
+  }
+  
   if (httrackConfig.keepLinks !== undefined) args.push(`--keep-links=${httrackConfig.keepLinks}`);
   if (httrackConfig.robots !== undefined) args.push(`--robots=${httrackConfig.robots}`);
   if (httrackConfig.connections) args.push(`-%c${httrackConfig.connections}`);
   if (httrackConfig.updatehack) args.push('--updatehack');
   if (httrackConfig.mirror) args.push('--mirror');
-  if (httrackConfig.cache !== undefined) args.push(`--cache=${httrackConfig.cache}`);
 
   // Process filters
   const filters = buildFilterList(url, httrackConfig, options);
@@ -201,8 +218,8 @@ async function runWget(url, outputDir, options, config) {
   }
 
   // HTTP User-Agent
-  if (wgetOpts.userAgent) {
-    args.push(`--user-agent='${wgetOpts.userAgent}'`);
+  if (options.userAgent) {
+    args.push(`--user-agent='${options.userAgent}'`);
   }
 
   // Simple boolean flags
