@@ -16,7 +16,8 @@ export default {
         sockets: 16,
 
         wget: {
-            mirror: true
+            mirror: true,
+            excludeDirectories: 'wp-json'
         }
     },
 

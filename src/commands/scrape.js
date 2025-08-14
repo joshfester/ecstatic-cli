@@ -23,6 +23,7 @@ export const scrapeCommand = new Command('scrape')
   .option('--no-host-directories', 'Disable host-prefixed directories')
   .option('--adjust-extension', 'Append .html/.css extensions to matching content types')
   .option('--wait <interval>', 'Wait interval between requests (e.g., 1, 1d, 1m, 1h)')
+  .option('--exclude-directories <list>', 'Comma-separated list of directories to exclude')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {
@@ -41,7 +42,8 @@ async function scrapeWebsite(url, options) {
     userAgent: options.userAgent,
     noHostDirectories: options.noHostDirectories,
     adjustExtension: options.adjustExtension,
-    wait: options.wait
+    wait: options.wait,
+    excludeDirectories: options.excludeDirectories
   };
 
   const mergedWget = {
@@ -56,7 +58,8 @@ async function scrapeWebsite(url, options) {
     userAgent: cliWget.userAgent !== undefined ? cliWget.userAgent : (cfgWget.userAgent || ''),
     noHostDirectories: cliWget.noHostDirectories !== undefined ? cliWget.noHostDirectories : cfgWget.noHostDirectories,
     adjustExtension: cliWget.adjustExtension !== undefined ? cliWget.adjustExtension : cfgWget.adjustExtension,
-    wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait
+    wait: cliWget.wait !== undefined ? cliWget.wait : cfgWget.wait,
+    excludeDirectories: cliWget.excludeDirectories !== undefined ? cliWget.excludeDirectories : cfgWget.excludeDirectories
   };
 
   const finalOptions = {
@@ -197,6 +200,11 @@ async function runWget(url, outputDir, options, config) {
   if (wgetOpts.noClobber) args.push('--no-clobber');
   if (wgetOpts.noHostDirectories) args.push('--no-host-directories');
   if (wgetOpts.adjustExtension) args.push('--adjust-extension');
+
+  // Exclude directories
+  if (wgetOpts.excludeDirectories) {
+    args.push(`--exclude-directories=${wgetOpts.excludeDirectories}`);
+  }
 
   // Existing options we continue to honor
   if (wgetOpts.convertLinks) args.push('--convert-links');

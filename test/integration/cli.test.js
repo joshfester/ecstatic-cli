@@ -79,6 +79,14 @@ test('CLI shows help for scrape command', async () => {
   assert.match(result.stdout, /Download website as static files/);
 });
 
+test('CLI shows exclude-directories option in scrape help', async () => {
+  const result = await runCLI(['scrape', '--help']);
+
+  assert.strictEqual(result.code, 0);
+  assert.match(result.stdout, /--exclude-directories <list>/);
+  assert.match(result.stdout, /Comma-separated list of directories to exclude/);
+});
+
 test('CLI shows help for optimize command', async () => {
   const result = await runCLI(['optimize', '--help']);
 
