@@ -13,7 +13,13 @@ export class Scraper {
 
   async scrape(url, options, config) {
     const finalOptions = this.buildFinalOptions(options, config);
-    const outputDir = this.resolveOutputDir(finalOptions.output);
+    let outputDir = this.resolveOutputDir(finalOptions.output);
+
+    // Handle single-file mode: modify output path to include URL path
+    if (finalOptions.singleFile) {
+      const urlPath = new URL(url).pathname;
+      outputDir = path.join(outputDir, urlPath);
+    }
 
     // Clean and ensure output directory exists
     cleanDir(outputDir);
@@ -39,12 +45,18 @@ export class Scraper {
   }
 
   buildFinalOptions(options, config) {
-    const finalOptions = {
+    let finalOptions = {
       output: options.output || config.paths.scraped,
       depth: options.depth || config.scrape.depth,
       method: options.method || config.scrape.method,
       userAgent: options.userAgent || config.scrape.userAgent
     };
+
+    // Handle single-file mode
+    if (options.singleFile) {
+      finalOptions.method = 'wget'; // Force wget method
+      finalOptions.singleFile = true;
+    }
 
     // Build method-specific configuration
     if (finalOptions.method === 'wget') {
@@ -127,6 +139,22 @@ export class Scraper {
       proxy: options.proxy,
       noProxy: options.noProxy
     };
+
+    // Handle single-file mode: only allow specific options
+    if (options.singleFile) {
+      const noProxy = cliWget.noProxy !== undefined ? cliWget.noProxy : cfgScrape.noProxy;
+      const proxy = cliWget.proxy !== undefined ? cliWget.proxy : cfgScrape.proxy;
+      
+      return {
+        // Force adjust-extension for single-file mode
+        adjustExtension: true,
+        // Only allow these options: host (handled in WgetCommandBuilder), timeout (handled in mergedConfig), 
+        // outputDir (handled in WgetCommandBuilder), userAgent, proxy, and noProxy
+        userAgent: cliWget.userAgent,
+        proxy: noProxy ? undefined : proxy, // Disable proxy if noProxy is true
+        noProxy: noProxy
+      };
+    }
 
     return {
       recursive: cfgWget.recursive,

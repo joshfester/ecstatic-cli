@@ -24,6 +24,7 @@ export const scrapeCommand = new Command('scrape')
   .option('--reject <pattern>', 'Reject files matching pattern (can be used multiple times)', collect, [])
   .option('--proxy <url>', 'HTTP/HTTPS proxy URL (supports username:password@proxy.com:port)')
   .option('--no-proxy', 'Disable proxy usage even if environment variables are set')
+  .option('--single-file', 'Download single file using wget with limited options')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {

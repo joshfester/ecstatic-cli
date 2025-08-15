@@ -400,3 +400,97 @@ test('Scraper - resolveOutputDir returns correct path', () => {
   assert.ok(result.startsWith('/'));
   assert.ok(result.includes('relative/path'));
 });
+
+test('Scraper - single-file mode integration test', () => {
+  // Create a mock wget builder that captures the config passed to it
+  let capturedConfig = null;
+  const mockWgetBuilder = {
+    build: (url, outputDir, config) => {
+      capturedConfig = config;
+      return {
+        command: 'wget',
+        args: ['--mock-single-file', url, outputDir]
+      };
+    }
+  };
+
+  const scraper = new Scraper({ wget: mockWgetBuilder });
+  
+  const options = {
+    singleFile: true,
+    output: './scraped',
+    userAgent: 'SingleFileAgent/1.0',
+    proxy: 'http://proxy.example.com:8080',
+    // These should be ignored in single-file mode
+    mirror: true,
+    recursive: true,
+    noClobber: true,
+    convertLinks: true,
+    pageRequisites: true,
+    wait: '2s'
+  };
+  
+  const config = {
+    paths: { scraped: './default-scraped' },
+    scrape: { 
+      method: 'httrack', // Should be overridden to wget
+      timeout: 10,
+      userAgent: 'DefaultAgent',
+      wget: {
+        restrictFileNames: 'windows',
+        excludeDirectories: 'admin,tmp',
+        reject: ['*.exe'],
+        convertLinks: true,
+        pageRequisites: true
+      }
+    }
+  };
+
+  const finalOptions = scraper.buildFinalOptions(options, config);
+  
+  // Verify single-file mode forces wget method
+  assert.strictEqual(finalOptions.method, 'wget');
+  assert.strictEqual(finalOptions.singleFile, true);
+  assert.strictEqual(finalOptions.userAgent, 'SingleFileAgent/1.0');
+  
+  // Verify wget options are properly filtered
+  const wgetOptions = finalOptions.wget;
+  assert.strictEqual(wgetOptions.adjustExtension, true, 'Should force adjustExtension');
+  assert.strictEqual(wgetOptions.userAgent, 'SingleFileAgent/1.0', 'Should include userAgent');
+  assert.strictEqual(wgetOptions.proxy, 'http://proxy.example.com:8080', 'Should include proxy');
+  
+  // Verify filtered out options
+  assert.strictEqual(wgetOptions.mirror, undefined, 'Should filter out mirror');
+  assert.strictEqual(wgetOptions.recursive, undefined, 'Should filter out recursive');
+  assert.strictEqual(wgetOptions.noClobber, undefined, 'Should filter out noClobber');
+  assert.strictEqual(wgetOptions.convertLinks, undefined, 'Should filter out convertLinks');
+  assert.strictEqual(wgetOptions.pageRequisites, undefined, 'Should filter out pageRequisites');
+  assert.strictEqual(wgetOptions.restrictFileNames, undefined, 'Should filter out restrictFileNames');
+  assert.strictEqual(wgetOptions.excludeDirectories, undefined, 'Should filter out excludeDirectories');
+  assert.strictEqual(wgetOptions.reject, undefined, 'Should filter out reject');
+  assert.strictEqual(wgetOptions.wait, undefined, 'Should filter out wait');
+});
+
+test('Scraper - single-file mode with noProxy option', () => {
+  const scraper = new Scraper();
+  
+  const options = {
+    singleFile: true,
+    noProxy: true,
+    proxy: 'http://should-be-ignored.com', // Should be ignored due to noProxy
+    userAgent: 'TestAgent'
+  };
+  
+  const config = {
+    paths: { scraped: './scraped' },
+    scrape: { method: 'wget', timeout: 10 }
+  };
+
+  const finalOptions = scraper.buildFinalOptions(options, config);
+  const wgetOptions = finalOptions.wget;
+  
+  assert.strictEqual(wgetOptions.adjustExtension, true);
+  assert.strictEqual(wgetOptions.userAgent, 'TestAgent');
+  assert.strictEqual(wgetOptions.noProxy, true);
+  assert.strictEqual(wgetOptions.proxy, undefined, 'Proxy should be undefined when noProxy is true');
+});

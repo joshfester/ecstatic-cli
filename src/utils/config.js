@@ -35,8 +35,8 @@ const defaults = {
       exclude: []   // Exclude filter patterns (get - prefix)
     },
     wget: {
-      recursive: true,
-      pageRequisites: true,
+      recursive: false,
+      pageRequisites: false,
       convertLinks: false,
       restrictFileNames: 'windows',
       noParent: true,
