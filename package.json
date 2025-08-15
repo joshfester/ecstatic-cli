@@ -4,7 +4,7 @@
   "description": "CLI tool for website optimization - download, optimize, and deploy static sites",
   "type": "module",
   "bin": {
-    "ecstatic": "./bin/ecstatic.js"
+    "ecstatic": "./bin/ecstatic"
   },
   "devDependencies": {
     "bun": "^1.2.20",
