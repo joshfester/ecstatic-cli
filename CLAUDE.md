@@ -45,6 +45,10 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
 - Deploy
     - Upload to CDN (currently only supporting BunnyCDN)
 
+## Production
+
+We use Bun to generate a single executable file. You can do this by running `npm run compile` to generate the file at ./dist-exec/ecstatic.
+
 ## Documentation
 
 - c12: {PROJECT_ROOT}/docs/c12.md
