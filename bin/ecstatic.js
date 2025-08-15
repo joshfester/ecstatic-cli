@@ -1,11 +1,14 @@
-#!/usr/bin/env node
-
 import { Command } from 'commander';
-import packageJson from '../package.json' with { type: 'json' };
 import { scrapeCommand } from '../src/commands/scrape.js';
 import { optimizeCommand } from '../src/commands/optimize.js';
 import { deployCommand } from '../src/commands/deploy.js';
 import { allCommand } from '../src/commands/all.js';
+
+// Hardcode package info for Bun compatibility
+const packageJson = {
+  version: '0.0.1',
+  description: 'CLI tool for website optimization - download, optimize, and deploy static sites'
+};
 
 const program = new Command();
 

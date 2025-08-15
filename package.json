@@ -4,9 +4,10 @@
   "description": "CLI tool for website optimization - download, optimize, and deploy static sites",
   "type": "module",
   "bin": {
-    "ecstatic": "./bin/ecstatic"
+    "ecstatic": "./bin/ecstatic.js"
   },
   "devDependencies": {
+    "bun": "^1.2.20",
     "http-server": "^14.1.1"
   },
   "scripts": {
@@ -17,7 +18,8 @@
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "serve": "http-server ./dist-parcel",
     "serve-scraped": "http-server ./scraped",
-    "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
+    "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/",
+    "build:executable": "rm -rf ./dist-exec && mkdir -p ./dist-exec && npx bun build --compile --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic"
   },
   "@parcel/transformer-css": {
     "errorRecovery": true
@@ -31,7 +33,6 @@
     "@parcel/transformer-jsonld": "^2.14.4",
     "@qwik.dev/partytown": "^0.11.2",
     "@shinsenter/defer.js": "file:../defer.js",
-    "c12": "^3.2.0",
     "cheerio": "^1.1.2",
     "commander": "^12.1.0",
     "parcel": "2.14.4"
