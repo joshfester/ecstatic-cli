@@ -48,29 +48,23 @@ async function optimizeWebsite(inputDir, options) {
   }
 
   let currentOutputDir = resolvedInputDir;
-  let stepCount = 0;
-  let totalSteps = 1; // Final copy step
 
-  if (!finalOptions.skipParcel) totalSteps++;
-  if (!finalOptions.skipPartytown) totalSteps++;
-  if (!finalOptions.skipJampack) totalSteps++;
-
-  // Step 1: Parcel optimization
+  // Parcel optimization
   if (!finalOptions.skipParcel) {
-    logger.step(++stepCount, totalSteps, 'Running Parcel optimization');
+    logger.info('Running Parcel optimization');
     await runParcel(indexPath, parcelDistDir);
     currentOutputDir = parcelDistDir;
 
-    // Step 2: Partytown setup (if not skipped)
+    // Partytown setup (if not skipped)
     if (!finalOptions.skipPartytown) {
-      logger.step(++stepCount, totalSteps, 'Setting up Partytown');
+      logger.info('Setting up Partytown');
       await runPartytown(parcelDistDir);
     }
   }
 
-  // Step 3: Jampack optimization
+  // Jampack optimization
   if (!finalOptions.skipJampack) {
-    logger.step(++stepCount, totalSteps, 'Running Jampack optimization');
+    logger.info('Running Jampack optimization');
 
     // Copy current output to jampack directory
     cleanDir(jampackDistDir);
@@ -80,8 +74,8 @@ async function optimizeWebsite(inputDir, options) {
     currentOutputDir = jampackDistDir;
   }
 
-  // Final step: Copy to final output directory
-  logger.step(++stepCount, totalSteps, 'Copying to final output directory');
+  // Copy to final output directory
+  logger.info('Copying to final output directory');
   if (currentOutputDir !== outputDir) {
     cleanDir(outputDir);
     await copyDirectory(currentOutputDir, outputDir);

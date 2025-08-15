@@ -9,8 +9,8 @@
 
 # americor-apply
 
-- don't defer the inline script that has addressDob
-- don't defer http://toolkit.americor.com/dist/js/toolkit.js
+- don't deferjs the inline script that has addressDob
+- don't deferjs http://toolkit.americor.com/dist/js/toolkit.js
 
 # americor
 

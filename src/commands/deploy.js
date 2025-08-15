@@ -26,20 +26,20 @@ async function deployWebsite(distDir) {
   // Validate deployment configuration
   const deployConfig = validateDeployConfig(config);
   
-  logger.step(1, 4, 'Listing remote files');
+  logger.info('Listing remote files');
   const remoteItems = await listFiles(deployConfig);
   logger.info(`Found ${remoteItems.length} remote items`);
   
   // Delete all remote items
   if (remoteItems.length > 0) {
-    logger.step(2, 4, 'Deleting remote files');
+    logger.info('Deleting remote files');
     for (const item of remoteItems) {
       await deleteItem(item, deployConfig);
     }
   }
   
   // Upload local files
-  logger.step(3, 4, 'Uploading local files');
+  logger.info('Uploading local files');
   const localFiles = getAllFiles(resolvedDistDir);
   logger.info(`Found ${localFiles.length} local files to upload`);
   
@@ -52,7 +52,7 @@ async function deployWebsite(distDir) {
   logger.info(`Uploaded ${uploadCount}/${localFiles.length} files`);
   
   // Purge cache
-  logger.step(4, 4, 'Purging CDN cache');
+  logger.info('Purging CDN cache');
   await purgeCache(deployConfig);
   
   logger.success('Deployment completed successfully!');

@@ -43,10 +43,7 @@ async function scrapeWebsite(url, options) {
   };
   
   const outputDir = resolvePath(finalOptions.output);
-  const extraFiles = config.scrape.extraFiles || [];
-  const totalSteps = extraFiles.length ? 4 : 3;
-
-  logger.step(1, totalSteps, `Scraping ${url}`);
+  logger.info(`Scraping ${url}`);
   logger.info(`Output directory: ${outputDir}`);
   logger.info(`Method: ${finalOptions.method}`);
   logger.info(`Depth: ${finalOptions.depth}`);
@@ -57,11 +54,8 @@ async function scrapeWebsite(url, options) {
   // Execute scraping
   const result = await scraper.scrape(url, options, config);
 
-  let currentStep = 2;
-  if (extraFiles.length) currentStep++;
-  
-  logger.step(currentStep, totalSteps, 'Running post-processing');
-  logger.step(currentStep + 1, totalSteps, 'Scraping completed');
+  logger.info('Running post-processing');
+  logger.info('Scraping completed');
   logger.success(`Website scraped successfully to ${result.outputDir}`);
 }
 

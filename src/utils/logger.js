@@ -16,6 +16,3 @@ export function error(message) {
   console.error(`❌  ${message}`);
 }
 
-export function step(stepNumber, totalSteps, message) {
-  console.log(`\n🏗️  [${stepNumber}/${totalSteps}] ${message}`);
-}
