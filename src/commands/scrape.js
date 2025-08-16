@@ -77,7 +77,7 @@ function logOptionsSummary(finalOptions, config) {
       `Httrack summary: mirror=${!!httrackConfig.mirror}, depth=${finalOptions.depth}, near=${!!httrackConfig.near}, dir_up_down=${httrackConfig.dir_up_down || 'none'}`
     );
     logger.info(
-      `Httrack flags: debugLog=${!!httrackConfig.debugLog}, keepLinks=${httrackConfig.keepLinks ?? 'default'}, robots=${httrackConfig.robots ?? 'default'}, connections_per_second=${httrackConfig.connections_per_second ?? 'default'}, updatehack=${!!httrackConfig.updatehack}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}`
+      `Httrack flags: debugLog=${!!httrackConfig.debugLog}, keepLinks=${httrackConfig.keepLinks ?? 'default'}, robots=${httrackConfig.robots ?? 'default'}, sockets=${httrackConfig.sockets ?? 'default'}, connections_per_second=${httrackConfig.connections_per_second ?? 'default'}, updatehack=${!!httrackConfig.updatehack}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}`
     );
   }
 }

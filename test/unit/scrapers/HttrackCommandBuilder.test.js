@@ -7,7 +7,8 @@ test('HttrackCommandBuilder - basic command generation', () => {
     timeout: 10,
     depth: 2,
     httrack: {
-      extDepth: 2
+      extDepth: 2,
+      sockets: 16
     }
   };
 
@@ -354,7 +355,8 @@ test('HttrackCommandBuilder - minimal configuration', () => {
     timeout: 5,
     depth: 1,
     httrack: {
-      extDepth: 1
+      extDepth: 1,
+      sockets: 16
     }
   };
 

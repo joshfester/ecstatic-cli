@@ -21,10 +21,10 @@ export const defaults = {
       near: true,
       dir_up_down: 'down',  // 'up' (-U), 'down' (-D), 'both' (-B)
       extDepth: 0,          // httrack --ext-depth option
-      sockets: 2,          // httrack --sockets option
+      sockets: 1,          // httrack --sockets option
       keepLinks: 0,
       robots: 0,
-      connections_per_second: 2,      // -%c flag
+      connections_per_second: 1,      // -%c flag
       updatehack: true,
       mirror: false,
       include: [],  // Include filter patterns (get + prefix)

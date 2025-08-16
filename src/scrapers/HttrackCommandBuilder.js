@@ -2,7 +2,7 @@ export class HttrackCommandBuilder {
   static build(url, outputDir, mergedConfig) {
     const httrackConfig = mergedConfig.httrack || {};
     const extDepth = httrackConfig.extDepth;
-    const sockets = httrackConfig.sockets || 16;
+    const sockets = httrackConfig.sockets;
     const args = [
       url,
       '-O', outputDir,
@@ -43,7 +43,7 @@ export class HttrackCommandBuilder {
 
     if (httrackConfig.keepLinks !== undefined) args.push(`--keep-links=${httrackConfig.keepLinks}`);
     if (httrackConfig.robots !== undefined) args.push(`--robots=${httrackConfig.robots}`);
-    if (httrackConfig.connections_per_second) args.push(`-%c${httrackConfig.connections_per_second}`);
+    if (httrackConfig.connections_per_second !== undefined) args.push(`-%c${httrackConfig.connections_per_second}`);
     if (httrackConfig.updatehack) args.push('--updatehack');
     if (httrackConfig.mirror) args.push('--mirror');
 

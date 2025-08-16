@@ -1,4 +1,5 @@
 import { defaults } from './config-defaults.js';
+import deepmerge from 'deepmerge';
 import path from 'path';
 
 let _config = null;
@@ -17,7 +18,7 @@ export async function loadEcstaticConfig() {
     // No config file found - use defaults only
   }
 
-  _config = { ...defaults, ...userConfig };
+  _config = deepmerge(defaults, userConfig);
   return _config;
 }
 
@@ -45,4 +46,9 @@ export function validateDeployConfig(config = getConfig()) {
 // Helper to resolve paths relative to project root
 export function resolvePath(relativePath) {
   return path.resolve(process.cwd(), relativePath);
+}
+
+// Clear cached config (for testing)
+export function clearConfig() {
+  _config = null;
 }
