@@ -58,3 +58,42 @@ export function cleanDir(dirPath) {
   }
   ensureDir(dirPath);
 }
+
+// Find the scraped domain folder in ./scraped directory
+// Returns the path to the domain folder if found, null otherwise
+export function findScrapedDomainFolder(scrapedDir) {
+  if (!dirExists(scrapedDir)) {
+    return null;
+  }
+
+  const items = fs.readdirSync(scrapedDir);
+  
+  // Look for directories that look like domain names
+  const domainFolders = items.filter(item => {
+    const itemPath = path.join(scrapedDir, item);
+    if (!dirExists(itemPath)) {
+      return false;
+    }
+    
+    // Basic domain validation - contains dot and doesn't start with dot
+    return item.includes('.') && !item.startsWith('.');
+  });
+
+  if (domainFolders.length === 0) {
+    return null;
+  }
+
+  // If multiple domain folders exist, return the most recently modified one
+  if (domainFolders.length > 1) {
+    const folderStats = domainFolders.map(folder => {
+      const folderPath = path.join(scrapedDir, folder);
+      const stat = fs.statSync(folderPath);
+      return { folder, mtime: stat.mtime, path: folderPath };
+    });
+    
+    folderStats.sort((a, b) => b.mtime - a.mtime);
+    return folderStats[0].path;
+  }
+
+  return path.join(scrapedDir, domainFolders[0]);
+}

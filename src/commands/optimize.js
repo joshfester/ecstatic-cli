@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { getConfig, resolvePath } from '../utils/config.js';
-import { cleanDir, dirExists, fileExists } from '../utils/paths.js';
+import { cleanDir, dirExists, fileExists, findScrapedDomainFolder } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
 import { createCommand } from '../utils/command.js';
@@ -19,9 +19,20 @@ export const optimizeCommand = new Command('optimize')
 async function optimizeWebsite(inputDir, options) {
   const config = getConfig();
 
+  // Determine input directory - either CLI provided, or find domain folder in scraped directory
+  let defaultInputDir = inputDir;
+  if (!defaultInputDir) {
+    const scrapedDir = resolvePath(config.paths.scraped);
+    const domainFolder = findScrapedDomainFolder(scrapedDir);
+    if (!domainFolder) {
+      throw new Error(`No scraped domain folder found in ${scrapedDir}. Please run 'scrape' command first.`);
+    }
+    defaultInputDir = domainFolder;
+  }
+
   // Merge CLI options with config, giving precedence to CLI options
   const finalOptions = {
-    inputDir: inputDir || config.paths.scrapedWeb,
+    inputDir: defaultInputDir,
     output: options.output || config.paths.dist,
     skipParcel: options.skipParcel || false,
     skipJampack: options.skipJampack || !config.optimize.jampack.enabled,
@@ -92,14 +103,28 @@ async function runParcel(indexPath, outputDir) {
   }
   cleanDir(outputDir);
 
-  const args = [
-    'build',
-    indexPath,
-    '--dist-dir',
-    outputDir
-  ];
+  // Change working directory to the directory containing index.html
+  // This ensures the namer plugin preserves internal structure without wrapper paths
+  const originalCwd = process.cwd();
+  const inputDir = path.dirname(indexPath);
+  const inputFile = path.basename(indexPath);
+  const absoluteOutputDir = path.resolve(outputDir);
 
-  return runCommand('npx', ['parcel', ...args]);
+  try {
+    process.chdir(inputDir);
+    
+    const args = [
+      'build',
+      inputFile,
+      '--dist-dir',
+      absoluteOutputDir
+    ];
+
+    return await runCommand('npx', ['parcel', ...args]);
+  } finally {
+    // Always restore the original working directory
+    process.chdir(originalCwd);
+  }
 }
 
 async function runPartytown(distDir) {

@@ -7,6 +7,7 @@
     "ecstatic": "./bin/ecstatic"
   },
   "devDependencies": {
+    "@gatsbyjs/parcel-namer-relative-to-cwd": "^2.14.0",
     "bun": "^1.2.20",
     "http-server": "^14.1.1"
   },
@@ -17,7 +18,7 @@
     "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
-    "serve": "http-server ./dist-parcel",
+    "serve": "http-server ./dist-parcel/",
     "serve-scraped": "http-server ./scraped",
     "test": "node --test",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"

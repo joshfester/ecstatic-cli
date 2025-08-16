@@ -2,7 +2,6 @@
 export const defaults = {
   paths: {
     scraped: './scraped',
-    scrapedWeb: './scraped/web',
     distParcel: './dist-parcel',
     distJampack: './dist-jampack',
     dist: './dist'

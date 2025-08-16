@@ -252,7 +252,6 @@ test('scrape post-processing - real-world config format', async () => {
     const config = {
       paths: {
         scraped: tempDir,
-        scrapedWeb: path.join(tempDir, 'web'),
         distParcel: './dist-parcel',
         distJampack: './dist-jampack',
         dist: './dist'

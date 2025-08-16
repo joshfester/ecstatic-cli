@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import { getConfig, resolvePath } from '../utils/config.js';
+import { findScrapedDomainFolder } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { createCommand } from '../utils/command.js';
 
@@ -93,6 +94,13 @@ async function runScrapeStep(url, options) {
 async function runOptimizeStep(options) {
   const config = getConfig();
   
+  // Find the scraped domain folder
+  const scrapedDir = resolvePath(config.paths.scraped);
+  const domainFolder = findScrapedDomainFolder(scrapedDir);
+  if (!domainFolder) {
+    throw new Error(`No scraped domain folder found in ${scrapedDir}. Scraping may have failed.`);
+  }
+  
   const optimizeOptions = {
     output: options.output,
     skipParcel: options.skipParcel,
@@ -102,7 +110,7 @@ async function runOptimizeStep(options) {
   
   // Simulate the optimize command action
   const optimizeAction = optimizeCommand._actionHandler;
-  await optimizeAction(config.paths.scrapedWeb, optimizeOptions);
+  await optimizeAction(domainFolder, optimizeOptions);
 }
 
 async function runDeployStep(options) {

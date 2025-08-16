@@ -24,7 +24,7 @@ Some common pitfalls in this process:
 
 ## Tech Stack
 
-The CLI tool is powered by the Commander library. The entry point is at ./bin/ecstatic. Configuration is loaded via the c12 library.
+The CLI tool is powered by the Commander library. The entry point is at ./bin/ecstatic. We use ./src/utils/config.js to load configuration from ecstatic.config.js files in the current working directory. Each command is authenticated by ./src/utils/auth.js
 
 - scrape
     - Download the taget website as static files
@@ -51,7 +51,6 @@ We use Bun to generate a single executable file. You can do this by running `npm
 
 ## Documentation
 
-- c12: {PROJECT_ROOT}/docs/c12.md
 - Commander: {PROJECT_ROOT}/docs/commander.md
 - Defer.js: {PROJECT_ROOT}/docs/deferjs.txt
 - Httrack: {PROJECT_ROOT}/docs/httrack.txt

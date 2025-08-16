@@ -2,7 +2,6 @@ export default {
     // Directory paths
     paths: {
         scraped: './scraped',
-        scrapedWeb: './scraped/web',
         distParcel: './dist-parcel',
         distJampack: './dist-jampack',
         dist: './dist'
@@ -10,7 +9,7 @@ export default {
 
     // Scraping configuration
     scrape: {
-        depth: 9999,
+        depth: 99999,
         method: 'httrack',
         timeout: 10,
         proxy: 'https://jerry:Jerry1999@5.78.119.93:8888',
