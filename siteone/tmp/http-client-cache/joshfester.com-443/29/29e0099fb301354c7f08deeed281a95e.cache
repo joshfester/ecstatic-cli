@@ -1,0 +1,509 @@
+O:31:"Crawler\HttpClient\HttpResponse":7:{s:3:"url";s:26:"/case-studies/project-pals";s:10:"statusCode";i:200;s:4:"body";s:14110:"<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Launch your MVP in two weeks with a fractional CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+  >
+  <meta
+    name="author"
+    content="Josh Fester"
+  >
+
+  <title>
+    
+    Project Pals scales to global demand with a small budget |
+    
+    Josh Fester - Fractional CTO
+  </title>
+
+  <link
+    rel="canonical"
+    href="https://joshfester.com/case-studies/project-pals"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/apple-touch-icon.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/favicon-16x16.png"
+  >
+  <link
+    rel="mask-icon"
+    href="/safari-pinned-tab.svg"
+    color="#e83283"
+  >
+  <meta
+    name="theme-color"
+    content="#e83283"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css"
+    integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/quartz/bootstrap.min.css"
+    integrity="sha256-2U551o0cyYo3xSZeA36oCkPci0vTv3EKOs8uC0Bk/Mc="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="/assets/css/main.css"
+  ><script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": "Josh Fester",
+    "familyName": "Fester",
+    "givenName": "Josh",
+    "jobTitle": "Startup CTO",
+    "knowsAbout": [
+      {
+        "@type": "Thing",
+        "name": "Startups"
+      },
+      {
+        "@type": "Thing",
+        "name": "Business"
+      },
+      {
+        "@type": "Thing",
+        "name": "Companies"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Mobile Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Project Management"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Development"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby on Rails",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "JavaScript",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Python",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Consulting services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Startup CTO Consulting",
+            "abstract": "Launch your MVP in two weeks with an experienced CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Ruby on Rails Consulting",
+            "abstract": "Build, scale, and improve the performance of your Ruby on Rails app with the help of a specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+</script></head>
+
+<body>
+
+  <video
+    id="bg-video"
+    muted
+    autoplay
+    loop
+    playsinline
+    class="vh-100 vw-100 position-fixed"
+  >
+    <source
+      src="/assets/video/bg-video.mp4"
+      type="video/mp4"
+    >
+  </video>
+  <div
+    id="bg-overlay"
+    class="vw-100 vh-100 position-fixed top-0"
+  ></div><header class="navbar navbar-expand-lg navbar-dark">
+  <nav class="container-fluid px-3">
+
+    <a
+      class="navbar-brand d-flex align-items-center fw-bold"
+      href="/"
+    >
+
+      <i class="fa-solid fa-user-astronaut me-1"></i>
+      Josh Fester
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-white">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/"
+          >Home</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/about"
+          >About</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/case-studies"
+          >Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/my-development-philosophies"
+          >My Dev Philosophies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/contact"
+          >Contact</a>
+        </li>
+      </ul>
+    </div>
+    <a
+      href="https://calendly.com/joshfester/30min"
+      class="btn btn-info ms-2 d-none d-lg-inline-block"
+      taget="__blank"
+    >
+      Free Consultation
+    </a>
+
+  </nav>
+</header><main class="container py-3">
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/case-studies">Case Studies</a></li>
+    <li
+      class="breadcrumb-item active"
+      aria-current="page"
+    >
+      Project Pals
+    </li>
+  </ol>
+</nav>
+
+<div
+  class="container"
+  id="case-study"
+>
+
+  <div class="row align-items-center g-3">
+    <div class="col-md-6">
+      <div class="text-center my-3">
+        <img
+          src="/assets/img/logo-pals.png"
+          class="rounded bg-white p-2"
+          loading="lazy"
+          style="max-width: 250px; max-height: 150px;"
+        >
+      </div>
+      <h1>
+        Project Pals scales to global demand with a small budget
+      </h1>
+
+      <p>
+        <span class="me-2 text-nowrap"><b>Customer:</b> Project Pals</span>
+        <span class="me-2 text-nowrap"><b>Industry:</b> Education</span>
+        <span class="me-2 text-nowrap"><b>Duration:</b> 4 weeks</span>
+      </p>
+    </div>
+
+    <div class="col-md-6">
+      <img
+        src="/assets/img/browser-pals.jpg"
+        alt="jerrysdeals.com"
+        loading="lazy"
+        class="w-100 rounded border"
+      >
+    </div>
+  </div>
+
+  <div class="row g-3 my-4 text-center justify-content-center">
+
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">93%</h3>
+        <p class="mb-0">Reduced latency</p>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">70%</h3>
+        <p class="mb-0">Reduced churn rate</p>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">5</h3>
+        <p class="mb-0">continents</p>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div class="row g-3 align-items-center">
+    <div class="col-md-6">
+      <h2>Discovery</h2>
+      <p>
+  Project Pals is a project-based learning platform that allows you to track, 
+  assess, and showcase your innovative learning at scale, all in one easy-to-use platform.
+</p>
+<p>
+  Project Pals already had an MVP that they had outsourced overseas. However, they were struggling in many areas. 
+  They had users across the globe that needed to collaborate in real-time, but for most users, the <b>slowness of the app</b> made it difficult. 
+  They also had customers that liked the app but struggled to use it with <b>students that don’t speak English</b>. 
+  On top of all this, the app was filled with bugs due to a high rate of <b>silent errors</b>.
+</p>
+
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-warning">
+        <div class="card-header">
+          <h2 class="m-0">Challenges</h2>
+        </div>
+        <div class="card-body">
+          <ul>
+  <li>Achieve <b>sub-second latency</b> for concurrent users all over the globe – with a small monthly budget</li>
+  <li><b>Automatically translate</b> current and future projects into new languages</li>
+  <li><b>Reduce error rates</b> across a very large codebase</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-center my-4 text-center">
+    <div class="col-md-8 col-lg-6">
+      <figure>
+        <blockquote class="blockquote fst-italic mb-2">
+          <span class="quotes">"</span>Josh was a game changer. We were struggling with an overseas development
+shop. Josh came in and helped us quickly relaunch with an app that could handle traffic from all over the globe.
+<span class="quotes">"</span>
+        </blockquote>
+        <figcaption class="blockquote-footer m-0">
+          Miriam, CEO, Project Pals
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <div class="col-md-6">
+      <h2>Solution</h2>
+      <p>
+  In a situation like this, the first step is to give yourself a solid foundation that mitigates errors and bugs. 
+  To clean things up I wrote (thousands of) automated tests, and a continuous integration (CI) pipeline. 
+  The pipeline automates the process of running tests and getting code from developer laptops onto production servers. 
+  <b>Now bugs and errors get caught before users can experience them</b>, and there’s no possibility of human error during deployments.
+</p>
+<p>
+  There’s many layers of tech that contribute to latency and response times. 
+  Here’s how I achieved <b>extreme performance in 5 different continents</b>:
+</p>
+<ol>
+  <li>A global cache prevents re-rendering the full page every time</li>
+  <li>Code optimizations </li>
+  <li>Database optimizations</li>
+  <li>Switching runtimes from Ruby to TruffleRuby</li>
+  <li>Break up the big server into smaller servers across all regions</li>
+  <li>Break up the big database into smaller read-replicas across all regions</li>
+</ol>
+<p>
+  Finally, I had to translate current and future projects into many languages. 
+  To accomplish this, I created an automated system using free (open source) tools that runs 
+  translations in a background job every time Project Pals publishes a new project. 
+  Supporting a new language is as simple as adding one line to a configuration file!
+</p>
+<p>
+  To read more about how I keep costs down and quality up, check out 
+  <a href="/my-development-philosophies">my development philosophies</a>.
+</p>
+
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-success">
+        <div class="card-header">
+          <h2 class="m-0">Success</h2>
+        </div>
+        <div class="card-body">
+          <p>
+  Project Pals was able to re-launch their tech with great success. Application latency was reduced by 93%. 
+  No matter what country you’re in, every action felt snappy and smooth. Bugs and errors were drastically reduced. 
+  Students speaking any language were able to participate in all projects. Finally, and most importantly, 
+  <b>customer churn rate was reduced by 70%</b>. Now people not only love the idea of Project Pals, they love the experience!
+</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+  </main><footer class="container py-4 my-4 border-top">
+  <ul class="nav justify-content-end list-unstyled d-flex align-items-center">
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/"
+      >Home</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/about"
+      >About</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/case-studies"
+      >Case Studies</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/contact"
+      >Contact</a>
+    </li>
+
+    <li class="mb-3">
+      <a
+        href="https://calendly.com/joshfester/30min"
+        class="btn btn-info"
+        taget="__blank"
+      >
+        Free Consultation
+      </a>
+    </li>
+
+  </ul>
+</footer><script type="module">
+    document.getElementById('bg-video').playbackRate = 0.1;
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha256-m81NDyncZVbr7v9E6qCWXwx/cwjuWDlHCMzi9pjMobA="
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-HS32SJEGVR"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-HS32SJEGVR');
+  </script>
+
+</body>
+
+</html>";s:7:"headers";a:17:{s:4:"date";s:29:"Sun, 17 Aug 2025 16:50:38 GMT";s:12:"content-type";s:24:"text/html; charset=UTF-8";s:17:"transfer-encoding";s:7:"chunked";s:10:"connection";s:5:"close";s:3:"nel";s:62:"{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}";s:3:"age";s:1:"0";s:13:"cache-control";s:38:"public, max-age=14400, must-revalidate";s:12:"cache-status";s:24:""Netlify Edge"; fwd=miss";s:9:"report-to";s:213:"{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=6TkZIVJpFB4RRAqGKUtuK769VnE%2BXZMGSwIHvA1iWMI36j%2BWYHTDZGTaao%2FV6fF3WfWm81FjHperoXbXiqGR%2F9aicaaOGt8XaiW8O8SY"}]}";s:6:"server";s:10:"cloudflare";s:25:"strict-transport-security";s:16:"max-age=31536000";s:4:"vary";s:15:"Accept-Encoding";s:15:"x-nf-request-id";s:26:"01K2WF1CFGNNT8TYE2886XM1X6";s:15:"cf-cache-status";s:7:"EXPIRED";s:16:"content-encoding";s:2:"br";s:6:"cf-ray";s:20:"970aabef5812d2ec-ORD";s:7:"alt-svc";s:19:"h3=":443"; ma=86400";}s:8:"execTime";d:0.2697141170501709;s:13:"skippedReason";N;s:48:" Crawler\HttpClient\HttpResponse loadedFromCache";b:0;}

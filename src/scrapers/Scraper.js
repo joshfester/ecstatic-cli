@@ -4,10 +4,11 @@ import { replaceDomains } from '../utils/domain-replacement.js';
 import { resolvePath } from '../utils/config.js';
 import { WgetCommandBuilder } from './WgetCommandBuilder.js';
 import { HttrackCommandBuilder } from './HttrackCommandBuilder.js';
+import { SiteOneCommandBuilder } from './SiteOneCommandBuilder.js';
 import path from 'path';
 
 export class Scraper {
-  constructor(commandBuilders = { wget: WgetCommandBuilder, httrack: HttrackCommandBuilder }) {
+  constructor(commandBuilders = { wget: WgetCommandBuilder, httrack: HttrackCommandBuilder, siteone: SiteOneCommandBuilder }) {
     this.builders = commandBuilders;
   }
 
@@ -28,6 +29,8 @@ export class Scraper {
       await this.executeHttrack(url, outputDir, finalOptions, config);
     } else if (finalOptions.method === 'wget') {
       await this.executeWget(url, outputDir, finalOptions, config);
+    } else if (finalOptions.method === 'siteone') {
+      await this.executeSiteOne(url, outputDir, finalOptions, config);
     } else {
       throw new Error(`Unknown scraping method: ${finalOptions.method}`);
     }
@@ -68,6 +71,8 @@ export class Scraper {
       finalOptions.excludeFilters = httrackOpts.excludeFilters;
       finalOptions.proxy = httrackOpts.proxy;
       finalOptions.noProxy = httrackOpts.noProxy;
+    } else if (finalOptions.method === 'siteone') {
+      finalOptions.siteone = this.buildSiteOneOptions(options, config);
     }
 
     return finalOptions;
@@ -99,6 +104,17 @@ export class Scraper {
     return this.executeCommand(commandSpec);
   }
 
+  async executeSiteOne(url, outputDir, finalOptions, config) {
+    const mergedConfig = {
+      ...finalOptions,
+      timeout: config.scrape.timeout,
+      siteone: finalOptions.siteone || (config.scrape && config.scrape.siteone) || {}
+    };
+    
+    const commandSpec = this.builders.siteone.build(url, outputDir, mergedConfig);
+    return this.executeCommand(commandSpec);
+  }
+
   async executeCommand(commandSpec) {
     return runCommand(commandSpec.command, commandSpec.args);
   }
@@ -119,7 +135,9 @@ export class Scraper {
       includeFilters: [...configInclude, ...cliInclude],
       excludeFilters: [...configExclude, ...cliExclude],
       proxy: options.proxy !== undefined ? options.proxy : scrapeConfig.proxy,
-      noProxy: options.noProxy !== undefined ? options.noProxy : scrapeConfig.noProxy
+      noProxy: options.noProxy !== undefined ? options.noProxy : scrapeConfig.noProxy,
+      retries: options.retries !== undefined ? options.retries : httrackConfig.retries,
+      hostControl: options.hostControl !== undefined ? options.hostControl : httrackConfig.hostControl
     };
   }
 
@@ -172,6 +190,22 @@ export class Scraper {
       reject: Array.isArray(cliWget.reject) && cliWget.reject.length ? cliWget.reject : (cfgWget.reject || []),
       proxy: cliWget.proxy !== undefined ? cliWget.proxy : cfgScrape.proxy,
       noProxy: cliWget.noProxy !== undefined ? cliWget.noProxy : cfgScrape.noProxy
+    };
+  }
+
+  buildSiteOneOptions(options, config) {
+    const cfgSiteOne = config.scrape.siteone;
+    
+    // Handle CLI options for SiteOne with priority over config (which includes defaults)
+    return {
+      ...cfgSiteOne,
+      workers: options.workers !== undefined ? options.workers : cfgSiteOne.workers,
+      maxReqsPerSec: options.maxReqsPerSec !== undefined ? options.maxReqsPerSec : cfgSiteOne.maxReqsPerSec,
+      memoryLimit: options.memoryLimit !== undefined ? options.memoryLimit : cfgSiteOne.memoryLimit,
+      includeRegex: Array.isArray(options.includeRegex) && options.includeRegex.length ? options.includeRegex : cfgSiteOne.includeRegex,
+      ignoreRegex: Array.isArray(options.ignoreRegex) && options.ignoreRegex.length ? options.ignoreRegex : cfgSiteOne.ignoreRegex,
+      ignoreRobotsTxt: options.ignoreRobotsTxt !== undefined ? options.ignoreRobotsTxt : cfgSiteOne.ignoreRobotsTxt,
+      offlineExportNoAutoRedirectHtml: options.offlineExportNoAutoRedirectHtml !== undefined ? options.offlineExportNoAutoRedirectHtml : cfgSiteOne.offlineExportNoAutoRedirectHtml
     };
   }
 

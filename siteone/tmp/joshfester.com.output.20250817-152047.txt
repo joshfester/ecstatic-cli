@@ -1,0 +1,454 @@
+
+ ####                ####             #####        
+ ####                ####           #######        
+ ####      ###       ####         #########        
+ ####     ######     ####       ###### ####        
+  ######################       #####   ####        
+    #######    #######       #####     ####        
+    #######    #######         #       ####        
+  ######################               ####        
+ ####     ######     ####              ####        
+ ####       ##       ####              ####        
+ ####                ####       ################## 
+ ####                ####       ################## 
+
+==================================================
+# SiteOne Crawler, v1.0.9.20250608               #
+# Author: jan.reges@siteone.cz                   #
+==================================================
+
+
+Detected terminal width 138 < 140 chars - compact mode activated.
+
+Progress| URL                                                    | Status | Type     | Time   | Size   | Cache  | Access.  | Best pr.
+--------------------------------------------------------------------------------------------------------------------------------------
+1/12    | /                                                      | 200    | HTML     | 307 ms | 21 kB  | 4 h     | 1/1/2    | 1/2     
+2/12    | /assets/css/main.css                                   | 200    | CSS      | 250 ms | 666 B  | 4 h     |          |         
+3/12    | /favicon-32x32.png                                     | 200    | Image    | 241 ms | 2 kB   | 4 h     |          |         
+4/12    | /favicon-16x16.png                                     | 200    | Image    | 250 ms | 1 kB   | 4 h     |          |         
+5/12    | /apple-touch-icon.png                                  | 200    | Image    | 234 ms | 4 kB   | 4 h     |          |         
+6/13    | /case-studies                                          | 301    | Redirect | 253 ms | 93 B   | 4 h     |          |         
+7/13    | /assets/video/bg-video.mp4                             | 200    | Video    | 299 ms | 629 kB | 4 h     |          |         
+8/13    | /safari-pinned-tab.svg                                 | 200    | Image    | 226 ms | 15 kB  | 4 h     |          |         
+9/16    | /case-studies/                                         | 200    | HTML     | 186 ms | 12 kB  | 4 h     | 1/3      | 1/2     
+10/18   | /my-development-philosophies                           | 200    | HTML     | 261 ms | 14 kB  | 4 h     | 1/3      | 1/2     
+11/18   | /assets/img/browser-grammy.jpg                         | 200    | Image    | 301 ms | 83 kB  | 4 h     |          |         
+12/18   | /assets/img/browser-jerry.jpg                          | 200    | Image    | 265 ms | 44 kB  | 4 h     |          |         
+13/18   | /assets/img/me-profile.jpg                             | 200    | Image    | 231 ms | 4 kB   | 4 h     |          |         
+14/18   | /assets/img/posts/my-development-phi…hies-featured.jpg | 200    | Image    | 316 ms | 117 kB | 4 h     |          |         
+15/19   | /contact                                               | 301    | Redirect | 260 ms | 83 B   | 4 h     |          |         
+16/19   | /assets/img/browser-pals.jpg                           | 200    | Image    | 297 ms | 79 kB  | 4 h     |          |         
+17/20   | /about                                                 | 301    | Redirect | 240 ms | 79 B   | 4 h     |          |         
+18/20   | /contact/                                              | 200    | HTML     | 152 ms | 10 kB  | 4 h     | 1/3      | 1/2     
+19/20   | /assets/img/rocket.png                                 | 200    | Image    | 236 ms | 15 kB  | 4 h     |          |         
+20/22   | /about/                                                | 200    | HTML     | 166 ms | 9 kB   | 4 h     | 1/3      | 1/2     
+21/22   | /assets/img/me-lily.png                                | 200    | Image    | 269 ms | 73 kB  | 4 h     |          |         
+22/22   | /assets/img/me-stage.png                               | 200    | Image    | 217 ms | 45 kB  | 4 h     |          |         
+
+Skipped URLs Summary
+--------------------
+
+Reason             | Domain                   | Unique URLs
+-------------------------------------------------------------
+Not allowed host   | cdn.jsdelivr.net         | 3          
+Exceeds max depth  | joshfester.com           | 3          
+Not allowed host   | www.google.com           | 1          
+Not allowed host   | github.com               | 1          
+Exceeds max depth  | calendly.com             | 1          
+Not allowed host   | jerrysdeals.com          | 1          
+Not allowed host   | www.miigle.com           | 1          
+Not allowed host   | www.projectpals.com      | 1          
+Not allowed host   | www.googletagmanager.com | 1          
+Not allowed host   | trivianote.com           | 1          
+Not allowed host   | cdn.js                   | 1          
+Exceeds max depth  | www.linkedin.com         | 1          
+
+
+Skipped URLs
+------------
+
+Reason             | Skipped URL                                                  | Source              | Found at URL                                                
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Exceeds max depth  | https://calendly.com/joshfester/30min                        | <a href>            | /                                                           
+Not allowed host   | https://cdn.js/                                              | <link href>         | /                                                           
+Not allowed host   | https://cdn.jsdelivr.net/npm/@fortawesom…2.1/css/all.min.css | <link href>         | /                                                           
+Not allowed host   | https://cdn.jsdelivr.net/npm/bootstrap@5…js/bootstrap.min.js | <script src>        | /                                                           
+Not allowed host   | https://cdn.jsdelivr.net/npm/bootswatch@…z/bootstrap.min.css | <link href>         | /                                                           
+Not allowed host   | https://github.com/joshfester                                | <a href>            | /about/                                                     
+Not allowed host   | https://jerrysdeals.com/                                     | <a href>            | /                                                           
+Exceeds max depth  | /case-studies/grammy-go                                      | <a href>            | /case-studies/                                              
+Exceeds max depth  | /case-studies/jerrys-deals                                   | <a href>            | /case-studies/                                              
+Exceeds max depth  | /case-studies/project-pals                                   | <a href>            | /case-studies/                                              
+Not allowed host   | https://trivianote.com/                                      | <a href>            | /                                                           
+Not allowed host   | https://www.google.com/recaptcha/api.js                      | <script src>        | /contact/                                                   
+Not allowed host   | https://www.googletagmanager.com/gtag/js?id=G-HS32SJEGVR     | <script src>        | /                                                           
+Exceeds max depth  | https://www.linkedin.com/in/joshfester/                      | <a href>            | /about/                                                     
+Not allowed host   | https://www.miigle.com/                                      | <a href>            | /                                                           
+Not allowed host   | https://www.projectpals.com/                                 | <a href>            | /                                                           
+
+
+Redirected URLs
+---------------
+
+Status | Redirected URL                          | Target URL                              | Found at URL                           
+--------------------------------------------------------------------------------------------------------------------------------------
+301    | /about                                  | /about/                                 | /                                      
+301    | /case-studies                           | /case-studies/                          | /                                      
+301    | /contact                                | /contact/                               | /                                      
+
+
+404 URLs
+--------
+
+No 404 URLs found.
+
+
+SSL/TLS info
+------------
+
+Info                   | Text                                                                                                        
+---------------------------------------------------------------------------------------------------------------------------------------
+Issuer                 | C = US, O = Google Trust Services, CN = WE1                                                                 
+Subject                | CN = joshfester.com                                                                                         
+Valid from             | Jul 16 20:35:04 2025 GMT (VALID already 31.8 day(s))                                                        
+Valid to               | Oct 14 21:33:43 2025 GMT (VALID still for 58.3 day(s))                                                      
+Supported protocols    | TLSv1.2, TLSv1.3                                                                                            
+RAW certificate output | Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:…e:d9:78:42:10:af:5f:89:d7:23:cc:ce   
+RAW protocols output   | === ssl2 ===
+s_client: Unknown option: -ssl2
+s_client: Use -help for su…erify return code: 0 (ok)
+---
+DONE  
+
+
+TOP fastest URLs
+----------------
+
+Time   | Status | Fast URL                                                                                                              
+------------------------------------------------------------------------------------------------------------------------------------------
+152 ms | 200    | https://joshfester.com/contact/                                                                                       
+166 ms | 200    | https://joshfester.com/about/                                                                                         
+186 ms | 200    | https://joshfester.com/case-studies/                                                                                  
+261 ms | 200    | https://joshfester.com/my-development-philosophies                                                                    
+307 ms | 200    | https://joshfester.com/                                                                                               
+
+
+TOP slowest URLs
+----------------
+
+Time   | Status | Slow URL                                                                                                         
+-------------------------------------------------------------------------------------------------------------------------------------
+307 ms | 200    | https://joshfester.com/                                                                                          
+261 ms | 200    | https://joshfester.com/my-development-philosophies                                                               
+186 ms | 200    | https://joshfester.com/case-studies/                                                                             
+166 ms | 200    | https://joshfester.com/about/                                                                                    
+152 ms | 200    | https://joshfester.com/contact/                                                                                  
+
+
+SEO metadata
+------------
+
+This table contains large data and shows max 10 rows. To see them all, use output to HTML using `--output-html-report=tmp/myreport.html`.
+
+URL                                                | Indexing             | Title        | H1           | Description  | Keywords    
+---------------------------------------------------------------------------------------------------------------------------------------
+/                                                  | Allowed              | Josh Fes…CTO | Launch y…CTO | Launch y…ce. |             
+/about/                                            | Allowed              | About |…CTO  | About Me     | Launch y…ce. |             
+/case-studies/                                     | Allowed              | Case Stu…CTO | Some Rec…ies | Launch y…ce. |             
+/contact/                                          | Allowed              | Contact…CTO  | 👋 Say Hello  | Launch y…ce. |             
+/my-development-philosophies                       | Allowed              | Building…CTO | Building…aby | Launch y…ce. |             
+
+
+OpenGraph metadata
+------------------
+
+No URLs with OpenGraph data (og:* or twitter:* meta tags).
+
+
+Heading structure
+-----------------
+
+This table contains large data and shows max 10 rows. To see them all, use output to HTML using `--output-html-report=tmp/myreport.html`.
+
+Heading structure                                                                    | Count | Errors | URL                           
+----------------------------------------------------------------------------------------------------------------------------------------
+<h1> Launch your MVP in two weeks with an experienced CT…e cheaper? [#header-faq-4]  | 10    | 0      | /                             
+<h1> Some Recent Case Studies <h2> Grammy Go handles 1.1…demand with a small budget  | 4     | 0      | /case-studies/                
+<h1> Building Your Startup with Confidence: A CTO's Guid…agile-development-process]  | 17    | 0      | /my-development-philosophies  
+<h1> 👋 Say Hello                                                                     | 1     | 0      | /contact/                     
+<h1> About Me                                                                        | 1     | 0      | /about/                       
+
+
+HTTP headers
+------------
+
+Header                    | Occurs | Unique | Values preview                                   | Min value  | Max value 
+--------------------------------------------------------------------------------------------------------------------------
+Accept-Ranges             | 14     | 1      | bytes                                            |            |           
+Age                       | 19     | -      | [ignored generic values]                         | 0 sec(s)   | 2 sec(s)  
+Alt-Svc                   | 22     | 1      | h3=":443"; ma=86400                              |            |           
+Cache-Control             | 22     | 2      | public, max-age=14400, must-reva…x-age=14400 (3) |            |           
+Cache-Status              | 22     | 1      | "Netlify Edge"; fwd=miss                         |            |           
+Cf-Cache-Status           | 22     | 2      | REVALIDATED (12) / EXPIRED (10)                  |            |           
+Cf-Ray                    | 22     | -      | [ignored generic values]                         |            |           
+Connection                | 22     | 1      | close                                            |            |           
+Content-Encoding          | 7      | 1      | br                                               |            |           
+Content-Length            | 13     | -      | [ignored generic values]                         | 666 B      | 629 kB    
+Content-Type              | 22     | 7      | image/png (6) / text/html; chars…age/svg+xml (1) |            |           
+Date                      | 22     | -      | [ignored generic values]                         | 2025-08-17 | 2025-08-17
+Etag                      | 14     | -      | [ignored generic values]                         |            |           
+Location                  | 3      | 3      | /case-studies/ (1) / /contact/ (1) / /about/ (1) |            |           
+Nel                       | 22     | 1      | {"report_to":"cf-nel","success_f…ax_age":604800} |            |           
+Report-To                 | 22     | 20+    | [see values below]                               |            |           
+Server                    | 22     | 1      | cloudflare                                       |            |           
+Strict-Transport-Security | 22     | 1      | max-age=31536000                                 |            |           
+Transfer-Encoding         | 9      | 1      | chunked                                          |            |           
+Vary                      | 22     | 2      | accept-encoding (15) / Accept-Encoding (7)       |            |           
+X-Nf-Request-Id           | 22     | 20+    | [see values below]                               |            |           
+
+
+HTTP header values
+------------------
+
+Header                    | Occurs | Value                                                                             
+-------------------------------------------------------------------------------------------------------------------------
+Accept-Ranges             | 14     | bytes                                                                             
+Alt-Svc                   | 22     | h3=":443"; ma=86400                                                               
+Cache-Control             | 19     | public, max-age=14400, must-revalidate                                            
+Cache-Control             | 3      | max-age=14400                                                                     
+Cache-Status              | 22     | "Netlify Edge"; fwd=miss                                                          
+Cf-Cache-Status           | 12     | REVALIDATED                                                                       
+Cf-Cache-Status           | 10     | EXPIRED                                                                           
+Connection                | 22     | close                                                                             
+Content-Encoding          | 7      | br                                                                                
+Content-Type              | 6      | image/png                                                                         
+Content-Type              | 5      | text/html; charset=UTF-8                                                          
+Content-Type              | 5      | image/jpeg                                                                        
+Content-Type              | 3      | text/html                                                                         
+Content-Type              | 1      | text/css; charset=UTF-8                                                           
+Content-Type              | 1      | video/mp4                                                                         
+Content-Type              | 1      | image/svg+xml                                                                     
+Location                  | 1      | /case-studies/                                                                    
+Location                  | 1      | /contact/                                                                         
+Location                  | 1      | /about/                                                                           
+Nel                       | 22     | {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}                    
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…CQvTf%2BKw6lQ49Dd8SygO"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…1yCcNacZxWto1E29i4pOiM"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…cZdFPzh5i1cgoVjMh2hzyy"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…1ts%2FP86zVnQJcKCoJOU6"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…ewFOrI7x17bnH90IatJBUy"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…cxfBViwdEahUDSHQ%3D%3D"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…Ca3qLYu1EEppE6kSIrI8Jr"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…HvlEKym5WRHObQ5rTbpus0"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…CiT7KqiOxAVRiqcSdvJswo"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…j0bOD2tl%2Bwj1LLaQmpRv"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…UaZk4X799m2W8Org%3D%3D"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…YylWaJvbbfer%2BO2p9neo"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…DhJ9UnlW2r8bKyGLXTlsbQ"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…53f11gWdSoe6Zyo36cqs2V"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…iDdJEPZ5XLYZN20jOZS5Uf"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…VVqPFsc9hbLFg8GQ%3D%3D"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…sR7B3H%2FRfaQbULQ%2FIX"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…2BkHps0MizRN4Ptw%3D%3D"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…9ciidx7DrRQ1W4IsmOE213"}]}
+Report-To                 | 1      | {"group":"cf-nel","max_age":604800,"endpoints":[{"url":…5Q1qn53eLx3tGOZeM%2BUs"}]}
+Server                    | 22     | cloudflare                                                                        
+Strict-Transport-Security | 22     | max-age=31536000                                                                  
+Transfer-Encoding         | 9      | chunked                                                                           
+Vary                      | 15     | accept-encoding                                                                   
+Vary                      | 7      | Accept-Encoding                                                                   
+X-Nf-Request-Id           | 1      | 01K2W9WXV0XVHY2494NV4BZ94A                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WYAKYFZETMN0KZRBNXTF                                                        
+X-Nf-Request-Id           | 1      | 01K2FHKM5DD82F1604M9MC8DET                                                        
+X-Nf-Request-Id           | 1      | 01K2R71C6ZSFAGWVXBJ90EJKTX                                                        
+X-Nf-Request-Id           | 1      | 01K2R71A9NHJ8HS4WX718EZX5H                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WYQ2F6P507KD4MJ68JKS                                                        
+X-Nf-Request-Id           | 1      | 01K2W4Y6H1Z4MNDHR0Z31J33TZ                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WYX6JF4GSZAZJPPESE0A                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WZ0RE82ZWCM2NSHXM1T0                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WZ3HANY3JQDN0HFR74HF                                                        
+X-Nf-Request-Id           | 1      | 01K2R71R0EKRBZ16WC8ZVXQX5J                                                        
+X-Nf-Request-Id           | 1      | 01K2R71SX1JKRGE0CNWMCYXZ1Z                                                        
+X-Nf-Request-Id           | 1      | 01K2R71XS197E9Q2T236K806HB                                                        
+X-Nf-Request-Id           | 1      | 01K2R71WSVSF3E71FR363799ZZ                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WZK61FS4A95E8B7RED17                                                        
+X-Nf-Request-Id           | 1      | 01K2R71VXEED619M5NTN683TCV                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WZSR600K6G3MKQG791XS                                                        
+X-Nf-Request-Id           | 1      | 01K2W9WZWXR0JCYP4FY8K1NSXW                                                        
+X-Nf-Request-Id           | 1      | 01K2QBAEBAV109A3BY8DXGMK22                                                        
+X-Nf-Request-Id           | 1      | 01K2W9X03RMH18J8Z9TMMBVYWC                                                        
+
+
+HTTP Caching by content type (only from crawlable domains)
+----------------------------------------------------------
+
+Content type | Cache type   | URLs  | AVG lifetime | MIN lifetime | MAX lifetime
+----------------------------------------------------------------------------
+Image        | Cache-Control + ETag | 12    | 4 h        | 4 h        | 4 h       
+HTML         | Cache-Control | 5     | 4 h        | 4 h        | 4 h       
+Redirect     | Cache-Control | 3     | 4 h        | 4 h        | 4 h       
+CSS          | Cache-Control + ETag | 1     | 4 h        | 4 h        | 4 h       
+Video        | Cache-Control + ETag | 1     | 4 h        | 4 h        | 4 h       
+
+
+HTTP Caching by domain
+----------------------
+
+Domain               | Cache type   | URLs  | AVG lifetime | MIN lifetime | MAX lifetime
+------------------------------------------------------------------------------------
+joshfester.com       | Cache-Control + ETag | 14    | 4 h        | 4 h        | 4 h       
+joshfester.com       | Cache-Control | 8     | 4 h        | 4 h        | 4 h       
+
+
+HTTP Caching by domain and content type
+---------------------------------------
+
+Domain               | Content type | Cache type   | URLs  | AVG lifetime | MIN lifetime | MAX lifetime
+---------------------------------------------------------------------------------------------------
+joshfester.com       | Image        | Cache-Control + ETag | 12    | 4 h        | 4 h        | 4 h       
+joshfester.com       | HTML         | Cache-Control | 5     | 4 h        | 4 h        | 4 h       
+joshfester.com       | Redirect     | Cache-Control | 3     | 4 h        | 4 h        | 4 h       
+joshfester.com       | CSS          | Cache-Control + ETag | 1     | 4 h        | 4 h        | 4 h       
+joshfester.com       | Video        | Cache-Control + ETag | 1     | 4 h        | 4 h        | 4 h       
+
+
+TOP non-unique titles
+---------------------
+
+Nothing to report.
+
+
+TOP non-unique descriptions
+---------------------------
+
+Count | Description                                                                                                                     
+------------------------------------------------------------------------------------------------------------------------------------------
+5     | Launch your MVP in two weeks with a fractional CTO. Build your web or mobile app with…st with nearly two decades of experience. 
+
+
+Best practices
+--------------
+
+Analysis name                  | OK    | Notice | Warning | Critical
+----------------------------------------------------------------------
+DOM depth (> 30)               | 5     | 0      | 0       | 0       
+Heading structure              | 0     | 5      | 0       | 0       
+Title uniqueness (> 10%)       | 5     | 0      | 0       | 0       
+Description uniqueness (> 10%) | 0     | 0      | 1       | 0       
+Brotli support                 | 5     | 0      | 0       | 0       
+WebP support                   | 0     | 0      | 1       | 0       
+AVIF support                   | 0     | 0      | 1       | 0       
+
+
+Accessibility
+-------------
+
+Analysis name                | OK    | Notice | Warning | Critical
+--------------------------------------------------------------------
+Missing image alt attributes | 7     | 0      | 1       | 0       
+Missing html lang attribute  | 0     | 0      | 0       | 1       
+
+
+Source domains
+--------------
+
+Domain         | Totals      | HTML        | Image         | CSS          | Video         | Redirect    
+----------------------------------------------------------------------------------------------------------
+joshfester.com | 22/1MB/5.5s | 5/67kB/1.1s | 12/480kB/3.1s | 1/666B/250ms | 1/629kB/299ms | 3/255B/753ms
+
+
+Content types
+-------------
+
+Content type | URLs  | Total size | Total time | Avg time | Status 20x | Status 30x
+-------------------------------------------------------------------------------------
+Image        | 12    | 480 kB     | 3.1 s      | 257 ms   | 12         | 0         
+HTML         | 5     | 67 kB      | 1.1 s      | 214 ms   | 5          | 0         
+Redirect     | 3     | 255 B      | 753 ms     | 251 ms   | 0          | 3         
+CSS          | 1     | 666 B      | 250 ms     | 250 ms   | 1          | 0         
+Video        | 1     | 629 kB     | 299 ms     | 299 ms   | 1          | 0         
+
+
+Content types (MIME types)
+--------------------------
+
+Content type               | URLs  | Total size | Total time | Avg time | Status 20x | Status 30x
+---------------------------------------------------------------------------------------------------
+image/png                  | 6     | 138 kB     | 1.4 s      | 241 ms   | 6          | 0         
+text/html; charset=UTF-8   | 5     | 67 kB      | 1.1 s      | 214 ms   | 5          | 0         
+image/jpeg                 | 5     | 327 kB     | 1.4 s      | 282 ms   | 5          | 0         
+text/html                  | 3     | 255 B      | 753 ms     | 251 ms   | 0          | 3         
+text/css; charset=UTF-8    | 1     | 666 B      | 250 ms     | 250 ms   | 1          | 0         
+video/mp4                  | 1     | 629 kB     | 299 ms     | 299 ms   | 1          | 0         
+image/svg+xml              | 1     | 15 kB      | 226 ms     | 226 ms   | 1          | 0         
+
+
+DNS info
+--------
+
+DNS resolving tree                                                    
+------------------------------------------------------------------------
+joshfester.com                                                        
+  IPv4: 104.21.96.1                                                   
+  IPv4: 104.21.16.1                                                   
+  IPv4: 104.21.32.1                                                   
+  IPv4: 104.21.64.1                                                   
+  IPv4: 104.21.48.1                                                   
+  IPv4: 104.21.112.1                                                  
+  IPv4: 104.21.80.1                                                   
+  IPv6: 2606:4700:3030::6815:7001                                     
+  IPv6: 2606:4700:3030::6815:3001                                     
+  IPv6: 2606:4700:3030::6815:6001                                     
+  IPv6: 2606:4700:3030::6815:5001                                     
+  IPv6: 2606:4700:3030::6815:2001                                     
+  IPv6: 2606:4700:3030::6815:4001                                     
+  IPv6: 2606:4700:3030::6815:1001                                     
+                                                                      
+DNS server: 127.0.0.53                                                
+
+
+Security
+--------
+
+Header                     | OK    | Notice | Warning | Critical | Recommendation                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------
+X-XSS-Protection           | 0     | 0      | 0       | 5        | X-XSS-Protection header is not set. It enables…against XSS attacks. 
+Content-Security-Policy    | 0     | 0      | 0       | 5        | Content-Security-Policy header is not set. It…prevents XSS attacks. 
+X-Frame-Options            | 0     | 0      | 5       | 0        | X-Frame-Options header is not set. It prevents…deny' or 'sameorigin.
+X-Content-Type-Options     | 0     | 0      | 5       | 0        | X-Content-Type-Options header is not set. It s…content type attacks.
+Referrer-Policy            | 0     | 0      | 5       | 0        | Referrer-Policy header is not set. It controls…privacy and security.
+Feature-Policy             | 0     | 0      | 5       | 0        | Feature-Policy header is not set. It allows en…ssions-Policy is set.
+Permissions-Policy         | 0     | 0      | 5       | 0        | Permissions-Policy header is not set. It allow…eatures for security.
+Server                     | 0     | 5      | 0       | 0        | Server header is set to 'cloudflare'. It is be…al used technologies.
+Strict-Transport-Security  | 5     | 0      | 0       | 0        |                                                                     
+
+
+Analysis stats
+--------------
+
+Class::method                                        | Exec time | Exec count
+-------------------------------------------------------------------------------
+SslTlsAnalyzer::getTLSandSSLCertificateInfo          | 565 ms    | 1         
+Manager::parseDOMDocument                            | 14 ms     | 5         
+BestPracticeAnalyzer::checkNonClickablePhoneNumbers  | 2 ms      | 5         
+SeoAndOpenGraphAnalyzer::analyzeSeo                  | 0 ms      | 1         
+BestPracticeAnalyzer::checkHeadingStructure          | 0 ms      | 5         
+AccessibilityAnalyzer::checkMissingLabels            | 0 ms      | 5         
+BestPracticeAnalyzer::checkMissingQuotesOnAttributes | 0 ms      | 5         
+AccessibilityAnalyzer::checkMissingAriaLabels        | 0 ms      | 5         
+AccessibilityAnalyzer::checkMissingRoles             | 0 ms      | 5         
+SeoAndOpenGraphAnalyzer::analyzeHeadings             | 0 ms      | 1         
+BestPracticeAnalyzer::checkMaxDOMDepth               | 0 ms      | 5         
+AccessibilityAnalyzer::checkImageAltAttributes       | 0 ms      | 5         
+AccessibilityAnalyzer::checkMissingLang              | 0 ms      | 5         
+BestPracticeAnalyzer::checkInlineSvg                 | 0 ms      | 5         
+BestPracticeAnalyzer::checkTitleUniqueness           | 0 ms      | 1         
+BestPracticeAnalyzer::checkMetaDescriptionUniqueness | 0 ms      | 1         
+SeoAndOpenGraphAnalyzer::analyzeOpenGraph            | 0 ms      | 1         
+BestPracticeAnalyzer::checkBrotliSupport             | 0 ms      | 1         
+BestPracticeAnalyzer::checkWebpSupport               | 0 ms      | 1         
+BestPracticeAnalyzer::checkAvifSupport               | 0 ms      | 1         
+

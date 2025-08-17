@@ -9,15 +9,14 @@ export class HttrackCommandBuilder {
       `--depth=${mergedConfig.depth}`,
       `--ext-depth=${extDepth}`,
       `--sockets=${sockets}`,
-      `--timeout=${mergedConfig.timeout}`
+      `--timeout=${mergedConfig.timeout}`,
+      '-a', // stay on same host
+      '--verbose' // output to console
     ];
 
     // Add configurable options
     if (httrackConfig.debugLog) args.push('--debug-log');
     if (httrackConfig.near) args.push('--near');
-
-    // Always pass -a flag (stay on same host)
-    args.push('-a');
 
     // Handle dir_up_down option for directory traversal
     if (httrackConfig.dir_up_down === 'up') {
@@ -46,6 +45,10 @@ export class HttrackCommandBuilder {
     if (httrackConfig.connections_per_second !== undefined) args.push(`-%c${httrackConfig.connections_per_second}`);
     if (httrackConfig.updatehack) args.push('--updatehack');
     if (httrackConfig.mirror) args.push('--mirror');
+
+    // Flow control options
+    if (mergedConfig.retries !== undefined) args.push(`-R${mergedConfig.retries}`);
+    if (mergedConfig.hostControl !== undefined) args.push(`-H${mergedConfig.hostControl}`);
 
     // Process filters
     const filters = this.buildFilterList(url, httrackConfig, mergedConfig);

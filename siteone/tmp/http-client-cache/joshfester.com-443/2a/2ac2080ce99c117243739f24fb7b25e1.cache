@@ -1,0 +1,508 @@
+O:31:"Crawler\HttpClient\HttpResponse":7:{s:3:"url";s:23:"/case-studies/grammy-go";s:10:"statusCode";i:200;s:4:"body";s:13472:"<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Launch your MVP in two weeks with a fractional CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+  >
+  <meta
+    name="author"
+    content="Josh Fester"
+  >
+
+  <title>
+    
+    Grammy Go handles 1.1 million monthly impressions on $5/mo |
+    
+    Josh Fester - Fractional CTO
+  </title>
+
+  <link
+    rel="canonical"
+    href="https://joshfester.com/case-studies/grammy-go"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/apple-touch-icon.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/favicon-16x16.png"
+  >
+  <link
+    rel="mask-icon"
+    href="/safari-pinned-tab.svg"
+    color="#e83283"
+  >
+  <meta
+    name="theme-color"
+    content="#e83283"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css"
+    integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/quartz/bootstrap.min.css"
+    integrity="sha256-2U551o0cyYo3xSZeA36oCkPci0vTv3EKOs8uC0Bk/Mc="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="/assets/css/main.css"
+  ><script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": "Josh Fester",
+    "familyName": "Fester",
+    "givenName": "Josh",
+    "jobTitle": "Startup CTO",
+    "knowsAbout": [
+      {
+        "@type": "Thing",
+        "name": "Startups"
+      },
+      {
+        "@type": "Thing",
+        "name": "Business"
+      },
+      {
+        "@type": "Thing",
+        "name": "Companies"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Mobile Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Project Management"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Development"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby on Rails",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "JavaScript",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Python",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Consulting services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Startup CTO Consulting",
+            "abstract": "Launch your MVP in two weeks with an experienced CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Ruby on Rails Consulting",
+            "abstract": "Build, scale, and improve the performance of your Ruby on Rails app with the help of a specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+</script></head>
+
+<body>
+
+  <video
+    id="bg-video"
+    muted
+    autoplay
+    loop
+    playsinline
+    class="vh-100 vw-100 position-fixed"
+  >
+    <source
+      src="/assets/video/bg-video.mp4"
+      type="video/mp4"
+    >
+  </video>
+  <div
+    id="bg-overlay"
+    class="vw-100 vh-100 position-fixed top-0"
+  ></div><header class="navbar navbar-expand-lg navbar-dark">
+  <nav class="container-fluid px-3">
+
+    <a
+      class="navbar-brand d-flex align-items-center fw-bold"
+      href="/"
+    >
+
+      <i class="fa-solid fa-user-astronaut me-1"></i>
+      Josh Fester
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-white">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/"
+          >Home</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/about"
+          >About</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/case-studies"
+          >Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/my-development-philosophies"
+          >My Dev Philosophies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/contact"
+          >Contact</a>
+        </li>
+      </ul>
+    </div>
+    <a
+      href="https://calendly.com/joshfester/30min"
+      class="btn btn-info ms-2 d-none d-lg-inline-block"
+      taget="__blank"
+    >
+      Free Consultation
+    </a>
+
+  </nav>
+</header><main class="container py-3">
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/case-studies">Case Studies</a></li>
+    <li
+      class="breadcrumb-item active"
+      aria-current="page"
+    >
+      The Recording Academy
+    </li>
+  </ol>
+</nav>
+
+<div
+  class="container"
+  id="case-study"
+>
+
+  <div class="row align-items-center g-3">
+    <div class="col-md-6">
+      <div class="text-center my-3">
+        <img
+          src="/assets/img/logo-grammy.png"
+          class="rounded bg-white p-2"
+          loading="lazy"
+          style="max-width: 250px; max-height: 150px;"
+        >
+      </div>
+      <h1>
+        Grammy Go handles 1.1 million monthly impressions on $5/mo
+      </h1>
+
+      <p>
+        <span class="me-2 text-nowrap"><b>Customer:</b> The Recording Academy</span>
+        <span class="me-2 text-nowrap"><b>Industry:</b> Music</span>
+        <span class="me-2 text-nowrap"><b>Duration:</b> 2 weeks</span>
+      </p>
+    </div>
+
+    <div class="col-md-6">
+      <img
+        src="/assets/img/browser-grammy.jpg"
+        alt="jerrysdeals.com"
+        loading="lazy"
+        class="w-100 rounded border"
+      >
+    </div>
+  </div>
+
+  <div class="row g-3 my-4 text-center justify-content-center">
+
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">1,100,000</h3>
+        <p class="mb-0">Monthly Search Impressions</p>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">$5/mo</h3>
+        <p class="mb-0">Ongoing Costs</p>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4">
+      <div class="card card-body p-1 p-md-2 h-100 justify-content-center">
+        <h3 class="mt-0 text-success mb-0 mb-lg-1">0</h3>
+        <p class="mb-0">Ongoing Devs Needed</p>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div class="row g-3 align-items-center">
+    <div class="col-md-6">
+      <h2>Discovery</h2>
+      <p>
+  Grammy Go is the official platform that offers online courses taught by Grammy winners and nominees.
+</p>
+<p>
+  The Recording Academy wanted to launch a new platform, but they weren't exactly sure what the content would be.
+  They needed something that could be <b>managed by a team of non-developers</b>. They also wanted to be able to handle
+  massive amounts of traffic right off the bat, and they had very specific requirements to fit it within their 
+  existing technology stack.
+</p>
+
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-warning">
+        <div class="card-header">
+          <h2 class="m-0">Challenges</h2>
+        </div>
+        <div class="card-body">
+          <ul>
+  <li><b>High Traffic</b> -- the Grammy brand is strong</li>
+  <li><b>Vague requirements</b> for features and content</li>
+  <li><b>Constantly updating content</b> needs to happen without a developer</li>
+  <li>The app needs to <b>fit withitn an existing legacy tech stack</b></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row justify-content-center my-4 text-center">
+    <div class="col-md-8 col-lg-6">
+      <figure>
+        <blockquote class="blockquote fst-italic mb-2">
+          <span class="quotes">"</span>We needed a new platform ASAP and had unclear requirements. Josh got
+us going in weeks and we are able to manage the site without a developer.
+<span class="quotes">"</span>
+        </blockquote>
+        <figcaption class="blockquote-footer m-0">
+          Uri, Marketing Team, The Recording Academy
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <div class="col-md-6">
+      <h2>Solution</h2>
+      <p>
+  To manage shifting requirements and heavy custom content, I built out a content 
+  management system (CMS) that included a <b>full-site editing page builder</b>. This allowed the
+  Grammy team to have complete control over every pixel, without writing a single line of code!
+</p>
+<p>
+  Performance is key for every web app, especially when it comes to converting viewers into
+  customers. I built a custom cache layer so that <b>the server only renders a page once instead of every
+  page view</b>. The cache automatically resets when content on the page gets updated. This opened up
+  the server for some extreme performance.
+</p>
+<p>
+  Legacy systems can be very limitiing for developers, but I consider modern tooling to be a top priority
+  for any project. Using some free open-source tools, I was able to carve out a modern slice that
+  integrated the following: 
+</p>
+<ul>
+  <li>Error Tracking</li>
+  <li>Performance Monitoring</li>
+  <li>Resource Monitoring</li>
+  <li>Config Management</li>
+  <li>Automated Testing</li>
+  <li>Automated Deployments</li>
+</ul>
+<p>
+  To read more about how I keep costs down and quality up, check out 
+  <a href="/my-development-philosophies">my development philosophies</a>.
+</p>
+
+    </div>
+
+    <div class="col-md-6">
+      <div class="card border-success">
+        <div class="card-header">
+          <h2 class="m-0">Success</h2>
+        </div>
+        <div class="card-body">
+          <p>
+  Grammy Go got off to a fast start, reaching <b>over 1.1 million impressions in Google search results within just a 
+  few weeks</b>. Despite such heavy traffic, their ongoing costs are a small server costing $5/month, and no devs 
+  are needed to maintain it!
+</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+  </main><footer class="container py-4 my-4 border-top">
+  <ul class="nav justify-content-end list-unstyled d-flex align-items-center">
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/"
+      >Home</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/about"
+      >About</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/case-studies"
+      >Case Studies</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/contact"
+      >Contact</a>
+    </li>
+
+    <li class="mb-3">
+      <a
+        href="https://calendly.com/joshfester/30min"
+        class="btn btn-info"
+        taget="__blank"
+      >
+        Free Consultation
+      </a>
+    </li>
+
+  </ul>
+</footer><script type="module">
+    document.getElementById('bg-video').playbackRate = 0.1;
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha256-m81NDyncZVbr7v9E6qCWXwx/cwjuWDlHCMzi9pjMobA="
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-HS32SJEGVR"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-HS32SJEGVR');
+  </script>
+
+</body>
+
+</html>";s:7:"headers";a:17:{s:4:"date";s:29:"Sun, 17 Aug 2025 13:54:08 GMT";s:12:"content-type";s:24:"text/html; charset=UTF-8";s:17:"transfer-encoding";s:7:"chunked";s:10:"connection";s:5:"close";s:3:"nel";s:62:"{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}";s:3:"age";s:1:"0";s:13:"cache-control";s:38:"public, max-age=14400, must-revalidate";s:12:"cache-status";s:24:""Netlify Edge"; fwd=miss";s:9:"report-to";s:211:"{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=rFECiMfu55jidUWqbCJMzKE6sIwWmNEBy2YYiJQID1Dkxeld9uPctUdp%2FyOMJNzp375ZZB%2FfUB0I5CfBpsOf7YpkanH%2BoqWv7Qqo5E1S"}]}";s:6:"server";s:10:"cloudflare";s:25:"strict-transport-security";s:16:"max-age=31536000";s:4:"vary";s:15:"Accept-Encoding";s:15:"x-nf-request-id";s:26:"01K2W4Y6TE0XBTWK45M6XZ5YVD";s:15:"cf-cache-status";s:4:"MISS";s:16:"content-encoding";s:2:"br";s:6:"cf-ray";s:20:"9709a964e9fe5da7-ORD";s:7:"alt-svc";s:19:"h3=":443"; ma=86400";}s:8:"execTime";d:0.2512080669403076;s:13:"skippedReason";N;s:48:" Crawler\HttpClient\HttpResponse loadedFromCache";b:0;}

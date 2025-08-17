@@ -112,7 +112,7 @@ async function runParcel(indexPath, outputDir) {
 
   try {
     process.chdir(inputDir);
-    
+
     const args = [
       'build',
       inputFile,

@@ -7,7 +7,6 @@
     "ecstatic": "./bin/ecstatic"
   },
   "devDependencies": {
-    "@gatsbyjs/parcel-namer-relative-to-cwd": "^2.14.0",
     "bun": "^1.2.20",
     "http-server": "^14.1.1"
   },
@@ -19,7 +18,7 @@
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
     "serve": "http-server ./dist-parcel/",
-    "serve-scraped": "http-server ./scraped",
+    "serve-scraped": "http-server ./crawler/scraped",
     "test": "node --test",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
   },
@@ -31,6 +30,7 @@
   },
   "dependencies": {
     "@divriots/jampack": "^0.33.1",
+    "@gatsbyjs/parcel-namer-relative-to-cwd": "^2.14.0",
     "@parcel/packager-raw-url": "^2.14.4",
     "@parcel/transformer-jsonld": "^2.14.4",
     "@qwik.dev/partytown": "^0.11.2",

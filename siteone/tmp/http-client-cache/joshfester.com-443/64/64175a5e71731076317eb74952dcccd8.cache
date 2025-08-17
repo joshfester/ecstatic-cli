@@ -1,0 +1,437 @@
+O:31:"Crawler\HttpClient\HttpResponse":7:{s:3:"url";s:28:"/my-development-philosophies";s:10:"statusCode";i:200;s:4:"body";s:14479:"<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Launch your MVP in two weeks with a fractional CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+  >
+  <meta
+    name="author"
+    content="Josh Fester"
+  >
+
+  <title>
+    
+    Building Your Startup with Confidence: A CTO's Guide to Nurturing Your Tech Baby |
+    
+    Josh Fester - Fractional CTO
+  </title>
+
+  <link
+    rel="canonical"
+    href="https://joshfester.com/my-development-philosophies"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/apple-touch-icon.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/favicon-16x16.png"
+  >
+  <link
+    rel="mask-icon"
+    href="/safari-pinned-tab.svg"
+    color="#e83283"
+  >
+  <meta
+    name="theme-color"
+    content="#e83283"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css"
+    integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/quartz/bootstrap.min.css"
+    integrity="sha256-2U551o0cyYo3xSZeA36oCkPci0vTv3EKOs8uC0Bk/Mc="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="/assets/css/main.css"
+  ><script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": "Josh Fester",
+    "familyName": "Fester",
+    "givenName": "Josh",
+    "jobTitle": "Startup CTO",
+    "knowsAbout": [
+      {
+        "@type": "Thing",
+        "name": "Startups"
+      },
+      {
+        "@type": "Thing",
+        "name": "Business"
+      },
+      {
+        "@type": "Thing",
+        "name": "Companies"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Mobile Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Project Management"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Development"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby on Rails",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "JavaScript",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Python",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Consulting services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Startup CTO Consulting",
+            "abstract": "Launch your MVP in two weeks with an experienced CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Ruby on Rails Consulting",
+            "abstract": "Build, scale, and improve the performance of your Ruby on Rails app with the help of a specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+</script></head>
+
+<body>
+
+  <video
+    id="bg-video"
+    muted
+    autoplay
+    loop
+    playsinline
+    class="vh-100 vw-100 position-fixed"
+  >
+    <source
+      src="/assets/video/bg-video.mp4"
+      type="video/mp4"
+    >
+  </video>
+  <div
+    id="bg-overlay"
+    class="vw-100 vh-100 position-fixed top-0"
+  ></div><header class="navbar navbar-expand-lg navbar-dark">
+  <nav class="container-fluid px-3">
+
+    <a
+      class="navbar-brand d-flex align-items-center fw-bold"
+      href="/"
+    >
+
+      <i class="fa-solid fa-user-astronaut me-1"></i>
+      Josh Fester
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-white">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/"
+          >Home</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/about"
+          >About</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/case-studies"
+          >Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/my-development-philosophies"
+          >My Dev Philosophies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/contact"
+          >Contact</a>
+        </li>
+      </ul>
+    </div>
+    <a
+      href="https://calendly.com/joshfester/30min"
+      class="btn btn-info ms-2 d-none d-lg-inline-block"
+      taget="__blank"
+    >
+      Free Consultation
+    </a>
+
+  </nav>
+</header><main class="container py-3">
+    <article
+  class="container container-md single-post"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <h1 itemprop="headline">Building Your Startup with Confidence: A CTO's Guide to Nurturing Your Tech Baby</h1>
+  <img
+    itemprop="image"
+    class="mw-100 rounded mb-2"
+    src="/assets/img/posts/my-development-philosophies-featured.jpg"
+    alt="A vaporwave/outrun style rocket ship flying through space"
+  >
+  <figure
+    class="d-flex align-items-center mb-0"
+    itemprop="author"
+    itemscope
+    itemtype="https://schema.org/Person"
+  >
+    <img
+      itemprop="image"
+      class="rounded me-1 border"
+      width="25"
+      height="25"
+      src="assets/img/me-profile.jpg"
+      alt="Josh Fester"
+    >
+    <figcaption itemprop="name">
+      Josh Fester
+    </figcaption>
+  </figure>
+  <time
+    itemprop="datePublished"
+    content="2023-10-22T00:00:00+00:00"
+    class="mb-3 text-muted"
+    datetime="2023-10-22T00:00:00+00:00"
+  >
+    <small>22 October 2023</small>
+  </time>
+
+  <div
+    class="mt-3"
+    itemprop="articleBody"
+  >
+    <p>Building Your Startup with Confidence: A CTO’s Guide to Nurturing Your Tech Baby</p>
+
+<p>Navigating the initial stages of setting up your tech business can feel like venturing into a jungle without a map. With countless decisions to make and paths to choose, where do you begin? As a CTO with decades of experience molding ideas into functional realities, I’ve recognized the importance of a systematic approach that’s understandable to the entrepreneurial visionaries who dream big. Here’s how I move fast, keep quality up, costs down, and guide you toward success.</p>
+
+<h2 id="achieving-high-project-velocity">Achieving High Project Velocity</h2>
+
+<h3 id="environment-parity">Environment Parity</h3>
+
+<p>Developers should always work in a containerized ‘local’ environment mirroring the production server. This reduces the “it works on my machine” issues. All code is tracked with version control, which allows working across different features without the fear of overwriting or losing any progress.</p>
+
+<h3 id="kiss-principle-keep-it-simple-stupid">K.I.S.S. Principle (Keep it Simple, Stupid)</h3>
+
+<p>The simpler your code, the easier it is to maintain and debug. It’s about building systems that do exactly what they need to, without complicated extras. Many developers take pride in the complexity of doing everything by hand. But we’re not trying to reinvent the wheel – we’re trying to ship a product.</p>
+
+<h3 id="tight-feedback-loops">Tight Feedback Loops</h3>
+
+<p>Establishing a continuous cycle of feedback and improvement allows for rapid iterations. Quick and responsive changes keep the development process agile and aligned with your vision.</p>
+
+<h2 id="creating-consistent-quality-assurance">Creating Consistent Quality Assurance</h2>
+
+<h3 id="automated-tests">Automated Tests</h3>
+
+<p>Automated tests serve as a consistent check to ensure that your product is moving in the right direction without deviating from its course. It ensures that any issues are promptly identified and rectified, before the code makes it into production.</p>
+
+<h3 id="continuous-integration">Continuous Integration</h3>
+
+<p>An agile development process means updates are constantly being made. But we need to make sure those updates are both safe and automated. A continuous integration (or continuous deployment) pipeline will automatically run tests, check for errors, check code complexity, build assets from source, and finally update the server (but only if all checks pass!).</p>
+
+<h3 id="observability">Observability</h3>
+
+<p>A CTO must have visibility into every aspect of the system. Observability tools let us monitor things like resource usage, performance, errors, user behavior, and more. They ensure that we can diagnose and fix issues swiftly and scale up before it’s too late.</p>
+
+<h2 id="mastering-cost-management">Mastering Cost Management</h2>
+
+<h3 id="choosing-a-tech-stack">Choosing a Tech Stack</h3>
+
+<p>As a polyglot that has worked with nearly every technology under the sun, it is my belief that every stack (programming languages, frameworks, databases, etc) has pros and cons. Does your app need AI? real-time collaboration? Government requirements? E-commerce? The stack should be matched to your business needs for optimal performance and economics.</p>
+
+<h3 id="avoiding-vendor-lock-in">Avoiding Vendor Lock-in</h3>
+
+<p>Startups go through many pivots over their lifetime, which makes agility a top priority. By using fully open-source tooling (hosting, monitoring, code libraries, etc), we will never be locked into any specific vendor where prices/features can change and migrations are costly.</p>
+
+<h3 id="optimize-performance">Optimize Performance</h3>
+
+<p>Performance isn’t just great for users and conversions, it’s also a major component of hosting costs. Inefficient resource usage can make costs quickly balloon out of control. By squeezing out maximum performance, we keep costs to an absolute minimum.</p>
+
+<h2 id="steering-the-ship">Steering the Ship</h2>
+
+<h3 id="communication">Communication</h3>
+
+<p>Effective communication between the captain, crew, and stakeholders ensures a successful voyage. Regular updates, clear documentation, and open lines of communication ensure that everyone is aligned and working towards the same goal.</p>
+
+<h3 id="translating-vision-to-tech-requirements">Translating Vision to Tech Requirements</h3>
+
+<p>I like to refer to this as “shaping” the work. It’s a form of art, but we need to apply some science to make it predictable. That means having processes in place to minimize risk, prioritize the most important steps, set expectations, and make sure we’re following the optimal path.</p>
+
+<h3 id="agile-development-process">Agile Development Process</h3>
+
+<p>Emphasizing iterative development, continuous feedback, and flexibility, agile methodologies enable us to swiftly pivot and optimize our app, ensuring it stays aligned with strategic goals. They also make sure the whole team is always on the same page, and nobody is left wondering what they should be doing.</p>
+
+<p>My role as a CTO is to provide you with not just an MVP, but a scalable and sustainable pathway for your startup’s success. My approach is designed to bring your vision to life quickly, with quality, while keeping costs down, and equipping you with the tools and processes to propel your venture forward as it grows beyond an MVP. Check out some of my recent case studies to see my approach in action.</p>
+
+  </div>
+</article>
+  </main><footer class="container py-4 my-4 border-top">
+  <ul class="nav justify-content-end list-unstyled d-flex align-items-center">
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/"
+      >Home</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/about"
+      >About</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/case-studies"
+      >Case Studies</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/contact"
+      >Contact</a>
+    </li>
+
+    <li class="mb-3">
+      <a
+        href="https://calendly.com/joshfester/30min"
+        class="btn btn-info"
+        taget="__blank"
+      >
+        Free Consultation
+      </a>
+    </li>
+
+  </ul>
+</footer><script type="module">
+    document.getElementById('bg-video').playbackRate = 0.1;
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha256-m81NDyncZVbr7v9E6qCWXwx/cwjuWDlHCMzi9pjMobA="
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-HS32SJEGVR"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-HS32SJEGVR');
+  </script>
+
+</body>
+
+</html>";s:7:"headers";a:17:{s:4:"date";s:29:"Sun, 17 Aug 2025 13:54:09 GMT";s:12:"content-type";s:24:"text/html; charset=UTF-8";s:17:"transfer-encoding";s:7:"chunked";s:10:"connection";s:5:"close";s:3:"nel";s:62:"{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}";s:3:"age";s:1:"0";s:13:"cache-control";s:38:"public, max-age=14400, must-revalidate";s:12:"cache-status";s:24:""Netlify Edge"; fwd=miss";s:9:"report-to";s:219:"{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=qcBvfVWUr2oJfFmekU33AMJcEPST%2BKDXx6N%2Ffj48cpOWMEq8VhLkbs1iOPakpD4A8%2B%2B%2Fds1Rx1KoOXv%2F5wPgFIeEDKDjWl3cvlbE1%2F1c"}]}";s:6:"server";s:10:"cloudflare";s:25:"strict-transport-security";s:16:"max-age=31536000";s:4:"vary";s:15:"Accept-Encoding";s:15:"x-nf-request-id";s:26:"01K2W4Y71Z6F4M4BFGSXV3VHB0";s:15:"cf-cache-status";s:4:"MISS";s:16:"content-encoding";s:2:"br";s:6:"cf-ray";s:20:"9709a9663d2a232f-ORD";s:7:"alt-svc";s:19:"h3=":443"; ma=86400";}s:8:"execTime";d:0.3037891387939453;s:13:"skippedReason";N;s:48:" Crawler\HttpClient\HttpResponse loadedFromCache";b:0;}

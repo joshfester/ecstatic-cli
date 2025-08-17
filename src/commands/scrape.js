@@ -9,7 +9,7 @@ export const scrapeCommand = new Command('scrape')
   .argument('<url>', 'URL to scrape')
   .option('--output <dir>', 'Output directory (overrides config)')
   .option('--depth <number>', 'Mirror depth (overrides config)', parseInt)
-  .option('--method <method>', 'Scraping method: httrack|wget (overrides config)')
+  .option('--method <method>', 'Scraping method: httrack|wget|siteone (overrides config)')
   .option('--include <pattern>', 'Include filter pattern for httrack (can be used multiple times)', collect, [])
   .option('--exclude <pattern>', 'Exclude filter pattern for httrack (can be used multiple times)', collect, [])
   // Wget-specific CLI flags (CLI overrides config)
@@ -25,6 +25,16 @@ export const scrapeCommand = new Command('scrape')
   .option('--proxy <url>', 'HTTP/HTTPS proxy URL (supports username:password@proxy.com:port)')
   .option('--no-proxy', 'Disable proxy usage even if environment variables are set')
   .option('--single-file', 'Download single file using wget with limited options')
+  .option('--retries <number>', 'Number of retries for timeout or non-fatal errors (httrack)', parseInt)
+  .option('--host-control <number>', 'Host abandoning: 0=never, 1=timeout, 2=slow, 3=timeout or slow (httrack)', parseInt)
+  // SiteOne-specific CLI options
+  .option('--workers <number>', 'Maximum number of concurrent workers for siteone (overrides config)', parseInt)
+  .option('--max-reqs-per-sec <number>', 'Max requests/s for siteone crawler (overrides config)', parseInt)
+  .option('--memory-limit <size>', 'Memory limit for siteone in M or G units (e.g., 512M, 2G) (overrides config)')
+  .option('--include-regex <pattern>', 'Include URLs matching regex pattern for siteone (can be used multiple times)', collect, [])
+  .option('--ignore-regex <pattern>', 'Ignore URLs matching regex pattern for siteone (can be used multiple times)', collect, [])
+  .option('--ignore-robots-txt', 'Ignore robots.txt content for siteone')
+  .option('--offline-export-no-auto-redirect-html', 'Disable automatic redirect HTML file creation for siteone')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {
@@ -34,7 +44,7 @@ function collect(value, previous) {
 async function scrapeWebsite(url, options) {
   const config = getConfig();
   const scraper = new Scraper();
-  
+
   // Build final options to maintain the same logging behavior
   const finalOptions = {
     output: options.output || config.paths.scraped,
@@ -42,42 +52,13 @@ async function scrapeWebsite(url, options) {
     method: options.method || config.scrape.method,
     userAgent: options.userAgent || config.scrape.userAgent
   };
-  
+
   const outputDir = resolvePath(finalOptions.output);
   logger.info(`Scraping ${url}`);
-  logger.info(`Output directory: ${outputDir}`);
-  logger.info(`Method: ${finalOptions.method}`);
-  logger.info(`Depth: ${finalOptions.depth}`);
-
-  // Log options summary for traceability
-  logOptionsSummary(finalOptions, config);
 
   // Execute scraping
   const result = await scraper.scrape(url, options, config);
 
   logger.info('Running post-processing');
-  logger.info('Scraping completed');
   logger.success(`Website scraped successfully to ${result.outputDir}`);
-}
-
-function logOptionsSummary(finalOptions, config) {
-  // Build method-specific configuration for logging
-  if (finalOptions.method === 'wget') {
-    const scraper = new Scraper();
-    const wgetOpts = scraper.buildWgetOptions({ userAgent: finalOptions.userAgent }, config);
-    logger.info(
-      `Wget summary: ${wgetOpts.mirror ? '--mirror' : (wgetOpts.recursive ? `--recursive --level=${finalOptions.depth}` : 'non-recursive')}`
-    );
-    logger.info(
-      `Wget flags: noClobber=${!!wgetOpts.noClobber}, noHostDirectories=${!!wgetOpts.noHostDirectories}, adjustExtension=${!!wgetOpts.adjustExtension}, wait=${wgetOpts.wait ?? 'none'}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}, proxy=${wgetOpts.proxy ?? 'none'}, noProxy=${!!wgetOpts.noProxy}, execute=[${(wgetOpts.execute || []).join(', ')}]`
-    );
-  } else if (finalOptions.method === 'httrack') {
-    const httrackConfig = config.scrape.httrack || {};
-    logger.info(
-      `Httrack summary: mirror=${!!httrackConfig.mirror}, depth=${finalOptions.depth}, near=${!!httrackConfig.near}, dir_up_down=${httrackConfig.dir_up_down || 'none'}`
-    );
-    logger.info(
-      `Httrack flags: debugLog=${!!httrackConfig.debugLog}, keepLinks=${httrackConfig.keepLinks ?? 'default'}, robots=${httrackConfig.robots ?? 'default'}, sockets=${httrackConfig.sockets ?? 'default'}, connections_per_second=${httrackConfig.connections_per_second ?? 'default'}, updatehack=${!!httrackConfig.updatehack}, userAgent=${finalOptions.userAgent ? 'custom' : 'default'}`
-    );
-  }
 }

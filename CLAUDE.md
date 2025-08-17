@@ -28,7 +28,9 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
 
 - scrape
     - Download the taget website as static files
-    - This is handled by either `httrack` or `wget2` (which is just 'wget' with some extra features/optimizations)
+    - This is handled by either `httrack`, `siteone`, or `wget2` (which is just 'wget' with some extra features/optimizations)
+        - The siteone crawler is a third-party library installed at ./siteone
+            - The executable is ./siteone/crawler
 - optimize
     - Optimize HTML and all assets
     - Parcel is the core. New features should be added as a Parcel plugin.
@@ -62,4 +64,5 @@ We use Bun to generate a single executable file. You can do this by running `npm
     - {PROJECT_ROOT}/docs/parcel-plugins.txt
     - {PROJECT_ROOT}/docs/parcel-plugins-transformer.txt
     - {PROJECT_ROOT}/docs/parcel-plugins-optimizer.txt
+- Siteone: {PROJECT_ROOT}/docs/siteone.md
 - Wget: {PROJECT_ROOT}/docs/wget.txt

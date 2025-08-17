@@ -1,0 +1,401 @@
+O:31:"Crawler\HttpClient\HttpResponse":7:{s:3:"url";s:9:"/contact/";s:10:"statusCode";i:200;s:4:"body";s:10198:"<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="Launch your MVP in two weeks with a fractional CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+  >
+  <meta
+    name="author"
+    content="Josh Fester"
+  >
+
+  <title>
+    
+    Contact |
+    
+    Josh Fester - Fractional CTO
+  </title>
+
+  <link
+    rel="canonical"
+    href="https://joshfester.com/contact/"
+  />
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/apple-touch-icon.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/favicon-32x32.png"
+  >
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/favicon-16x16.png"
+  >
+  <link
+    rel="mask-icon"
+    href="/safari-pinned-tab.svg"
+    color="#e83283"
+  >
+  <meta
+    name="theme-color"
+    content="#e83283"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css"
+    integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/quartz/bootstrap.min.css"
+    integrity="sha256-2U551o0cyYo3xSZeA36oCkPci0vTv3EKOs8uC0Bk/Mc="
+    crossorigin="anonymous"
+  >
+  <link
+    rel="stylesheet"
+    href="/assets/css/main.css"
+  ><script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    "name": "Josh Fester",
+    "familyName": "Fester",
+    "givenName": "Josh",
+    "jobTitle": "Startup CTO",
+    "knowsAbout": [
+      {
+        "@type": "Thing",
+        "name": "Startups"
+      },
+      {
+        "@type": "Thing",
+        "name": "Business"
+      },
+      {
+        "@type": "Thing",
+        "name": "Companies"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Mobile Applications"
+      },
+      {
+        "@type": "Thing",
+        "name": "Project Management"
+      },
+      {
+        "@type": "Thing",
+        "name": "Web Development"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Ruby on Rails",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "JavaScript",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      {
+        "@type": "Thing",
+        "name": "Python",
+        "identifier": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Consulting services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Startup CTO Consulting",
+            "abstract": "Launch your MVP in two weeks with an experienced CTO. Build your web or mobile app with the help of a startup specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "CreativeWork",
+            "name": "Ruby on Rails Consulting",
+            "abstract": "Build, scale, and improve the performance of your Ruby on Rails app with the help of a specialist with nearly two decades of experience."
+          },
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": 6900.00,
+            "priceCurrency": "USD",
+            "eligibleQuantity": {
+              "@type": "QuantitativeValue",
+              "unitText": "weeks",
+              "minValue": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+</script></head>
+
+<body>
+
+  <video
+    id="bg-video"
+    muted
+    autoplay
+    loop
+    playsinline
+    class="vh-100 vw-100 position-fixed"
+  >
+    <source
+      src="/assets/video/bg-video.mp4"
+      type="video/mp4"
+    >
+  </video>
+  <div
+    id="bg-overlay"
+    class="vw-100 vh-100 position-fixed top-0"
+  ></div><header class="navbar navbar-expand-lg navbar-dark">
+  <nav class="container-fluid px-3">
+
+    <a
+      class="navbar-brand d-flex align-items-center fw-bold"
+      href="/"
+    >
+
+      <i class="fa-solid fa-user-astronaut me-1"></i>
+      Josh Fester
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-white">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/"
+          >Home</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/about"
+          >About</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/case-studies"
+          >Case Studies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/my-development-philosophies"
+          >My Dev Philosophies</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            href="/contact"
+          >Contact</a>
+        </li>
+      </ul>
+    </div>
+    <a
+      href="https://calendly.com/joshfester/30min"
+      class="btn btn-info ms-2 d-none d-lg-inline-block"
+      taget="__blank"
+    >
+      Free Consultation
+    </a>
+
+  </nav>
+</header><main class="container py-3">
+    <div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+
+      <h1 class="text-center">
+        👋 Say Hello
+      </h1>
+
+      <p class="mb-0 text-center">
+        <a href="https://calendly.com/joshfester/30min" taget="__blank">
+          Book a free consultation
+        </a>
+        or fill out the form below to get in touch.
+      </p>
+
+      <form data-netlify-recaptcha='true' method='POST' name='contact'><input type='hidden' name='form-name' value='contact' />
+
+        <div class="mb-3">
+          <label for="email" class="form-label">
+            Email
+          </label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="name" class="form-label">
+            Name
+          </label>
+          <input type="text" class="form-control" id="name" name="name">
+        </div>
+
+        <div class="mb-3">
+          <label for="message" class="form-label">
+            Message
+          </label>
+          <textarea class="form-control" id="message" rows="3" name="message" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <div><script src='https://www.google.com/recaptcha/api.js'></script>
+<div class='g-recaptcha' data-sitekey='6LdnkKEqAAAAAPvyqoRAmjXxvE6evlb5z-5Ol90Y'></div>
+<noscript>
+  <div>
+  <div style="width: 302px; height: 422px; position: relative;">
+  <div style="width: 302px; height: 422px; position: absolute;">
+  <iframe src="https://www.google.com/recaptcha/api/fallback?k=6LdnkKEqAAAAAPvyqoRAmjXxvE6evlb5z-5Ol90Y" frameborder="0" scrolling="no"
+    style="width: 302px; height:422px; border-style: none;">
+  </iframe>
+  </div>
+  </div>
+  <div style="width: 300px; height: 60px; border-style: none; bottom: 12px; left: 25px; margin: 0px; padding: 0px; right: 25px; background: #f9f9f9; border: 1px solid #c1c1c1; border-radius: 3px;">
+    <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"
+      style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;" >
+    </textarea>
+  </div>
+  </div>
+</noscript>
+</div>
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary">
+            Submit
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+  </main><footer class="container py-4 my-4 border-top">
+  <ul class="nav justify-content-end list-unstyled d-flex align-items-center">
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/"
+      >Home</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/about"
+      >About</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/case-studies"
+      >Case Studies</a>
+    </li>
+
+    <li class="me-3 mb-3">
+      <a
+        class="text-muted"
+        href="/contact"
+      >Contact</a>
+    </li>
+
+    <li class="mb-3">
+      <a
+        href="https://calendly.com/joshfester/30min"
+        class="btn btn-info"
+        taget="__blank"
+      >
+        Free Consultation
+      </a>
+    </li>
+
+  </ul>
+</footer><script type="module">
+    document.getElementById('bg-video').playbackRate = 0.1;
+  </script>
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha256-m81NDyncZVbr7v9E6qCWXwx/cwjuWDlHCMzi9pjMobA="
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-HS32SJEGVR"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-HS32SJEGVR');
+  </script>
+
+</body>
+
+</html>";s:7:"headers";a:17:{s:4:"date";s:29:"Sun, 17 Aug 2025 15:20:51 GMT";s:12:"content-type";s:24:"text/html; charset=UTF-8";s:17:"transfer-encoding";s:7:"chunked";s:10:"connection";s:5:"close";s:3:"nel";s:62:"{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}";s:3:"age";s:1:"0";s:13:"cache-control";s:38:"public, max-age=14400, must-revalidate";s:12:"cache-status";s:24:""Netlify Edge"; fwd=miss";s:9:"report-to";s:219:"{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=xRRd1rdx0Sdf1QIIgSg85HlXdC1EsatFQwyOBq7F%2FuYU%2BC5iUGuADOE%2Bh%2BhOIkS4ZZHXGnj4IHgCqFbIRc8xnn6%2BkHps0MizRN4Ptw%3D%3D"}]}";s:6:"server";s:10:"cloudflare";s:25:"strict-transport-security";s:16:"max-age=31536000";s:4:"vary";s:15:"Accept-Encoding";s:15:"x-nf-request-id";s:26:"01K2W9WZWXR0JCYP4FY8K1NSXW";s:15:"cf-cache-status";s:7:"EXPIRED";s:16:"content-encoding";s:2:"br";s:6:"cf-ray";s:20:"970a286bcc59e269-ORD";s:7:"alt-svc";s:19:"h3=":443"; ma=86400";}s:8:"execTime";d:0.15234994888305664;s:13:"skippedReason";N;s:48:" Crawler\HttpClient\HttpResponse loadedFromCache";b:0;}
