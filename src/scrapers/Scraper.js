@@ -90,7 +90,7 @@ export class Scraper {
     };
     
     const commandSpec = this.builders.httrack.build(url, outputDir, mergedConfig);
-    return this.executeCommand(commandSpec);
+    return this.executeCommand(commandSpec, config);
   }
 
   async executeWget(url, outputDir, finalOptions, config) {
@@ -101,7 +101,7 @@ export class Scraper {
     };
     
     const commandSpec = this.builders.wget.build(url, outputDir, mergedConfig);
-    return this.executeCommand(commandSpec);
+    return this.executeCommand(commandSpec, config);
   }
 
   async executeSiteOne(url, outputDir, finalOptions, config) {
@@ -112,11 +112,12 @@ export class Scraper {
     };
     
     const commandSpec = this.builders.siteone.build(url, outputDir, mergedConfig);
-    return this.executeCommand(commandSpec);
+    return this.executeCommand(commandSpec, config);
   }
 
-  async executeCommand(commandSpec) {
-    return runCommand(commandSpec.command, commandSpec.args);
+  async executeCommand(commandSpec, config) {
+    const suppressOutput = config?.logging?.suppressOutput || false;
+    return runCommand(commandSpec.command, commandSpec.args, suppressOutput);
   }
 
   buildHttrackOptions(options, config) {
@@ -225,7 +226,8 @@ export class Scraper {
       args.push(`--directory-prefix=${destDir}`);
       args.push(entry.url);
 
-      await runCommand('wget', args);
+      const suppressOutput = config?.logging?.suppressOutput || false;
+      await runCommand('wget', args, suppressOutput);
     }
   }
 

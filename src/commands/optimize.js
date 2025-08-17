@@ -14,10 +14,16 @@ export const optimizeCommand = new Command('optimize')
   .option('--skip-parcel', 'Skip Parcel optimization')
   .option('--skip-jampack', 'Skip Jampack optimization')
   .option('--skip-partytown', 'Skip Partytown setup')
+  .option('-q, --quiet', 'Suppress output from third-party tools')
   .action(createCommand('Optimization', optimizeWebsite));
 
 async function optimizeWebsite(inputDir, options) {
   const config = getConfig();
+  
+  // Override config suppressOutput if --quiet flag is provided
+  if (options.quiet) {
+    config.logging.suppressOutput = true;
+  }
 
   // Determine input directory - either CLI provided, or find domain folder in scraped directory
   let defaultInputDir = inputDir;
@@ -63,13 +69,13 @@ async function optimizeWebsite(inputDir, options) {
   // Parcel optimization
   if (!finalOptions.skipParcel) {
     logger.info('Running Parcel optimization');
-    await runParcel(indexPath, parcelDistDir);
+    await runParcel(indexPath, parcelDistDir, config);
     currentOutputDir = parcelDistDir;
 
     // Partytown setup (if not skipped)
     if (!finalOptions.skipPartytown) {
       logger.info('Setting up Partytown');
-      await runPartytown(parcelDistDir);
+      await runPartytown(parcelDistDir, config);
     }
   }
 
@@ -79,9 +85,9 @@ async function optimizeWebsite(inputDir, options) {
 
     // Copy current output to jampack directory
     cleanDir(jampackDistDir);
-    await copyDirectory(currentOutputDir, jampackDistDir);
+    await copyDirectory(currentOutputDir, jampackDistDir, config);
 
-    await runJampack(jampackDistDir);
+    await runJampack(jampackDistDir, config);
     currentOutputDir = jampackDistDir;
   }
 
@@ -89,13 +95,13 @@ async function optimizeWebsite(inputDir, options) {
   logger.info('Copying to final output directory');
   if (currentOutputDir !== outputDir) {
     cleanDir(outputDir);
-    await copyDirectory(currentOutputDir, outputDir);
+    await copyDirectory(currentOutputDir, outputDir, config);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
 }
 
-async function runParcel(indexPath, outputDir) {
+async function runParcel(indexPath, outputDir, config) {
   // Clean parcel cache and output directory
   const parcelCacheDir = resolvePath('.parcel-cache');
   if (dirExists(parcelCacheDir)) {
@@ -120,29 +126,33 @@ async function runParcel(indexPath, outputDir) {
       absoluteOutputDir
     ];
 
-    return await runCommand('npx', ['parcel', ...args]);
+    const suppressOutput = config?.logging?.suppressOutput || false;
+    return await runCommand('npx', ['parcel', ...args], suppressOutput);
   } finally {
     // Always restore the original working directory
     process.chdir(originalCwd);
   }
 }
 
-async function runPartytown(distDir) {
+async function runPartytown(distDir, config) {
   const partytownDir = path.join(distDir, '~partytown');
   const args = [
     'copylib',
     partytownDir
   ];
 
-  return runCommand('npx', ['partytown', ...args]);
+  const suppressOutput = config?.logging?.suppressOutput || false;
+  return runCommand('npx', ['partytown', ...args], suppressOutput);
 }
 
-async function runJampack(distDir) {
+async function runJampack(distDir, config) {
   const args = [distDir];
-  return runCommand('npx', ['jampack', ...args]);
+  const suppressOutput = config?.logging?.suppressOutput || false;
+  return runCommand('npx', ['jampack', ...args], suppressOutput);
 }
 
-async function copyDirectory(src, dest) {
-  return runCommand('cp', ['-r', `${src}/.`, dest]);
+async function copyDirectory(src, dest, config) {
+  const suppressOutput = config?.logging?.suppressOutput || false;
+  return runCommand('cp', ['-r', `${src}/.`, dest], suppressOutput);
 }
 

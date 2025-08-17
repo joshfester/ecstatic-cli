@@ -107,6 +107,7 @@ export const defaults = {
     }
   },
   logging: {
-    level: 'info'
+    level: 'info',
+    suppressOutput: false  // Suppress output from third-party tools (httrack, wget, siteone, parcel, jampack)
   }
 };

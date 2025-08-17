@@ -27,7 +27,7 @@ export default {
             
             // URL filtering
             includeRegex: [],                        // Array of regex patterns to include
-            ignoreRegex: ['*/wp-json/*', '*?p=*'],                         // Array of regex patterns to ignore
+            ignoreRegex: ['/.*\\/wp-json\\/.*/i', '/.*\\?p=.*/i'],         // Array of regex patterns to ignore
             
             // Crawler behavior
             ignoreRobotsTxt: true,                  // Default: false (respect robots.txt)
