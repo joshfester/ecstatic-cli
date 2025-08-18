@@ -3,5 +3,7 @@
 .netlify
 .parcel-cache
 dist*
-node_modules
+node_modules/
 scraped
+tmp/
+log/

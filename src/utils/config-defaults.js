@@ -53,33 +53,13 @@ export const defaults = {
       reject: []
     },
     siteone: {
-      // Core crawler settings (based on SiteOne documentation defaults)
-      workers: 3,                              // Default: 3 (1 on Windows)
-      maxReqsPerSec: 10,                       // Default: 10 req/s
+      workers: 2,                              // Default: 3 (1 on Windows)
+      maxReqsPerSec: 2,                       // Default: 10 req/s
       memoryLimit: '2048M',                    // Default: 2048M
-      
-      // URL filtering
       includeRegex: [],                        // Array of regex patterns to include
       ignoreRegex: [],                         // Array of regex patterns to ignore
-      
-      // Crawler behavior
       ignoreRobotsTxt: false,                  // Default: false (respect robots.txt)
-      
-      // Offline export settings
-      offlineExportNoAutoRedirectHtml: false,  // Default: false (create auto redirect files)
-      offlineExportRemoveUnwantedCode: 1,      // Default: 1 (remove analytics/social JS)
-      
-      // Advanced limits (rarely need to be changed)
-      maxQueueLength: 9000,                    // Default: 9000
-      maxVisitedUrls: 10000,                   // Default: 10000
-      maxSkippedUrls: 10000,                   // Default: 10000
-      maxUrlLength: 2083,                      // Default: 2083
-      maxNon200ResponsesPerBasename: 5,        // Default: 5
-      
-      // Output and analysis settings
-      device: 'desktop',                       // Default: desktop (vs tablet, mobile)
-      rowsLimit: 200,                          // Default: 200 rows in analysis reports
-      timezone: 'UTC'                          // Default: UTC
+      offlineExportNoAutoRedirectHtml: true,  // Default: false (create auto redirect files)
     }
   },
   build: {

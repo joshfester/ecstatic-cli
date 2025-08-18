@@ -61,11 +61,28 @@ export function cleanDir(dirPath) {
 
 // Find the scraped domain folder in ./scraped directory
 // Returns the path to the domain folder if found, null otherwise
-export function findScrapedDomainFolder(scrapedDir) {
+// For siteone method, returns the scraped directory directly if it contains files
+export function findScrapedDomainFolder(scrapedDir, scrapingMethod = null) {
   if (!dirExists(scrapedDir)) {
     return null;
   }
 
+  // For siteone method, files are saved directly to the scraped directory
+  if (scrapingMethod === 'siteone') {
+    const items = fs.readdirSync(scrapedDir);
+    // Check if scraped directory contains files (not just directories)
+    const hasFiles = items.some(item => {
+      const itemPath = path.join(scrapedDir, item);
+      return fileExists(itemPath);
+    });
+    
+    if (hasFiles) {
+      return scrapedDir;
+    }
+    return null;
+  }
+
+  // Original logic for httrack and wget methods
   const items = fs.readdirSync(scrapedDir);
   
   // Look for directories that look like domain names

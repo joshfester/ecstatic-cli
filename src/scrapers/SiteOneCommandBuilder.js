@@ -2,7 +2,15 @@ export class SiteOneCommandBuilder {
   static build(url, outputDir, mergedConfig) {
     const args = [
       `--url=${url}`,
-      `--offline-export-dir=${outputDir}`
+      `--offline-export-dir=${outputDir}`,
+      '--rows-limit=1',
+      '--offline-export-remove-unwanted-code=0',
+      '--proxy=5.78.119.93:8888',
+      '--http-auth=jerry:Jerry1999',
+      "--output-html-report=''",
+      "--output-json-file=''",
+      "--output-text-file=''",
+      "--analyzer-filter-regex='/^$/'"
     ];
 
     // Add timeout if specified

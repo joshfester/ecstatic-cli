@@ -96,9 +96,11 @@ async function runOptimizeStep(options) {
   
   // Find the scraped domain folder
   const scrapedDir = resolvePath(config.paths.scraped);
-  const domainFolder = findScrapedDomainFolder(scrapedDir);
+  const scrapingMethod = config.scrape?.method;
+  const domainFolder = findScrapedDomainFolder(scrapedDir, scrapingMethod);
   if (!domainFolder) {
-    throw new Error(`No scraped domain folder found in ${scrapedDir}. Scraping may have failed.`);
+    const methodMsg = scrapingMethod ? ` (using ${scrapingMethod} method)` : '';
+    throw new Error(`No scraped content found in ${scrapedDir}${methodMsg}. Scraping may have failed.`);
   }
   
   const optimizeOptions = {

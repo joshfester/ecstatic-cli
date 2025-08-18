@@ -18,7 +18,7 @@
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
     "serve": "http-server ./dist-parcel/",
-    "serve-scraped": "http-server ./crawler/scraped",
+    "serve-scraped": "http-server ./scraped",
     "test": "node --test",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
   },

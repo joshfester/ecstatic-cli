@@ -29,9 +29,11 @@ async function optimizeWebsite(inputDir, options) {
   let defaultInputDir = inputDir;
   if (!defaultInputDir) {
     const scrapedDir = resolvePath(config.paths.scraped);
-    const domainFolder = findScrapedDomainFolder(scrapedDir);
+    const scrapingMethod = config.scrape?.method;
+    const domainFolder = findScrapedDomainFolder(scrapedDir, scrapingMethod);
     if (!domainFolder) {
-      throw new Error(`No scraped domain folder found in ${scrapedDir}. Please run 'scrape' command first.`);
+      const methodMsg = scrapingMethod ? ` (using ${scrapingMethod} method)` : '';
+      throw new Error(`No scraped content found in ${scrapedDir}${methodMsg}. Please run 'scrape' command first.`);
     }
     defaultInputDir = domainFolder;
   }
