@@ -13,11 +13,11 @@
   "scripts": {
     "compile": "rm -rf ./dist-exec && mkdir -p ./dist-exec && npx bun build --compile --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
     "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
-    "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/web/index.html --dist-dir ./dist-parcel",
+    "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/index.html --dist-dir ./dist-parcel",
     "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
     "partytown": "partytown copylib './dist-parcel/~partytown'",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
-    "serve": "http-server ./dist-parcel/",
+    "serve": "http-server ./dist-jampack/",
     "serve-scraped": "http-server ./scraped",
     "test": "node --test",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"

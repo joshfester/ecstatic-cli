@@ -37,13 +37,22 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
         - Out of the box, Parcel provides minification and content hashing.
         - Configuration is at {PROJECT_ROOT}/.parcelrc
         - Custom plugins:
-            - html-defer
+            - transformers/html-defer
                 - This plugin is a Parcel Transformer
                 - This plugin adds attributes to scripts. The attributes determine if the script will get ignored, deferred, or offloaded
-            - html-defer-js
+            - optimizers/html-defer-js
                 - This plugin is a Parcel Optimizer
                 - This plugin uses the defer.js library to defer/offload scripts
-    - Jampack is used to handle lazy loading assets and critical CSS optimizations.
+            - resolvers/file-existence
+                - This plugin is a Parcel Resolver
+                - This plugin checks local files and marks them as ignored if they don't exist. We purposefully ignore some files, and don't want them to crash Parcel because they aren't found.
+            - transformers/noop
+                - This plugin is a Parcel Transformer
+                - This plugin passes everything through unchanged
+            - optimizers/noop
+                - This plugin is a Parcel Optimizer
+                - This plugin passes everything through unchanged
+    - Jampack is used to handle lazy loading assets, minification, and critical CSS optimizations.
 - Deploy
     - Upload to CDN (currently only supporting BunnyCDN)
 

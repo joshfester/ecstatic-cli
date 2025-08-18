@@ -19,7 +19,7 @@ export const optimizeCommand = new Command('optimize')
 
 async function optimizeWebsite(inputDir, options) {
   const config = getConfig();
-  
+
   // Override config suppressOutput if --quiet flag is provided
   if (options.quiet) {
     config.logging.suppressOutput = true;
@@ -76,8 +76,8 @@ async function optimizeWebsite(inputDir, options) {
 
     // Partytown setup (if not skipped)
     if (!finalOptions.skipPartytown) {
-      logger.info('Setting up Partytown');
-      await runPartytown(parcelDistDir, config);
+      //logger.info('Setting up Partytown');
+      //await runPartytown(parcelDistDir, config);
     }
   }
 
@@ -125,7 +125,10 @@ async function runParcel(indexPath, outputDir, config) {
       'build',
       inputFile,
       '--dist-dir',
-      absoluteOutputDir
+      absoluteOutputDir,
+      '--no-source-maps',
+      '--no-scope-hoist',
+      //'2>&1 | tee parcel-output.log'
     ];
 
     const suppressOutput = config?.logging?.suppressOutput || false;
