@@ -12,12 +12,9 @@
   },
   "scripts": {
     "compile": "rm -rf ./dist-exec && mkdir -p ./dist-exec && npx bun build --compile --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
-    "jampack": "rm -rf ./dist-jampack/* && cp -r ./dist-parcel/. ./dist-jampack/ && jampack ./dist-jampack",
-    "parcel": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel build ./scraped/index.html --dist-dir ./dist-parcel",
-    "parcel-serve": "rm -rf .parcel-cache && rm -rf ./dist-parcel/* && parcel ./scraped/web/index.html --dist-dir ./dist-parcel --port 8080 --https",
-    "partytown": "partytown copylib './dist-parcel/~partytown'",
+    "jampack": "rm -rf ./dist-jampack/* && cp -r ./scraped/* ./dist-jampack/ && jampack ./dist-jampack --cleancache",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
-    "serve": "http-server ./dist-jampack/",
+    "serve": "http-server ./dist-jampack/scraped",
     "serve-scraped": "http-server ./scraped",
     "test": "node --test",
     "zip": "rm dist.zip && zip -r dist.zip ./dist-jampack/"
@@ -29,14 +26,10 @@
     "removeRedundantAttributes": false
   },
   "dependencies": {
-    "@divriots/jampack": "^0.33.1",
-    "@gatsbyjs/parcel-namer-relative-to-cwd": "^2.14.0",
-    "@parcel/packager-raw-url": "^2.14.4",
-    "@parcel/transformer-jsonld": "^2.14.4",
-    "@qwik.dev/partytown": "^0.11.2",
+    "@divriots/jampack": "file:../jampack",
     "@shinsenter/defer.js": "file:../defer.js",
     "cheerio": "^1.1.2",
     "commander": "^12.1.0",
-    "parcel": "2.14.4"
+    "deepmerge": "^4.3.1"
   }
 }

@@ -36,13 +36,13 @@ function createTestFile(dir, filename, content) {
 
 test('scrape post-processing - domain replacement via config', async () => {
   const tempDir = createTempDir();
-  
+
   try {
     // Create test HTML files
-    createTestFile(tempDir, 'index.html', 
+    createTestFile(tempDir, 'index.html',
       '<a href="https://oldsite.com/page">Visit oldsite.com</a>'
     );
-    createTestFile(tempDir, 'about.html', 
+    createTestFile(tempDir, 'about.html',
       '<img src="https://oldsite.com/logo.png" alt="Logo" />'
     );
 
@@ -75,7 +75,7 @@ test('scrape post-processing - domain replacement via config', async () => {
 
 test('scrape post-processing - no domain replacement when not configured', async () => {
   const tempDir = createTempDir();
-  
+
   try {
     // Create test HTML file
     const originalContent = '<a href="https://example.com/page">Visit example.com</a>';
@@ -104,7 +104,7 @@ test('scrape post-processing - no domain replacement when not configured', async
 
 test('scrape post-processing - incomplete domain replacement config', async () => {
   const tempDir = createTempDir();
-  
+
   try {
     // Create test HTML file
     const originalContent = '<a href="https://example.com/page">Visit example.com</a>';
@@ -154,7 +154,7 @@ test('scrape post-processing - incomplete domain replacement config', async () =
 
 test('scrape post-processing - complex website structure', async () => {
   const tempDir = createTempDir();
-  
+
   try {
     // Create complex directory structure
     const blogDir = path.join(tempDir, 'blog');
@@ -189,7 +189,7 @@ test('scrape post-processing - complex website structure', async () => {
     `);
 
     // Also create non-HTML files to ensure they're ignored
-    fs.writeFileSync(path.join(assetsDir, 'script.js'), 
+    fs.writeFileSync(path.join(assetsDir, 'script.js'),
       'const API_URL = "https://staging.mysite.com/api";'
     );
 
@@ -233,7 +233,7 @@ test('scrape post-processing - complex website structure', async () => {
 
 test('scrape post-processing - real-world config format', async () => {
   const tempDir = createTempDir();
-  
+
   try {
     // Create test files
     createTestFile(tempDir, 'index.html', `
@@ -252,7 +252,6 @@ test('scrape post-processing - real-world config format', async () => {
     const config = {
       paths: {
         scraped: tempDir,
-        distParcel: './dist-parcel',
         distJampack: './dist-jampack',
         dist: './dist'
       },
@@ -268,12 +267,6 @@ test('scrape post-processing - real-world config format', async () => {
           source: 'dev.example.com',
           target: 'www.example.com'
         }
-      },
-      build: {
-        parcel: {
-          cache: true,
-          minify: true
-        }
       }
     };
 
@@ -284,7 +277,7 @@ test('scrape post-processing - real-world config format', async () => {
     const content = fs.readFileSync(path.join(tempDir, 'index.html'), 'utf8');
     assert.match(content, /www\.example\.com/g);
     assert.doesNotMatch(content, /dev\.example\.com/);
-    
+
     // Check specific replacements
     assert.match(content, /<meta property="og:url" content="https:\/\/www\.example\.com\/">/);
     assert.match(content, /<meta property="og:image" content="https:\/\/www\.example\.com\/og-image\.jpg">/);

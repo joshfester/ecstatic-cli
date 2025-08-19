@@ -2,7 +2,6 @@ import { Command } from 'commander';
 import { scrapeCommand } from '../src/commands/scrape.js';
 import { optimizeCommand } from '../src/commands/optimize.js';
 import { deployCommand } from '../src/commands/deploy.js';
-import { allCommand } from '../src/commands/all.js';
 
 // Hardcode package info for Bun compatibility
 const packageJson = {
@@ -21,7 +20,6 @@ program
 program.addCommand(scrapeCommand);
 program.addCommand(optimizeCommand);
 program.addCommand(deployCommand);
-program.addCommand(allCommand);
 
 // Parse command line arguments
 program.parse();

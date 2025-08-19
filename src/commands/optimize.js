@@ -8,12 +8,9 @@ import fs from 'fs';
 import path from 'path';
 
 export const optimizeCommand = new Command('optimize')
-  .description('Optimize HTML and assets using Parcel and Jampack')
+  .description('Optimize HTML and asset')
   .argument('[input-dir]', 'Input directory containing HTML to optimize (overrides config)')
   .option('-o, --output <dir>', 'Output directory (overrides config)')
-  .option('--skip-parcel', 'Skip Parcel optimization')
-  .option('--skip-jampack', 'Skip Jampack optimization')
-  .option('--skip-partytown', 'Skip Partytown setup')
   .option('-q, --quiet', 'Suppress output from third-party tools')
   .action(createCommand('Optimization', optimizeWebsite));
 
@@ -41,15 +38,11 @@ async function optimizeWebsite(inputDir, options) {
   // Merge CLI options with config, giving precedence to CLI options
   const finalOptions = {
     inputDir: defaultInputDir,
-    output: options.output || config.paths.dist,
-    skipParcel: options.skipParcel || false,
-    skipJampack: options.skipJampack || !config.optimize.jampack.enabled,
-    skipPartytown: options.skipPartytown || false
+    output: options.output || config.paths.dist
   };
 
   const resolvedInputDir = resolvePath(finalOptions.inputDir);
   const outputDir = resolvePath(finalOptions.output);
-  const parcelDistDir = resolvePath(config.paths.distParcel);
   const jampackDistDir = resolvePath(config.paths.distJampack);
 
   logger.info(`Optimizing website from ${resolvedInputDir}`);
@@ -68,30 +61,15 @@ async function optimizeWebsite(inputDir, options) {
 
   let currentOutputDir = resolvedInputDir;
 
-  // Parcel optimization
-  if (!finalOptions.skipParcel) {
-    logger.info('Running Parcel optimization');
-    await runParcel(indexPath, parcelDistDir, config);
-    currentOutputDir = parcelDistDir;
-
-    // Partytown setup (if not skipped)
-    if (!finalOptions.skipPartytown) {
-      //logger.info('Setting up Partytown');
-      //await runPartytown(parcelDistDir, config);
-    }
-  }
-
   // Jampack optimization
-  if (!finalOptions.skipJampack) {
-    logger.info('Running Jampack optimization');
+  logger.info('Running Jampack optimization');
 
-    // Copy current output to jampack directory
-    cleanDir(jampackDistDir);
-    await copyDirectory(currentOutputDir, jampackDistDir, config);
+  // Copy current output to jampack directory
+  cleanDir(jampackDistDir);
+  await copyDirectory(currentOutputDir, jampackDistDir, config);
 
-    await runJampack(jampackDistDir, config);
-    currentOutputDir = jampackDistDir;
-  }
+  await runJampack(jampackDistDir, config);
+  currentOutputDir = jampackDistDir;
 
   // Copy to final output directory
   logger.info('Copying to final output directory');
@@ -101,53 +79,6 @@ async function optimizeWebsite(inputDir, options) {
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
-}
-
-async function runParcel(indexPath, outputDir, config) {
-  // Clean parcel cache and output directory
-  const parcelCacheDir = resolvePath('.parcel-cache');
-  if (dirExists(parcelCacheDir)) {
-    fs.rmSync(parcelCacheDir, { recursive: true, force: true });
-  }
-  cleanDir(outputDir);
-
-  // Change working directory to the directory containing index.html
-  // This ensures the namer plugin preserves internal structure without wrapper paths
-  const originalCwd = process.cwd();
-  const inputDir = path.dirname(indexPath);
-  const inputFile = path.basename(indexPath);
-  const absoluteOutputDir = path.resolve(outputDir);
-
-  try {
-    process.chdir(inputDir);
-
-    const args = [
-      'build',
-      inputFile,
-      '--dist-dir',
-      absoluteOutputDir,
-      '--no-source-maps',
-      '--no-scope-hoist',
-      //'2>&1 | tee parcel-output.log'
-    ];
-
-    const suppressOutput = config?.logging?.suppressOutput || false;
-    return await runCommand('npx', ['parcel', ...args], suppressOutput);
-  } finally {
-    // Always restore the original working directory
-    process.chdir(originalCwd);
-  }
-}
-
-async function runPartytown(distDir, config) {
-  const partytownDir = path.join(distDir, '~partytown');
-  const args = [
-    'copylib',
-    partytownDir
-  ];
-
-  const suppressOutput = config?.logging?.suppressOutput || false;
-  return runCommand('npx', ['partytown', ...args], suppressOutput);
 }
 
 async function runJampack(distDir, config) {

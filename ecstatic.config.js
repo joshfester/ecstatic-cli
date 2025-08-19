@@ -2,7 +2,6 @@ export default {
     // Directory paths
     paths: {
         scraped: './scraped',
-        distParcel: './dist-parcel',
         distJampack: './dist-jampack',
         dist: './dist'
     },
@@ -12,7 +11,7 @@ export default {
         depth: 99999,
         method: 'siteone',
         timeout: 10,
-        proxy: 'https://jerry:Jerry1999@5.78.119.93:8888',
+        proxy: 'https://jerry:Jerry1999@5.78.70.195:8888',
 
         siteone: {
             workers: 3,
@@ -20,31 +19,15 @@ export default {
             memoryLimit: '2048M',
 
             includeRegex: [],
-            ignoreRegex: ['/.*\\/wp-json\\/.*/i', '/.*\\?p=.*/i'],
+            ignoreRegex: [/.*\/wp-json\/.*/i, /.*\?p=.*/i, /.*\/cdn-cgi\/.*/i],
             ignoreRobotsTxt: true,
-            offlineExportNoAutoRedirectHtml: false,
+            offlineExportNoAutoRedirectHtml: true,
             offlineExportRemoveUnwantedCode: 1
-        }
-    },
-
-    // Build configuration
-    build: {
-        parcel: {
-            cache: true,
-            minify: true
         }
     },
 
     // Optimization configuration
     optimize: {
-        jampack: {
-            enabled: true
-        }
-    },
-
-    // HTML defer configuration
-    htmlDefer: {
-
         // Patterns to match scripts that should be offloaded to PartyTown
         // These can be domain names, API endpoints, or code snippets
         offloadPatterns: [

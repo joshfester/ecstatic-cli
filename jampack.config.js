@@ -4,5 +4,8 @@ export default {
   },
   image: {
     max_width: 1900
+  },
+  js: {
+    compressor: 'esbuild',
   }
 };

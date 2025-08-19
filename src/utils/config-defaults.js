@@ -2,7 +2,6 @@
 export const defaults = {
   paths: {
     scraped: './scraped',
-    distParcel: './dist-parcel',
     distJampack: './dist-jampack',
     dist: './dist'
   },
@@ -62,16 +61,9 @@ export const defaults = {
       offlineExportNoAutoRedirectHtml: true,  // Default: false (create auto redirect files)
     }
   },
-  build: {
-    parcel: {
-      cache: true,
-      minify: true
-    }
-  },
   optimize: {
-    jampack: {
-      enabled: true
-    }
+    deferPatterns: [],
+    offloadPatterns: []
   },
   htmlDefer: {
     offloadPatterns: [],
