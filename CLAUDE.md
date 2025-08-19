@@ -33,26 +33,12 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
             - The executable is ./siteone/crawler
 - optimize
     - Optimize HTML and all assets
-    - Parcel is the core. New features should be added as a Parcel plugin.
-        - Out of the box, Parcel provides minification and content hashing.
-        - Configuration is at {PROJECT_ROOT}/.parcelrc
-        - Custom plugins:
-            - transformers/html-defer
-                - This plugin is a Parcel Transformer
-                - This plugin adds attributes to scripts. The attributes determine if the script will get ignored, deferred, or offloaded
-            - optimizers/html-defer-js
-                - This plugin is a Parcel Optimizer
-                - This plugin uses the defer.js library to defer/offload scripts
-            - resolvers/file-existence
-                - This plugin is a Parcel Resolver
-                - This plugin checks local files and marks them as ignored if they don't exist. We purposefully ignore some files, and don't want them to crash Parcel because they aren't found.
-            - transformers/noop
-                - This plugin is a Parcel Transformer
-                - This plugin passes everything through unchanged
-            - optimizers/noop
-                - This plugin is a Parcel Optimizer
-                - This plugin passes everything through unchanged
-    - Jampack is used to handle lazy loading assets, minification, and critical CSS optimizations.
+    - Jampack is the core
+        - minification
+        - lazy load images
+        - compress/convert images
+        - critical css optimizations
+        - defer scripts
 - Deploy
     - Upload to CDN (currently only supporting BunnyCDN)
 
@@ -65,13 +51,6 @@ We use Bun to generate a single executable file. You can do this by running `npm
 - Commander: {PROJECT_ROOT}/docs/commander.md
 - Defer.js: {PROJECT_ROOT}/docs/deferjs.txt
 - Httrack: {PROJECT_ROOT}/docs/httrack.txt
-- Jampack: https://jampack.divriots.com/
-- Parcel:
-    - {PROJECT_ROOT}/docs/parcel-cli.txt
-    - {PROJECT_ROOT}/docs/parcel-html.txt
-    - {PROJECT_ROOT}/docs/parcel-production.txt
-    - {PROJECT_ROOT}/docs/parcel-plugins.txt
-    - {PROJECT_ROOT}/docs/parcel-plugins-transformer.txt
-    - {PROJECT_ROOT}/docs/parcel-plugins-optimizer.txt
+- Jampack: {PROJECT_ROOT}/docs/jampack.md
 - Siteone: {PROJECT_ROOT}/docs/siteone.md
 - Wget: {PROJECT_ROOT}/docs/wget.txt
