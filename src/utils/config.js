@@ -1,20 +1,46 @@
 import { defaults } from './config-defaults.js';
 import deepmerge from 'deepmerge';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 let _config = null;
+
+// Find the project root by looking for ecstatic.config.js file
+function findProjectRoot() {
+  // Start from the current working directory
+  let currentDir = process.cwd();
+  
+  // Check if we're already in a directory that has ecstatic.config.js
+  while (currentDir !== path.dirname(currentDir)) { // Stop at filesystem root
+    const configPath = path.join(currentDir, 'ecstatic.config.js');
+    try {
+      // Try to access the file to see if it exists
+      if (fs.existsSync(configPath)) {
+        return currentDir;
+      }
+    } catch (error) {
+      // Continue searching
+    }
+    currentDir = path.dirname(currentDir);
+  }
+  
+  // Fallback: use current working directory
+  return process.cwd();
+}
 
 // Load configuration with simple custom loader
 export async function loadEcstaticConfig() {
   if (_config) return _config;
 
-  const configPath = path.join(process.cwd(), 'ecstatic.config.js');
+  const projectRoot = findProjectRoot();
+  const configPath = path.join(projectRoot, 'ecstatic.config.js');
   let userConfig = {};
 
   try {
     const module = await import(configPath);
     userConfig = module.default || {};
-  } catch {
+  } catch (error) {
     // No config file found - use defaults only
   }
 
