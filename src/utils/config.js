@@ -74,6 +74,67 @@ export function resolvePath(relativePath) {
   return path.resolve(process.cwd(), relativePath);
 }
 
+// Generate jampack configuration from ecstatic config
+export function generateJampackConfig(config = getConfig()) {
+  // Base jampack config with static settings
+  const jampackConfig = {
+    css: {
+      inline_critical_css: true
+    },
+    image: {
+      max_width: 1900
+    }
+  };
+
+  // Add optimize configuration if it exists
+  if (config.optimize) {
+    // Map js configuration
+    if (config.optimize.js) {
+      jampackConfig.js = { ...config.optimize.js };
+    }
+
+    // Add any other optimize sections as needed
+    // (css, image overrides could go here in the future)
+  }
+
+  return jampackConfig;
+}
+
+// Write jampack configuration to jampack.config.js
+export async function writeJampackConfig(config = getConfig()) {
+  const jampackConfig = generateJampackConfig(config);
+  
+  // Custom serialization to handle regex objects properly
+  function serializeValue(value, indent = 0) {
+    const spaces = '  '.repeat(indent);
+    
+    if (value instanceof RegExp) {
+      return value.toString();
+    } else if (Array.isArray(value)) {
+      const items = value.map(item => `${spaces}  ${serializeValue(item, indent + 1)}`).join(',\n');
+      return `[\n${items}\n${spaces}]`;
+    } else if (value && typeof value === 'object') {
+      const entries = Object.entries(value).map(([key, val]) => 
+        `${spaces}  "${key}": ${serializeValue(val, indent + 1)}`
+      ).join(',\n');
+      return `{\n${entries}\n${spaces}}`;
+    } else {
+      return JSON.stringify(value);
+    }
+  }
+  
+  const configContent = `export default ${serializeValue(jampackConfig)};\n`;
+  
+  const configPath = path.resolve(process.cwd(), 'jampack.config.js');
+  
+  try {
+    fs.writeFileSync(configPath, configContent, 'utf8');
+    return configPath;
+  } catch (error) {
+    throw new Error(`Failed to write jampack.config.js: ${error.message}`);
+  }
+}
+
 // Clear cached config (for testing)
 export function clearConfig() {
   _config = null;

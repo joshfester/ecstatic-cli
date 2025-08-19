@@ -28,34 +28,39 @@ export default {
 
     // Optimization configuration
     optimize: {
-        // Patterns to match scripts that should be offloaded to PartyTown
-        // These can be domain names, API endpoints, or code snippets
-        offloadPatterns: [
-            "googletagmanager.com",
-            "window.dataLayer",
-            "client-registry.mutinycdn.com",
-            "wp-weglot-js-js",
-            "widget.trustpilot.com",
-            "posthog.com",
-            "email-decode.min.js",
-            "wp-hooks-js",
-            "wp-i18n-js",
-            "wp-i18n-js-after",
-            "swv-js",
-            "contact-form-7-js-before",
-            "contact-form-7-js",
-            "google.com/recaptcha",
-            "wp-polyfill-js",
-            "wpcf7-recaptcha-js-before",
-            "wpcf7-recaptcha-js"
-        ],
-
-        // Patterns to match scripts that should be deferred with Defer.js (opt-in)
-        // If empty or omitted, no scripts will be modified by default.
-        // These can be domain names, paths, or inline code snippets to match.
-        deferPatterns: [
-
-        ]
+        js: {
+            compressor: 'esbuild',
+            defer: {
+                when: 'always',
+                src_include: [
+                    /.*googletagmanager\.com.*/,
+                    /.*client-registry\.mutinycdn\.com.*/,
+                    /.*plugins\/weglot.*/,
+                    /.*widget\.trustpilot\.com.*/,
+                    /.*email-decode\.min\.js.*/,
+                    /.*wp-includes\/js\/dist\/hooks.*/,
+                    /.*wp-includes\/js\/dist\/i18n.*/,
+                    /.*wp-content\/plugins\/contact-form-7.*/,
+                    /.*google\.com\/recaptcha.*/,
+                    /.*wp-includes\/js\/dist\/vendor\/wp-polyfill.*/
+                ],
+                content_include: [
+                    /.*window\.dataLayer.*/,
+                    /.*posthog\.com.*/,
+                    /.*wp\.i18n\.setLocaleData.*/,
+                    /.*var wpcf7.*/
+                ],
+            },
+            offload: {
+                when: 'always',
+                src_include: [
+                    /.*cdn.jsdelivr.net.*/
+                ],
+                content_include: [
+                    /.*document.getElementById.*/
+                ],
+            },
+        }
     },
 
     // Deployment configuration

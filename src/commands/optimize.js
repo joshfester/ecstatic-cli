@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { getConfig, resolvePath } from '../utils/config.js';
+import { getConfig, resolvePath, writeJampackConfig } from '../utils/config.js';
 import { cleanDir, dirExists, fileExists, findScrapedDomainFolder } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
@@ -63,6 +63,9 @@ async function optimizeWebsite(inputDir, options) {
 
   // Jampack optimization
   logger.info('Running Jampack optimization');
+
+  // Generate dynamic jampack.config.js before running jampack
+  await writeJampackConfig(config);
 
   // Copy current output to jampack directory
   cleanDir(jampackDistDir);
