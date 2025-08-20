@@ -1,2 +1,2 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S npx bun 
 import './ecstatic.js';

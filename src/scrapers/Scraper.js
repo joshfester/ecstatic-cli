@@ -111,7 +111,7 @@ export class Scraper {
       siteone: finalOptions.siteone || (config.scrape && config.scrape.siteone) || {}
     };
     
-    const commandSpec = this.builders.siteone.build(url, outputDir, mergedConfig);
+    const commandSpec = await this.builders.siteone.build(url, outputDir, mergedConfig);
     return this.executeCommand(commandSpec, config);
   }
 

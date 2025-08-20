@@ -1,14 +1,26 @@
-import { getCrawlerPath } from '@ecstatic/siteone-crawler';
+import { getSiteOneBinaryPaths } from '../utils/siteone-binaries.js';
+import os from 'os';
+import path from 'path';
 
 export class SiteOneCommandBuilder {
-  static build(url, outputDir, mergedConfig) {
-    // Get the siteone crawler path from the NPM package
-    const crawlerPath = getCrawlerPath();
+  static async build(url, outputDir, mergedConfig) {
+    // Get the binary paths (swoole-cli and extracted crawler.php)
+    const { swooleCliPath, crawlerPhpPath } = await getSiteOneBinaryPaths();
+
+    // Create temp directories for siteone crawler working files
+    const tempDir = path.join(os.tmpdir(), 'ecstatic-siteone-work');
+    const resultStorageDir = path.join(tempDir, 'result-storage');
+    const httpCacheDir = path.join(tempDir, 'http-client-cache');
+
     const args = [
+      crawlerPhpPath, // First argument is the extracted PHP source
       `--url=${url}`,
       `--offline-export-dir=${outputDir}`,
       '--rows-limit=1',
       '--offline-export-remove-unwanted-code=0',
+      '--result-storage=file',
+      `--result-storage-dir=${resultStorageDir}`,
+      `--http-cache-dir=${httpCacheDir}`,
       //'--proxy=5.78.119.93:8888',
       //'--http-auth=jerry:Jerry1999',
       "--output-html-report=''",
@@ -69,7 +81,7 @@ export class SiteOneCommandBuilder {
     }
 
     return {
-      command: crawlerPath,
+      command: swooleCliPath,
       args: args
     };
   }
