@@ -2,7 +2,6 @@ export default {
     // Directory paths
     paths: {
         scraped: './scraped',
-        distJampack: './dist-jampack',
         dist: './dist'
     },
 
@@ -72,34 +71,6 @@ export default {
             storageZone: 'americor',
             region: '', // Optional: e.g., 'ny' for New York
             purgeUrl: 'https://americor.b-cdn.net/' // Your CDN URL to purge
-        }
-    },
-
-    // Logging configuration
-    logging: {
-        level: 'info' // 'silent', 'error', 'warning', 'info', 'debug'
-    },
-
-    // Environment-specific overrides
-    $development: {
-        logging: {
-            level: 'debug'
-        },
-        build: {
-            parcel: {
-                minify: false
-            }
-        }
-    },
-
-    $production: {
-        logging: {
-            level: 'info'
-        },
-        optimize: {
-            jampack: {
-                enabled: true
-            }
         }
     }
 };

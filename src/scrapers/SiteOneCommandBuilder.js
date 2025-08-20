@@ -1,5 +1,9 @@
+import { getCrawlerPath } from '@ecstatic/siteone-crawler';
+
 export class SiteOneCommandBuilder {
   static build(url, outputDir, mergedConfig) {
+    // Get the siteone crawler path from the NPM package
+    const crawlerPath = getCrawlerPath();
     const args = [
       `--url=${url}`,
       `--offline-export-dir=${outputDir}`,
@@ -65,7 +69,7 @@ export class SiteOneCommandBuilder {
     }
 
     return {
-      command: './siteone/crawler',
+      command: crawlerPath,
       args: args
     };
   }

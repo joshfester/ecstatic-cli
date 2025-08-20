@@ -54,3 +54,4 @@ We use Bun to generate a single executable file. You can do this by running `npm
 - Jampack: {PROJECT_ROOT}/docs/jampack.md
 - Siteone: {PROJECT_ROOT}/docs/siteone.md
 - Wget: {PROJECT_ROOT}/docs/wget.txt
+- Bun executables: {PROJECT_ROOT}/docs/bun-executable.md

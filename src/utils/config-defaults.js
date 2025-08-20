@@ -1,10 +1,8 @@
 // Default configuration values for ecstatic
+import { getEnvironmentPaths } from './environment.js';
+
 export const defaults = {
-  paths: {
-    scraped: './scraped',
-    distJampack: './dist-jampack',
-    dist: './dist'
-  },
+  paths: getEnvironmentPaths(),
   scrape: {
     depth: 3,
     method: 'httrack', // or 'wget'

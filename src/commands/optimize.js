@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 
 export const optimizeCommand = new Command('optimize')
-  .description('Optimize HTML and asset')
+  .description('Optimize HTML and assets')
   .argument('[input-dir]', 'Input directory containing HTML to optimize (overrides config)')
   .option('-o, --output <dir>', 'Output directory (overrides config)')
   .option('-q, --quiet', 'Suppress output from third-party tools')
@@ -43,7 +43,6 @@ async function optimizeWebsite(inputDir, options) {
 
   const resolvedInputDir = resolvePath(finalOptions.inputDir);
   const outputDir = resolvePath(finalOptions.output);
-  const jampackDistDir = resolvePath(config.paths.distJampack);
 
   logger.info(`Optimizing website from ${resolvedInputDir}`);
   logger.info(`Final output directory: ${outputDir}`);
@@ -59,26 +58,27 @@ async function optimizeWebsite(inputDir, options) {
     throw new Error(`index.html not found in input directory: ${resolvedInputDir}`);
   }
 
-  let currentOutputDir = resolvedInputDir;
-
   // Jampack optimization
   logger.info('Running Jampack optimization');
 
   // Generate dynamic jampack.config.js before running jampack
   await writeJampackConfig(config);
 
-  // Copy current output to jampack directory
-  cleanDir(jampackDistDir);
-  await copyDirectory(currentOutputDir, jampackDistDir, config);
+  // Check if we're doing in-place optimization (when input and output are the same)
+  const isInPlaceOptimization = (resolvedInputDir === outputDir);
 
-  await runJampack(jampackDistDir, config);
-  currentOutputDir = jampackDistDir;
-
-  // Copy to final output directory
-  logger.info('Copying to final output directory');
-  if (currentOutputDir !== outputDir) {
+  if (isInPlaceOptimization) {
+    // In-place optimization: run jampack directly on the directory
+    logger.info('Running in-place optimization');
+    await runJampack(resolvedInputDir, config);
+  } else {
+    // Copy from input to output directory, then optimize in-place in output
+    logger.info('Copying to output directory');
     cleanDir(outputDir);
-    await copyDirectory(currentOutputDir, outputDir, config);
+    await copyDirectory(resolvedInputDir, outputDir, config);
+    
+    logger.info('Running optimization in output directory');
+    await runJampack(outputDir, config);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);

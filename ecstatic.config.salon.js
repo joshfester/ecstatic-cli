@@ -3,7 +3,6 @@ export default {
   paths: {
     scraped: './scraped',
     distParcel: './dist-parcel',
-    distJampack: './dist-jampack',
     dist: './dist'
   },
 
