@@ -6,7 +6,6 @@
  * Development: Running from Node.js with source files
  */
 export function isProductionEnvironment() {
-  console.log("-------------------------------- ENV: ", process.env.ECSTATIC_ENV);
   // Check explicit environment variable (set during compilation via --define)
   if (process.env.ECSTATIC_ENV === 'production') {
     return true;

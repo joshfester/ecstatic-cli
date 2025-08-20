@@ -29,8 +29,9 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
 - scrape
     - Download the taget website as static files
     - This is handled by either `httrack`, `siteone`, or `wget2` (which is just 'wget' with some extra features/optimizations)
-        - The siteone crawler is a third-party library installed at ./siteone
-            - The executable is ./siteone/crawler
+        - The siteone crawler is a third-party PHP library installed at ./packages/siteone/siteone-crawler
+            - The library has been compiled into a PHAR file at ./packages/siteone/siteone.phar
+            - The PHAR file gets unpacked and then executed via the ./packages/siteone/swoole-cli
 - optimize
     - Optimize HTML and all assets
     - Jampack is the core
@@ -39,6 +40,8 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
         - compress/convert images
         - critical css optimizations
         - defer scripts
+        - At compile time, we zip up the whole Jampack project into ./packages/jampack/jampack-dist.zip
+        - At runtime, we import the zip file and extract it, then run jampack directly
 - Deploy
     - Upload to CDN (currently only supporting BunnyCDN)
 
@@ -54,4 +57,6 @@ We use Bun to generate a single executable file. You can do this by running `npm
 - Jampack: {PROJECT_ROOT}/docs/jampack.md
 - Siteone: {PROJECT_ROOT}/docs/siteone.md
 - Wget: {PROJECT_ROOT}/docs/wget.txt
-- Bun executables: {PROJECT_ROOT}/docs/bun-executable.md
+- Bun:
+    - executables: {PROJECT_ROOT}/docs/bun-executable.md
+    - define globals and constants: {PROJECT_ROOT}/docs/bun-define.md

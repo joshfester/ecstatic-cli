@@ -12,7 +12,7 @@
     "http-server": "^14.1.1"
   },
   "scripts": {
-    "compile": "rm -rf ./dist-exec && mkdir -p ./dist-exec && npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
+    "compile": "cd node_modules/@divriots/jampack && zip -r /home/josh/ecstatic/packages/jampack/jampack-dist.zip dist/ node_modules/ package.json && cd /home/josh/ecstatic && rm -rf ./dist-exec && mkdir -p ./dist-exec && npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
     "jampack": "rm -rf ./dist/* && cp -r ./scraped/* ./dist/ && jampack ./dist --cleancache",
     "publish": "npm run compile && cp ./dist-exec/ecstatic ../ecstatic-cli/bin/",
     "serve": "http-server ./dist",
