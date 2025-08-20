@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@divriots/jampack": "file:../jampack",
+    "@honeybadger-io/js": "^6.11.2",
     "@shinsenter/defer.js": "file:../defer.js",
     "cheerio": "^1.1.2",
     "commander": "^12.1.0",

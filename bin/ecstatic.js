@@ -1,7 +1,17 @@
+import Honeybadger from "@honeybadger-io/js";
+import { isProductionEnvironment } from '../src/utils/environment.js';
 import { Command } from 'commander';
 import { scrapeCommand } from '../src/commands/scrape.js';
 import { optimizeCommand } from '../src/commands/optimize.js';
 import { deployCommand } from '../src/commands/deploy.js';
+
+// Configure Honeybadger for production error reporting
+if (isProductionEnvironment()) {
+  Honeybadger.configure({
+    apiKey: "hbp_G4YPgHYHyk7YQljcUAFKpOGWqZrUzB0mxbxO",
+    environment: "production"
+  });
+}
 
 // Hardcode package info for Bun compatibility
 const packageJson = {
