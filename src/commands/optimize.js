@@ -4,6 +4,7 @@ import { cleanDir, dirExists, fileExists, findScrapedDomainFolder } from '../uti
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
 import { createCommand } from '../utils/command.js';
+import { isProductionEnvironment } from '../utils/environment.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -98,7 +99,7 @@ async function optimizeWebsite(inputDir, options) {
 }
 
 async function runJampack(distDir, config) {
-  const suppressOutput = config?.logging?.suppressOutput || false;
+  const suppressOutput = config?.logging?.suppressOutput || isProductionEnvironment();
   
   // Store original process.argv and console methods
   const originalArgv = process.argv;
