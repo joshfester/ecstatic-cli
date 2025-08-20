@@ -27,12 +27,25 @@ async function optimizeWebsite(inputDir, options) {
   if (!defaultInputDir) {
     const scrapedDir = resolvePath(config.paths.scraped);
     const scrapingMethod = config.scrape?.method;
-    const domainFolder = findScrapedDomainFolder(scrapedDir, scrapingMethod);
-    if (!domainFolder) {
-      const methodMsg = scrapingMethod ? ` (using ${scrapingMethod} method)` : '';
-      throw new Error(`No scraped content found in ${scrapedDir}${methodMsg}. Please run 'scrape' command first.`);
+    
+    // Handle production mode where scraped path is current directory
+    if (config.paths.scraped === '.' && scrapingMethod === 'siteone') {
+      // In production mode with siteone, files are scraped directly to current directory
+      const indexPath = path.join(scrapedDir, 'index.html');
+      if (fileExists(indexPath)) {
+        defaultInputDir = scrapedDir;
+      } else {
+        throw new Error(`No scraped content found in current directory. Please run 'scrape' command first.`);
+      }
+    } else {
+      // Use existing domain folder detection for development mode and other methods
+      const domainFolder = findScrapedDomainFolder(scrapedDir, scrapingMethod);
+      if (!domainFolder) {
+        const methodMsg = scrapingMethod ? ` (using ${scrapingMethod} method)` : '';
+        throw new Error(`No scraped content found in ${scrapedDir}${methodMsg}. Please run 'scrape' command first.`);
+      }
+      defaultInputDir = domainFolder;
     }
-    defaultInputDir = domainFolder;
   }
 
   // Merge CLI options with config, giving precedence to CLI options
