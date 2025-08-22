@@ -1,5 +1,0 @@
-{
-    "base-path": "./siteone-crawler/",
-    "main": "src/crawler.php",
-    "output": "../siteone.phar"
-}

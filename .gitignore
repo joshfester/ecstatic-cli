@@ -8,3 +8,4 @@ scraped
 tmp/
 log/
 scraped-*/
+*.tar.xz

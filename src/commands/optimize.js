@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { getConfig, resolvePath, writeJampackConfig } from '../utils/config.js';
-import { cleanDir, dirExists, fileExists, findScrapedDomainFolder } from '../utils/paths.js';
+import { ensureDirSafe, dirExists, fileExists, findScrapedDomainFolder } from '../utils/paths.js';
 import * as logger from '../utils/logger.js';
 import { runCommand } from '../utils/process.js';
 import { createCommand } from '../utils/command.js';
@@ -88,7 +88,7 @@ async function optimizeWebsite(inputDir, options) {
   } else {
     // Copy from input to output directory, then optimize in-place in output
     logger.info('Copying to output directory');
-    cleanDir(outputDir);
+    ensureDirSafe(outputDir);
     await copyDirectory(resolvedInputDir, outputDir, config);
     
     logger.info('Running optimization in output directory');

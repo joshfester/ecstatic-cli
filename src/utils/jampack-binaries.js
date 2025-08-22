@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-// Import jampack dist zip for embedding - Bun will automatically embed this when compiling
-import jampackDistZip from '../../packages/jampack/jampack-dist.zip' with { type: 'file' };
+// Import jampack dist tar.xz for embedding - Bun will automatically embed this when compiling
+import jampackDistTarXz from '../../packages/jampack/jampack-dist.tar.xz' with { type: 'file' };
 
 /**
  * Get path to jampack binary - always extracts to temp directory for consistent behavior
@@ -30,22 +30,22 @@ async function extractJampackToTemp() {
   const jampackIndexPath = path.join(jampackExtractDir, 'dist', 'index.js');
   
   try {
-    // Extract jampack zip contents
+    // Extract jampack tar.xz contents
     if (!fs.existsSync(jampackExtractDir)) {
-      // First, write the zip to temp location
-      const tempZipPath = path.join(tempDir, 'jampack-dist.zip');
-      if (!fs.existsSync(tempZipPath)) {
-        const jampackZipFile = Bun.file(jampackDistZip);
-        const jampackZipBuffer = await jampackZipFile.arrayBuffer();
-        fs.writeFileSync(tempZipPath, new Uint8Array(jampackZipBuffer));
+      // First, write the tar.xz to temp location
+      const tempTarXzPath = path.join(tempDir, 'jampack-dist.tar.xz');
+      if (!fs.existsSync(tempTarXzPath)) {
+        const jampackTarXzFile = Bun.file(jampackDistTarXz);
+        const jampackTarXzBuffer = await jampackTarXzFile.arrayBuffer();
+        fs.writeFileSync(tempTarXzPath, new Uint8Array(jampackTarXzBuffer));
       }
       
       // Create extraction directory
       fs.mkdirSync(jampackExtractDir, { recursive: true });
       
-      // Use unzip to extract contents
+      // Use tar to extract contents (now includes both dist/ and node_modules/)
       const { runCommand } = await import('../utils/process.js');
-      await runCommand('unzip', ['-q', tempZipPath, '-d', jampackExtractDir], false);
+      await runCommand('tar', ['-xJf', tempTarXzPath, '-C', jampackExtractDir], false);
     }
     
     // Verify the index.js file exists

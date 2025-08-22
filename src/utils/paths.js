@@ -32,11 +32,11 @@ export function ensureDir(dirPath) {
 export function getAllFiles(dir, baseDir = dir) {
   let files = [];
   const items = fs.readdirSync(dir);
-  
+
   for (const item of items) {
     const fullPath = path.join(dir, item);
     const stat = fs.statSync(fullPath);
-    
+
     if (stat.isDirectory()) {
       files = files.concat(getAllFiles(fullPath, baseDir));
     } else {
@@ -47,15 +47,12 @@ export function getAllFiles(dir, baseDir = dir) {
       });
     }
   }
-  
+
   return files;
 }
 
-// Clean directory (remove all contents)
-export function cleanDir(dirPath) {
-  if (dirExists(dirPath)) {
-    fs.rmSync(dirPath, { recursive: true, force: true });
-  }
+// Ensure directory exists without deleting existing contents
+export function ensureDirSafe(dirPath) {
   ensureDir(dirPath);
 }
 
@@ -75,7 +72,7 @@ export function findScrapedDomainFolder(scrapedDir, scrapingMethod = null) {
       const itemPath = path.join(scrapedDir, item);
       return fileExists(itemPath);
     });
-    
+
     if (hasFiles) {
       return scrapedDir;
     }
@@ -84,14 +81,14 @@ export function findScrapedDomainFolder(scrapedDir, scrapingMethod = null) {
 
   // Original logic for httrack and wget methods
   const items = fs.readdirSync(scrapedDir);
-  
+
   // Look for directories that look like domain names
   const domainFolders = items.filter(item => {
     const itemPath = path.join(scrapedDir, item);
     if (!dirExists(itemPath)) {
       return false;
     }
-    
+
     // Basic domain validation - contains dot and doesn't start with dot
     return item.includes('.') && !item.startsWith('.');
   });
@@ -107,7 +104,7 @@ export function findScrapedDomainFolder(scrapedDir, scrapingMethod = null) {
       const stat = fs.statSync(folderPath);
       return { folder, mtime: stat.mtime, path: folderPath };
     });
-    
+
     folderStats.sort((a, b) => b.mtime - a.mtime);
     return folderStats[0].path;
   }

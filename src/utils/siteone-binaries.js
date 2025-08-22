@@ -2,20 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-// Import binaries for embedding - Bun will automatically embed these when compiling
-import swooleCliBinary from '../../packages/siteone/swoole-cli' with { type: 'file' };
-import siteOnePhar from '../../packages/siteone/siteone.phar' with { type: 'file' };
+// Import siteone distribution for embedding - Bun will automatically embed this when compiling
+import siteOneDistTarXz from '../../packages/siteone/siteone-dist.tar.xz' with { type: 'file' };
 
 /**
  * Get paths to siteone binaries - always extracts to temp directory for consistent behavior
- * @returns {Promise<{swooleCliPath: string, siteOnePharPath: string}>}
+ * @returns {Promise<{swooleCliPath: string, crawlerPhpPath: string}>}
  */
 export async function getSiteOneBinaryPaths() {
   return await extractBinariesToTemp();
 }
 
 /**
- * Extract binaries and PHAR contents to temporary directory
+ * Extract siteone distribution to temporary directory
  * @returns {Promise<{swooleCliPath: string, crawlerPhpPath: string}>}
  */
 async function extractBinariesToTemp() {
@@ -27,45 +26,32 @@ async function extractBinariesToTemp() {
     fs.mkdirSync(tempDir, { recursive: true });
   }
   
-  const swooleCliPath = path.join(tempDir, 'swoole-cli');
-  const pharExtractDir = path.join(tempDir, 'siteone-extracted');
-  const crawlerPhpPath = path.join(pharExtractDir, 'src', 'crawler.php');
+  const siteoneExtractDir = path.join(tempDir, 'siteone-extracted');
+  const swooleCliPath = path.join(siteoneExtractDir, 'src', 'swoole-cli');
+  const crawlerPhpPath = path.join(siteoneExtractDir, 'src', 'crawler.php');
   
   try {
-    // Extract swoole-cli binary
-    if (!fs.existsSync(swooleCliPath)) {
-      const swooleCliFile = Bun.file(swooleCliBinary);
-      const swooleCliBuffer = await swooleCliFile.arrayBuffer();
-      fs.writeFileSync(swooleCliPath, new Uint8Array(swooleCliBuffer));
-      fs.chmodSync(swooleCliPath, 0o755); // Make executable
-    }
-    
-    // Extract PHAR contents using swoole-cli
-    if (!fs.existsSync(pharExtractDir)) {
-      // First, write the PHAR to temp location
-      const tempPharPath = path.join(tempDir, 'siteone.phar');
-      if (!fs.existsSync(tempPharPath)) {
-        const siteOnePharFile = Bun.file(siteOnePhar);
-        const siteOnePharBuffer = await siteOnePharFile.arrayBuffer();
-        fs.writeFileSync(tempPharPath, new Uint8Array(siteOnePharBuffer));
+    // Extract siteone tar.xz contents
+    if (!fs.existsSync(siteoneExtractDir)) {
+      // First, write the tar.xz to temp location
+      const tempTarXzPath = path.join(tempDir, 'siteone-dist.tar.xz');
+      if (!fs.existsSync(tempTarXzPath)) {
+        const siteOneTarXzFile = Bun.file(siteOneDistTarXz);
+        const siteOneTarXzBuffer = await siteOneTarXzFile.arrayBuffer();
+        fs.writeFileSync(tempTarXzPath, new Uint8Array(siteOneTarXzBuffer));
       }
       
       // Create extraction directory
-      fs.mkdirSync(pharExtractDir, { recursive: true });
+      fs.mkdirSync(siteoneExtractDir, { recursive: true });
       
-      // Use swoole-cli to extract PHAR contents
+      // Use tar to extract contents
       const { runCommand } = await import('../utils/process.js');
+      await runCommand('tar', ['-xJf', tempTarXzPath, '-C', siteoneExtractDir], false);
       
-      // Write PHP extraction script to temp file
-      const extractScriptPath = path.join(tempDir, 'extract.php');
-      const phpScript = `<?php
-$phar = new Phar('${tempPharPath}');
-$phar->extractTo('${pharExtractDir}');
-?>`;
-      fs.writeFileSync(extractScriptPath, phpScript);
-      
-      // Run the extraction script
-      await runCommand(swooleCliPath, [extractScriptPath], false);
+      // Make swoole-cli executable
+      if (fs.existsSync(swooleCliPath)) {
+        fs.chmodSync(swooleCliPath, 0o755);
+      }
     }
     
     return {

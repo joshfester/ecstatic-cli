@@ -1,4 +1,4 @@
-import { ensureDir, cleanDir } from '../utils/paths.js';
+import { ensureDir, ensureDirSafe } from '../utils/paths.js';
 import { runCommand } from '../utils/process.js';
 import { replaceDomains } from '../utils/domain-replacement.js';
 import { resolvePath } from '../utils/config.js';
@@ -22,8 +22,8 @@ export class Scraper {
       outputDir = path.join(outputDir, urlPath);
     }
 
-    // Clean and ensure output directory exists
-    cleanDir(outputDir);
+    // Ensure output directory exists
+    ensureDirSafe(outputDir);
 
     if (finalOptions.method === 'httrack') {
       await this.executeHttrack(url, outputDir, finalOptions, config);
