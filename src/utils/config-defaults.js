@@ -5,7 +5,7 @@ export const defaults = {
   paths: getEnvironmentPaths(),
   scrape: {
     depth: 3,
-    method: 'httrack', // or 'wget'
+    method: 'siteone', // or 'wget'
     timeout: 10,
     extraFiles: [],
     // Custom HTTP User-Agent string for both httrack and wget
