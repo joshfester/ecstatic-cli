@@ -14,6 +14,7 @@
   "scripts": {
     "compile": "npm run compile-jampack && npm run compile-siteone && npm run compile-ecstatic",
     "compile-ecstatic": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
+    "compile-ecstatic-macos": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-darwin-arm64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
     "compile-jampack": "tar -cJf packages/jampack/jampack-dist.tar.xz -C node_modules/@divriots/jampack dist/ node_modules/ package.json",
     "compile-siteone": "cp packages/siteone/siteone-crawler/bin/swoole-cli packages/siteone/siteone-crawler/src/ && tar -cJf packages/siteone/siteone-dist.tar.xz -C packages/siteone/siteone-crawler src/",
     "jampack": "rm -rf ./dist/* && cp -r ./scraped/* ./dist/ && jampack ./dist --cleancache",

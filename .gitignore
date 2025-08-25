@@ -9,3 +9,5 @@ tmp/
 log/
 scraped-*/
 *.tar.xz
+*.tar.gz
+package-lock.json
