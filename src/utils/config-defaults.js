@@ -1,8 +1,9 @@
 // Default configuration values for ecstatic
 import { getEnvironmentPaths } from './environment.js';
 
-export const defaults = {
-  paths: getEnvironmentPaths(),
+export function getDefaults(devFlag = false) {
+  return {
+    paths: getEnvironmentPaths(devFlag),
   scrape: {
     depth: 3,
     method: 'siteone', // or 'wget'
@@ -80,4 +81,8 @@ export const defaults = {
     level: 'info',
     suppressOutput: false  // Suppress output from third-party tools (httrack, wget, siteone, parcel, jampack)
   }
-};
+  };
+}
+
+// Legacy export for backward compatibility
+export const defaults = getDefaults();

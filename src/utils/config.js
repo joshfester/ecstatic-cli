@@ -1,4 +1,4 @@
-import { defaults } from './config-defaults.js';
+import { defaults, getDefaults } from './config-defaults.js';
 import deepmerge from 'deepmerge';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -30,7 +30,7 @@ function findProjectRoot() {
 }
 
 // Load configuration with simple custom loader
-export async function loadEcstaticConfig() {
+export async function loadEcstaticConfig(devFlag = false) {
   if (_config) return _config;
 
   const projectRoot = findProjectRoot();
@@ -44,7 +44,9 @@ export async function loadEcstaticConfig() {
     // No config file found - use defaults only
   }
 
-  _config = deepmerge(defaults, userConfig);
+  // Use dev-aware defaults
+  const defaultsToUse = devFlag ? getDefaults(devFlag) : defaults;
+  _config = deepmerge(defaultsToUse, userConfig);
   return _config;
 }
 

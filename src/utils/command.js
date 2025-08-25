@@ -5,8 +5,12 @@ import { validateApiKey } from './auth.js';
 export function createCommand(name, actionFn) {
   return async (...args) => {
     try {
-      await validateApiKey();
-      await loadEcstaticConfig();
+      // Extract dev flag from the command object (last argument)
+      const commandObj = args[args.length - 1];
+      const devFlag = commandObj && commandObj._isDevelopmentMode;
+      
+      await validateApiKey(devFlag);
+      await loadEcstaticConfig(devFlag);
       await actionFn(...args);
     } catch (error) {
       logger.error(`${name} failed: ${error.message}`);

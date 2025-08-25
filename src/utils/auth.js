@@ -1,4 +1,10 @@
-export async function validateApiKey() {
+export async function validateApiKey(devFlag = false) {
+  // Skip authentication in development mode
+  if (devFlag) {
+    console.log('Development mode: Skipping authentication');
+    return;
+  }
+
   const apiKey = process.env.ECSTATIC_API_KEY;
 
   if (!apiKey) {
