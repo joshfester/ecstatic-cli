@@ -11,3 +11,4 @@ scraped-*/
 *.tar.xz
 *.tar.gz
 package-lock.json
+*.DS_Store

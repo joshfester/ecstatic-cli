@@ -1,16 +1,16 @@
-import { spawn } from 'child_process';
-import * as logger from './logger.js';
+import { spawn } from "child_process";
+import * as logger from "./logger.js";
 
 export function runCommand(command, args, suppressOutput = false) {
   return new Promise((resolve, reject) => {
-    logger.info(`Running: ${command} ${args.join(' ')}`);
+    logger.info(`Running: ${command} ${args.join(" ")}`);
 
     const child = spawn(command, args, {
-      stdio: suppressOutput ? ['inherit', 'pipe', 'pipe'] : 'inherit',
-      shell: true
+      stdio: suppressOutput ? ["inherit", "pipe", "pipe"] : "inherit",
+      shell: true,
     });
 
-    child.on('close', (code) => {
+    child.on("close", (code) => {
       if (code === 0) {
         resolve();
       } else {
@@ -18,8 +18,10 @@ export function runCommand(command, args, suppressOutput = false) {
       }
     });
 
-    child.on('error', (error) => {
-      reject(new Error(`Failed to start command "${command}": ${error.message}`));
+    child.on("error", (error) => {
+      reject(
+        new Error(`Failed to start command "${command}": ${error.message}`),
+      );
     });
   });
 }
