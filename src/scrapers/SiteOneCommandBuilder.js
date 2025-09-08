@@ -18,9 +18,9 @@ export class SiteOneCommandBuilder {
       `--offline-export-dir=${outputDir}`,
       '--rows-limit=1',
       '--offline-export-remove-unwanted-code=0',
-      '--result-storage=file',
-      `--result-storage-dir=${resultStorageDir}`,
-      `--http-cache-dir=${httpCacheDir}`,
+      //'--result-storage=file',
+      `--result-storage-dir=tmp/result-storage`,
+      `--http-cache-dir=tmp/http-cache`,
       //'--proxy=5.78.119.93:8888',
       //'--http-auth=jerry:Jerry1999',
       "--output-html-report=''",
@@ -78,6 +78,11 @@ export class SiteOneCommandBuilder {
     // Add offline export no auto redirect html flag (only when true, default false means no flag)
     if (siteoneConfig.offlineExportNoAutoRedirectHtml === true) {
       args.push('--offline-export-no-auto-redirect-html');
+    }
+
+    // Add single page flag (only when true, default false means no flag)
+    if (siteoneConfig.singlePage === true) {
+      args.push('--single-page');
     }
 
     return {

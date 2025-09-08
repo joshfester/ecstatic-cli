@@ -206,7 +206,8 @@ export class Scraper {
       includeRegex: Array.isArray(options.includeRegex) && options.includeRegex.length ? options.includeRegex : cfgSiteOne.includeRegex,
       ignoreRegex: Array.isArray(options.ignoreRegex) && options.ignoreRegex.length ? options.ignoreRegex : cfgSiteOne.ignoreRegex,
       ignoreRobotsTxt: options.ignoreRobotsTxt !== undefined ? options.ignoreRobotsTxt : cfgSiteOne.ignoreRobotsTxt,
-      offlineExportNoAutoRedirectHtml: options.offlineExportNoAutoRedirectHtml !== undefined ? options.offlineExportNoAutoRedirectHtml : cfgSiteOne.offlineExportNoAutoRedirectHtml
+      offlineExportNoAutoRedirectHtml: options.offlineExportNoAutoRedirectHtml !== undefined ? options.offlineExportNoAutoRedirectHtml : cfgSiteOne.offlineExportNoAutoRedirectHtml,
+      singlePage: options.singlePage !== undefined ? options.singlePage : cfgSiteOne.singlePage
     };
   }
 
