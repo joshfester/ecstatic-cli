@@ -3,7 +3,7 @@
 /**
  * Detect if we're running in production (compiled executable) vs development
  * Production: Running from compiled Bun executable with ECSTATIC_ENV=production
- * Development: Running from Node.js with source files or with --dev flag
+ * Development: Running from Node.js with source files or with --admin flag
  */
 export function isProductionEnvironment() {
   // Check explicit environment variable (set during compilation via --define)
@@ -15,11 +15,11 @@ export function isProductionEnvironment() {
 }
 
 /**
- * Check if running in development mode (--dev flag override)
+ * Check if running in development mode (--admin flag override)
  */
-export function isDevelopmentMode(devFlag = false) {
-  // Dev flag takes highest priority
-  if (devFlag) {
+export function isDevelopmentMode(adminFlag = false) {
+  // Admin flag takes highest priority
+  if (adminFlag) {
     return true;
   }
   
@@ -30,8 +30,8 @@ export function isDevelopmentMode(devFlag = false) {
 /**
  * Get environment-specific paths based on production/development detection
  */
-export function getEnvironmentPaths(devFlag = false) {
-  const isDev = isDevelopmentMode(devFlag);
+export function getEnvironmentPaths(adminFlag = false) {
+  const isDev = isDevelopmentMode(adminFlag);
 
   if (isDev) {
     // Development: use subdirectories

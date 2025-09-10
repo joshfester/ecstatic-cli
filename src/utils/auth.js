@@ -1,7 +1,7 @@
-export async function validateApiKey(devFlag = false) {
-  // Skip authentication in development mode
-  if (devFlag) {
-    console.log('Development mode: Skipping authentication');
+export async function validateApiKey(adminFlag = false) {
+  // Skip authentication in admin mode
+  if (adminFlag) {
+    console.log('Admin mode: Skipping authentication');
     return;
   }
 

@@ -28,18 +28,18 @@ program
   .version(packageJson.version)
   .addOption(
     new Option(
-      "--dev",
-      "Run in development mode (skips authentication)",
+      "--admin",
+      "Run in admin mode (skips authentication)",
     ).hideHelp(),
   );
 
-// Store dev flag globally for commands to access
-let isDevelopmentMode = false;
+// Store admin flag globally for commands to access
+let isAdminMode = false;
 
 program.hook("preAction", (thisCommand, actionCommand) => {
-  isDevelopmentMode = program.opts().dev;
-  // Pass dev flag to all commands
-  actionCommand._isDevelopmentMode = isDevelopmentMode;
+  isAdminMode = program.opts().admin;
+  // Pass admin flag to all commands
+  actionCommand._isAdminMode = isAdminMode;
 });
 
 // Add commands
@@ -50,4 +50,4 @@ program.addCommand(deployCommand);
 // Parse command line arguments
 program.parse();
 
-export { isDevelopmentMode };
+export { isAdminMode };

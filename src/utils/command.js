@@ -28,12 +28,12 @@ export function createCommand(name, actionFn) {
     const startTime = Date.now();
     
     try {
-      // Extract dev flag from the command object (last argument)
+      // Extract admin flag from the command object (last argument)
       const commandObj = args[args.length - 1];
-      const devFlag = commandObj && commandObj._isDevelopmentMode;
+      const adminFlag = commandObj && commandObj._isAdminMode;
       
-      await validateApiKey(devFlag);
-      await loadEcstaticConfig(devFlag);
+      await validateApiKey(adminFlag);
+      await loadEcstaticConfig(adminFlag);
       await actionFn(...args);
       
       const elapsedTime = Date.now() - startTime;
