@@ -1,13 +1,16 @@
 import { spawn } from "child_process";
 import * as logger from "./logger.js";
 
-export function runCommand(command, args, suppressOutput = false) {
+export function runCommand(command, args, suppressOutput = false, env = {}) {
   return new Promise((resolve, reject) => {
     logger.info(`Running: ${command} ${args.join(" ")}`);
+
+    const childEnv = { ...process.env, ...env };
 
     const child = spawn(command, args, {
       stdio: suppressOutput ? ["inherit", "pipe", "pipe"] : "inherit",
       shell: true,
+      env: childEnv,
     });
 
     child.on("close", (code) => {

@@ -131,7 +131,7 @@ async function runJampack(distDir, config) {
   const jampackPath = await getJampackBinaryPath();
 
   // Run jampack as a separate process with proper stdio control
-  await runCommand(process.execPath, [jampackPath, distDir, "--cleancache"], suppressOutput);
+  await runCommand(process.execPath, [jampackPath, distDir, "--cleancache"], suppressOutput, { BUN_BE_BUN: '1' });
 }
 
 async function copyDirectory(src, dest, config) {
