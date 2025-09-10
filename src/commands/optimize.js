@@ -124,35 +124,14 @@ async function runJampack(distDir, config) {
     fs.rmSync(jampackDir, { recursive: true, force: true });
   }
 
-  // Store original process.argv and console methods
-  const originalArgv = process.argv;
-  const originalConsoleLog = console.log;
-  const originalConsoleError = console.error;
+  // Get jampack binary path from our bundled version
+  const { getJampackBinaryPath } = await import(
+    "../utils/jampack-binaries.js"
+  );
+  const jampackPath = await getJampackBinaryPath();
 
-  try {
-    // Set up process.argv to simulate: jampack ./distDir
-    process.argv = ["node", "jampack", distDir, "--cleancache"];
-
-    // Suppress console output if requested
-    if (suppressOutput) {
-      console.log = () => {};
-      console.error = () => {};
-    }
-
-    // Get jampack binary path from our bundled version
-    const { getJampackBinaryPath } = await import(
-      "../utils/jampack-binaries.js"
-    );
-    const jampackPath = await getJampackBinaryPath();
-
-    // Import and execute jampack's main module
-    await import(jampackPath);
-  } finally {
-    // Restore original state
-    process.argv = originalArgv;
-    console.log = originalConsoleLog;
-    console.error = originalConsoleError;
-  }
+  // Run jampack as a separate process with proper stdio control
+  await runCommand(process.execPath, [jampackPath, distDir, "--cleancache"], suppressOutput);
 }
 
 async function copyDirectory(src, dest, config) {
