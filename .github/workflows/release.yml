@@ -1,0 +1,87 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - production
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build executable
+      run: npm run compile
+    
+    - name: Get commit info
+      id: commit_info
+      run: |
+        COMMIT_SHA=$(git rev-parse --short HEAD)
+        COMMIT_DATE=$(git log -1 --format=%cd --date=format:%Y%m%d-%H%M%S)
+        VERSION="${COMMIT_DATE}-${COMMIT_SHA}"
+        echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+        echo "COMMIT_SHA=${COMMIT_SHA}" >> $GITHUB_OUTPUT
+    
+    - name: Create release archive
+      run: |
+        VERSION=${{ steps.commit_info.outputs.VERSION }}
+        mkdir -p release
+        cp ./dist-exec/ecstatic release/
+        chmod +x release/ecstatic
+        cd release
+        tar -czf ../ecstatic-linux-x64-${VERSION}.tar.gz ecstatic
+        cd ..
+        rm -rf release
+    
+    - name: Upload release artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ecstatic-linux-x64-${{ steps.commit_info.outputs.VERSION }}
+        path: ecstatic-linux-x64-${{ steps.commit_info.outputs.VERSION }}.tar.gz
+        retention-days: 30
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.commit_info.outputs.VERSION }}
+        name: Release v${{ steps.commit_info.outputs.VERSION }}
+        body: |
+          Automated release from production branch
+          
+          **Commit:** ${{ steps.commit_info.outputs.COMMIT_SHA }}
+          **Built:** ${{ github.run_id }}
+          
+          ## Installation
+          
+          Download the `ecstatic-linux-x64-${{ steps.commit_info.outputs.VERSION }}.tar.gz` file, extract it, and run:
+          
+          ```bash
+          tar -xzf ecstatic-linux-x64-${{ steps.commit_info.outputs.VERSION }}.tar.gz
+          chmod +x ecstatic
+          ./ecstatic --help
+          ```
+        files: ecstatic-linux-x64-${{ steps.commit_info.outputs.VERSION }}.tar.gz
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
