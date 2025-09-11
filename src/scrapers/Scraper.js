@@ -1,6 +1,7 @@
 import { ensureDir, ensureDirSafe } from '../utils/paths.js';
 import { runCommand } from '../utils/process.js';
 import { replaceDomains } from '../utils/domain-replacement.js';
+import { renamePHPHtmlFiles } from '../utils/siteone-postprocessing.js';
 import { resolvePath } from '../utils/config.js';
 import { WgetCommandBuilder } from './WgetCommandBuilder.js';
 import { HttrackCommandBuilder } from './HttrackCommandBuilder.js';
@@ -42,7 +43,7 @@ export class Scraper {
     }
 
     // Run post-processing
-    await this.runPostProcessing(config);
+    await this.runPostProcessing(config, finalOptions.method, outputDir);
 
     return { outputDir, finalOptions };
   }
@@ -232,7 +233,12 @@ export class Scraper {
     }
   }
 
-  async runPostProcessing(config) {
+  async runPostProcessing(config, scrapingMethod, outputDir) {
+    // Run SiteOne-specific post-processing
+    if (scrapingMethod === 'siteone') {
+      await renamePHPHtmlFiles(outputDir);
+    }
+
     // Run domain replacement if configured
     const domainReplacement = config?.scrape?.domainReplacement;
     if (domainReplacement?.source && domainReplacement?.target) {

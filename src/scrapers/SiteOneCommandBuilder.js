@@ -26,7 +26,11 @@ export class SiteOneCommandBuilder {
       "--output-html-report=''",
       "--output-json-file=''",
       "--output-text-file=''",
-      "--analyzer-filter-regex='/^$/'"
+      "--analyzer-filter-regex='/^$/'",
+      "--replace-content='\/index.html -> \/'",
+      "--replace-content='index.html -> \/'",
+      "--replace-content='\/index.php.html -> \/'",
+
     ];
 
     // Add timeout if specified
