@@ -12,3 +12,6 @@ scraped-*/
 *.tar.gz
 package-lock.json
 *.DS_Store
+
+!packages/jampack/dist
+!packages/jampack/node_modules
