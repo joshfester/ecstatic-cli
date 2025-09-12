@@ -1,0 +1,76 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - production
+
+permissions: {}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build executable
+      run: npm run compile
+    
+    - name: Get version info
+      id: version_info
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+    
+    - name: Create release archive
+      run: |
+        VERSION=${{ steps.version_info.outputs.VERSION }}
+        mkdir -p release
+        cp ./dist-exec/ecstatic release/
+        chmod +x release/ecstatic
+        cd release
+        tar -czf ../ecstatic-linux-x64-${VERSION}.tar.gz ecstatic
+        cd ..
+        rm -rf release
+    
+    - name: Install Wrangler
+      run: npm install -g wrangler@latest
+    
+    - name: Upload to Cloudflare R2
+      run: |
+        VERSION=${{ steps.version_info.outputs.VERSION }}
+        FILENAME="ecstatic-linux-x64-${VERSION}.tar.gz"
+        
+        # Upload versioned file
+        wrangler r2 object put "ecstatic-releases/${FILENAME}" \
+          --file "${FILENAME}" \
+          --content-type "application/gzip" \
+          --remote
+        
+        # Upload as latest
+        wrangler r2 object put "ecstatic-releases/ecstatic-linux-x64-latest.tar.gz" \
+          --file "${FILENAME}" \
+          --content-type "application/gzip" \
+          --remote
+        
+        echo "✅ Uploaded ${FILENAME} to R2"
+        echo "✅ Updated latest version"
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

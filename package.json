@@ -9,7 +9,8 @@
   "devDependencies": {
     "bun": "^1.2.20",
     "directory-import": "^3.3.2",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "wrangler": "^4.36.0"
   },
   "scripts": {
     "compile": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
