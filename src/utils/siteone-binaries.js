@@ -27,7 +27,7 @@ async function extractBinariesToTemp() {
   }
   
   const siteoneExtractDir = path.join(tempDir, 'siteone-extracted');
-  const swooleCliPath = path.join(siteoneExtractDir, 'src', 'swoole-cli');
+  const swooleCliPath = path.join(siteoneExtractDir, 'bin', 'swoole-cli');
   const crawlerPhpPath = path.join(siteoneExtractDir, 'src', 'crawler.php');
   
   try {
