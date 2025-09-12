@@ -58,13 +58,13 @@ jobs:
         FILENAME="ecstatic-linux-x64-${VERSION}.tar.gz"
         
         # Upload versioned file
-        wrangler r2 object put "ecstatic-releases/${FILENAME}" \
+        wrangler r2 object put "ecstatic/${FILENAME}" \
           --file "${FILENAME}" \
           --content-type "application/gzip" \
           --remote
         
         # Upload as latest
-        wrangler r2 object put "ecstatic-releases/ecstatic-linux-x64-latest.tar.gz" \
+        wrangler r2 object put "ecstatic/ecstatic-linux-x64-latest.tar.gz" \
           --file "${FILENAME}" \
           --content-type "application/gzip" \
           --remote
