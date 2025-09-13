@@ -20,6 +20,7 @@ export const optimizeCommand = new Command("optimize")
     "Input directory containing HTML to optimize (overrides config)",
   )
   .option("--output <dir>", "Output directory (overrides config)")
+  .option("--config <path>", "Path to jampack config file")
   .option("--quiet", "Suppress output from third-party tools")
   .action(createCommand("Optimization", optimizeWebsite));
 
@@ -91,8 +92,17 @@ async function optimizeWebsite(inputDir, options) {
   // Jampack optimization
   logger.info("Running Jampack optimization");
 
-  // Generate dynamic jampack.config.js before running jampack
-  await writeJampackConfig(config);
+  // Determine config path - either user provided or auto-generated
+  let jampackConfigPath;
+  if (options.config) {
+    jampackConfigPath = resolvePath(options.config);
+    if (!fileExists(jampackConfigPath)) {
+      throw new Error(`Jampack config file not found: ${jampackConfigPath}`);
+    }
+  } else {
+    // Generate dynamic jampack.config.js before running jampack
+    jampackConfigPath = await writeJampackConfig(config);
+  }
 
   // Check if we're doing in-place optimization (when input and output are the same)
   const isInPlaceOptimization = resolvedInputDir === outputDir;
@@ -100,7 +110,7 @@ async function optimizeWebsite(inputDir, options) {
   if (isInPlaceOptimization) {
     // In-place optimization: run jampack directly on the directory
     logger.info("Running in-place optimization");
-    await runJampack(resolvedInputDir, config);
+    await runJampack(resolvedInputDir, config, jampackConfigPath);
   } else {
     // Copy from input to output directory, then optimize in-place in output
     logger.info("Copying to output directory");
@@ -108,13 +118,13 @@ async function optimizeWebsite(inputDir, options) {
     await copyDirectory(resolvedInputDir, outputDir, config);
 
     logger.info("Running optimization in output directory");
-    await runJampack(outputDir, config);
+    await runJampack(outputDir, config, jampackConfigPath);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
 }
 
-async function runJampack(distDir, config) {
+async function runJampack(distDir, config, jampackConfigPath) {
   const suppressOutput =
     config?.logging?.suppressOutput || isProductionEnvironment();
 
@@ -130,8 +140,14 @@ async function runJampack(distDir, config) {
   );
   const jampackPath = await getJampackBinaryPath();
 
+  // Build jampack command arguments
+  const jampackArgs = [jampackPath, distDir, "--cleancache"];
+  if (jampackConfigPath) {
+    jampackArgs.push("--config", jampackConfigPath);
+  }
+
   // Run jampack as a separate process with proper stdio control
-  await runCommand(process.execPath, [jampackPath, distDir, "--cleancache"], suppressOutput, { BUN_BE_BUN: '1' });
+  await runCommand(process.execPath, jampackArgs, suppressOutput, { BUN_BE_BUN: '1' });
 }
 
 async function copyDirectory(src, dest, config) {
