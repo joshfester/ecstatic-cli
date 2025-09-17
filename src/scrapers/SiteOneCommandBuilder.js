@@ -30,7 +30,7 @@ export class SiteOneCommandBuilder {
       "--replace-content='\/index.html -> \/'",
       "--replace-content='index.html -> \/'",
       "--replace-content='\/index.php.html -> \/'",
-
+      "--ignore-robots-txt"
     ];
 
     // Add timeout if specified
@@ -41,11 +41,6 @@ export class SiteOneCommandBuilder {
     // Add user agent if specified (wrap in quotes to handle spaces and special characters)
     if (mergedConfig.userAgent) {
       args.push(`--user-agent="${mergedConfig.userAgent}"`);
-    }
-
-    // Add depth limit if specified and not unlimited
-    if (mergedConfig.depth && mergedConfig.depth !== 99999) {
-      args.push(`--max-depth=${mergedConfig.depth}`);
     }
 
     // Add SiteOne-specific options from siteone config (which includes defaults)
@@ -72,11 +67,6 @@ export class SiteOneCommandBuilder {
       siteoneConfig.ignoreRegex.forEach(pattern => {
         args.push(`--ignore-regex="${pattern}"`);
       });
-    }
-
-    // Add ignore robots.txt flag (only when true, default false means no flag)
-    if (siteoneConfig.ignoreRobotsTxt === true) {
-      args.push('--ignore-robots-txt');
     }
 
     // Add offline export no auto redirect html flag (only when true, default false means no flag)

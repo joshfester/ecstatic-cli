@@ -10,9 +10,21 @@ export default {
     "defer": {
       "when": "always",
       "src_include": [
+        /.*client-registry\.mutinycdn\.com.*/,
+        /.*wp-content\/themes\/americor-v2\/dist\/\js\/app\..*/,
+        /.*toolkit\.americor\.com.*/,
+        /.*plugins\/weglot.*/
+      ],
+      "content_include": [
+
+      ]
+    },
+    "offload": {
+      "when": "always",
+      "src_include": [
+        /.*cdn.jsdelivr.net.*/,
         /.*googletagmanager\.com.*/,
         /.*client-registry\.mutinycdn\.com.*/,
-        /.*plugins\/weglot.*/,
         /.*widget\.trustpilot\.com.*/,
         /.*email-decode\.min\.js.*/,
         /.*wp-includes\/js\/dist\/hooks.*/,
@@ -22,19 +34,12 @@ export default {
         /.*wp-includes\/js\/dist\/vendor\/wp-polyfill.*/
       ],
       "content_include": [
+        /.*document.getElementById.*/,
         /.*window\.dataLayer.*/,
         /.*posthog\.com.*/,
         /.*wp\.i18n\.setLocaleData.*/,
-        /.*var wpcf7.*/
-      ]
-    },
-    "offload": {
-      "when": "always",
-      "src_include": [
-        /.*cdn.jsdelivr.net.*/
-      ],
-      "content_include": [
-        /.*document.getElementById.*/
+        /.*var wpcf7.*/,
+        /.*https:\/\/www\.googletagmanager\.com\/gtm\.js.*/
       ]
     }
   }
