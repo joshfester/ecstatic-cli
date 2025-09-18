@@ -37,16 +37,24 @@ program
       "--verbose",
       "Show output from third-party tools (requires --admin)",
     ).hideHelp(),
+  )
+  .addOption(
+    new Option(
+      "--extract-dir <path>",
+      "Directory to extract temporary binaries (defaults to system temp directory)",
+    ),
   );
 
-// Store admin flag globally for commands to access
+// Store global flags for commands to access
 let isAdminMode = false;
 let isVerboseMode = false;
+let extractDir = null;
 
 program.hook("preAction", (thisCommand, actionCommand) => {
   const opts = program.opts();
   isAdminMode = opts.admin;
   isVerboseMode = opts.verbose;
+  extractDir = opts.extractDir;
 
   // Validate that --verbose requires --admin
   if (isVerboseMode && !isAdminMode) {
@@ -57,6 +65,7 @@ program.hook("preAction", (thisCommand, actionCommand) => {
   // Pass flags to all commands
   actionCommand._isAdminMode = isAdminMode;
   actionCommand._isVerboseMode = isVerboseMode;
+  actionCommand._extractDir = extractDir;
 });
 
 // Add commands
@@ -67,4 +76,4 @@ program.addCommand(deployCommand);
 // Parse command line arguments
 program.parse();
 
-export { isAdminMode, isVerboseMode };
+export { isAdminMode, isVerboseMode, extractDir };

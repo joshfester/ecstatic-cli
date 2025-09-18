@@ -108,7 +108,7 @@ async function optimizeWebsite(inputDir, options, command) {
   if (isInPlaceOptimization) {
     // In-place optimization: run jampack directly on the directory
     logger.info("Running in-place optimization");
-    await runJampack(resolvedInputDir, config, jampackConfigPath);
+    await runJampack(resolvedInputDir, config, jampackConfigPath, command);
   } else {
     // Copy from input to output directory, then optimize in-place in output
     logger.info("Copying to output directory");
@@ -116,13 +116,13 @@ async function optimizeWebsite(inputDir, options, command) {
     await copyDirectory(resolvedInputDir, outputDir, config);
 
     logger.info("Running optimization in output directory");
-    await runJampack(outputDir, config, jampackConfigPath);
+    await runJampack(outputDir, config, jampackConfigPath, command);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
 }
 
-async function runJampack(distDir, config, jampackConfigPath) {
+async function runJampack(distDir, config, jampackConfigPath, command) {
   const suppressOutput = config?.logging?.suppressOutput;
 
   // Clean up _jampack directory if it exists
@@ -135,7 +135,7 @@ async function runJampack(distDir, config, jampackConfigPath) {
   const { getJampackBinaryPath } = await import(
     "../utils/jampack-binaries.js"
   );
-  const jampackPath = await getJampackBinaryPath();
+  const jampackPath = await getJampackBinaryPath(command._extractDir);
 
   // Build jampack command arguments
   const jampackArgs = [jampackPath, distDir, "--cleancache"];

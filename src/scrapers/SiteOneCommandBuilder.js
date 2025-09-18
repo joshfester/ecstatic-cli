@@ -3,9 +3,9 @@ import os from 'os';
 import path from 'path';
 
 export class SiteOneCommandBuilder {
-  static async build(url, outputDir, mergedConfig) {
+  static async build(url, outputDir, mergedConfig, extractDir = null) {
     // Get the binary paths (swoole-cli and extracted crawler.php)
-    const { swooleCliPath, crawlerPhpPath } = await getSiteOneBinaryPaths();
+    const { swooleCliPath, crawlerPhpPath } = await getSiteOneBinaryPaths(extractDir);
 
     // Create temp directories for siteone crawler working files
     const tempDir = path.join(os.tmpdir(), 'ecstatic-siteone-work');

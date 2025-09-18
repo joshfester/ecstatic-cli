@@ -13,7 +13,7 @@ export class Scraper {
     this.builders = commandBuilders;
   }
 
-  async scrape(url, options, config) {
+  async scrape(url, options, config, extractDir = null) {
     const finalOptions = this.buildFinalOptions(options, config);
     let outputDir = this.resolveOutputDir(finalOptions.output);
 
@@ -31,7 +31,7 @@ export class Scraper {
     } else if (finalOptions.method === 'wget') {
       await this.executeWget(url, outputDir, finalOptions, config);
     } else if (finalOptions.method === 'siteone') {
-      await this.executeSiteOne(url, outputDir, finalOptions, config);
+      await this.executeSiteOne(url, outputDir, finalOptions, config, extractDir);
     } else {
       throw new Error(`Unknown scraping method: ${finalOptions.method}`);
     }
@@ -105,14 +105,14 @@ export class Scraper {
     return this.executeCommand(commandSpec, config);
   }
 
-  async executeSiteOne(url, outputDir, finalOptions, config) {
+  async executeSiteOne(url, outputDir, finalOptions, config, extractDir = null) {
     const mergedConfig = {
       ...finalOptions,
       timeout: config.scrape.timeout,
       siteone: finalOptions.siteone || (config.scrape && config.scrape.siteone) || {}
     };
-    
-    const commandSpec = await this.builders.siteone.build(url, outputDir, mergedConfig);
+
+    const commandSpec = await this.builders.siteone.build(url, outputDir, mergedConfig, extractDir);
     return this.executeCommand(commandSpec, config);
   }
 
