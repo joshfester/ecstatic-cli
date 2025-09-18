@@ -31,15 +31,32 @@ program
       "--admin",
       "Run in admin mode (skips authentication)",
     ).hideHelp(),
+  )
+  .addOption(
+    new Option(
+      "--verbose",
+      "Show output from third-party tools (requires --admin)",
+    ).hideHelp(),
   );
 
 // Store admin flag globally for commands to access
 let isAdminMode = false;
+let isVerboseMode = false;
 
 program.hook("preAction", (thisCommand, actionCommand) => {
-  isAdminMode = program.opts().admin;
-  // Pass admin flag to all commands
+  const opts = program.opts();
+  isAdminMode = opts.admin;
+  isVerboseMode = opts.verbose;
+
+  // Validate that --verbose requires --admin
+  if (isVerboseMode && !isAdminMode) {
+    console.error("Error: --verbose invalid");
+    process.exit(1);
+  }
+
+  // Pass flags to all commands
   actionCommand._isAdminMode = isAdminMode;
+  actionCommand._isVerboseMode = isVerboseMode;
 });
 
 // Add commands
@@ -50,4 +67,4 @@ program.addCommand(deployCommand);
 // Parse command line arguments
 program.parse();
 
-export { isAdminMode };
+export { isAdminMode, isVerboseMode };

@@ -36,19 +36,18 @@ export const scrapeCommand = new Command('scrape')
   .option('--ignore-robots-txt', 'Ignore robots.txt content for siteone')
   .option('--offline-export-no-auto-redirect-html', 'Disable automatic redirect HTML file creation for siteone')
   .option('--single-page', 'Load only one page and its assets, but do not follow other pages for siteone')
-  .option('-q, --quiet', 'Suppress output from third-party tools')
   .action(createCommand('Scraping', scrapeWebsite));
 
 function collect(value, previous) {
   return previous.concat([value]);
 }
 
-async function scrapeWebsite(url, options) {
+async function scrapeWebsite(url, options, command) {
   const config = getConfig();
 
-  // Override config suppressOutput if --quiet flag is provided
-  if (options.quiet) {
-    config.logging.suppressOutput = true;
+  // Override config suppressOutput if --verbose flag is provided with --admin
+  if (command._isVerboseMode) {
+    config.logging.suppressOutput = false;
   }
 
   const scraper = new Scraper();

@@ -117,7 +117,7 @@ export class Scraper {
   }
 
   async executeCommand(commandSpec, config) {
-    const suppressOutput = config?.logging?.suppressOutput || false;
+    const suppressOutput = config?.logging?.suppressOutput;
     return runCommand(commandSpec.command, commandSpec.args, suppressOutput);
   }
 
@@ -228,7 +228,7 @@ export class Scraper {
       args.push(`--directory-prefix=${destDir}`);
       args.push(entry.url);
 
-      const suppressOutput = config?.logging?.suppressOutput || false;
+      const suppressOutput = config?.logging?.suppressOutput;
       await runCommand('wget', args, suppressOutput);
     }
   }

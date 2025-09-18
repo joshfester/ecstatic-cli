@@ -79,7 +79,7 @@ export function getDefaults(devFlag = false) {
     },
     logging: {
       level: 'info',
-      suppressOutput: false  // Suppress output from third-party tools (httrack, wget, siteone, parcel, jampack)
+      suppressOutput: true  // Suppress output from third-party tools (httrack, wget, siteone, parcel, jampack)
     }
   };
 }

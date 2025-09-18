@@ -9,7 +9,6 @@ import {
 import * as logger from "../utils/logger.js";
 import { runCommand } from "../utils/process.js";
 import { createCommand } from "../utils/command.js";
-import { isProductionEnvironment } from "../utils/environment.js";
 import fs from "fs";
 import path from "path";
 
@@ -21,15 +20,14 @@ export const optimizeCommand = new Command("optimize")
   )
   .option("--output <dir>", "Output directory (overrides config)")
   .option("--config <path>", "Path to jampack config file")
-  .option("--quiet", "Suppress output from third-party tools")
   .action(createCommand("Optimization", optimizeWebsite));
 
-async function optimizeWebsite(inputDir, options) {
+async function optimizeWebsite(inputDir, options, command) {
   const config = getConfig();
 
-  // Override config suppressOutput if --quiet flag is provided
-  if (options.quiet) {
-    config.logging.suppressOutput = true;
+  // Override config suppressOutput if --verbose flag is provided with --admin
+  if (command._isVerboseMode) {
+    config.logging.suppressOutput = false;
   }
 
   // Determine input directory - either CLI provided, or find domain folder in scraped directory
@@ -125,8 +123,7 @@ async function optimizeWebsite(inputDir, options) {
 }
 
 async function runJampack(distDir, config, jampackConfigPath) {
-  const suppressOutput =
-    config?.logging?.suppressOutput || isProductionEnvironment();
+  const suppressOutput = config?.logging?.suppressOutput;
 
   // Clean up _jampack directory if it exists
   const jampackDir = path.join(distDir, '_jampack');
