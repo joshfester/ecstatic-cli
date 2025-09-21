@@ -1,6 +1,6 @@
 {
   "name": "ecstatic",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CLI tool for website optimization - download, optimize, and deploy static sites",
   "type": "module",
   "bin": {
