@@ -138,7 +138,7 @@ async function runJampack(distDir, config, jampackConfigPath, command) {
   const jampackPath = await getJampackBinaryPath(command._extractDir);
 
   // Build jampack command arguments
-  const jampackArgs = [jampackPath, distDir, "--cleancache"];
+  const jampackArgs = [jampackPath, distDir];
   if (jampackConfigPath) {
     jampackArgs.push("--config", jampackConfigPath);
   }
