@@ -66,6 +66,5 @@ async function scrapeWebsite(url, options, command) {
   // Execute scraping
   const result = await scraper.scrape(url, options, config, command._extractDir);
 
-  logger.info('Running post-processing');
   logger.success(`Website scraped successfully to ${result.outputDir}`);
 }

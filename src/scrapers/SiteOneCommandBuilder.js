@@ -30,6 +30,7 @@ export class SiteOneCommandBuilder {
       "--replace-content='\/index.html -> \/'",
       "--replace-content='index.html -> \/'",
       "--replace-content='\/index.php.html -> \/'",
+      "--replace-content='https_\/\/ -> https:\/\/'",
       "--ignore-robots-txt"
     ];
 
