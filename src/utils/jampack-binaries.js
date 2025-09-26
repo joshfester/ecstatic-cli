@@ -7,7 +7,7 @@ import jampackDistTarXz from '../../packages/jampack/jampack-dist.tar.xz' with {
 
 /**
  * Get path to jampack binary - always extracts to temp directory for consistent behavior
- * @param {string} [extractDir] - Custom directory to extract binaries (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory to extract binaries (defaults to ./tmp)
  * @returns {Promise<string>} Path to jampack's main entry point (index.js)
  */
 export async function getJampackBinaryPath(extractDir = null) {
@@ -16,12 +16,12 @@ export async function getJampackBinaryPath(extractDir = null) {
 
 /**
  * Extract jampack dist contents to temporary directory
- * @param {string} [extractDir] - Custom directory to extract binaries (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory to extract binaries (defaults to ./tmp)
  * @returns {Promise<string>} Path to jampack's main entry point
  */
 async function extractJampackToTemp(extractDir = null) {
   // Create temp directory for extracted jampack
-  const baseDir = extractDir || os.tmpdir();
+  const baseDir = extractDir || './tmp';
   const tempDir = path.join(baseDir, 'ecstatic-jampack-binaries');
   
   // Ensure temp directory exists
@@ -64,10 +64,10 @@ async function extractJampackToTemp(extractDir = null) {
 
 /**
  * Clean up temporary jampack files (optional, called during shutdown)
- * @param {string} [extractDir] - Custom directory where binaries were extracted (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory where binaries were extracted (defaults to ./tmp)
  */
 export function cleanupTempJampack(extractDir = null) {
-  const baseDir = extractDir || os.tmpdir();
+  const baseDir = extractDir || './tmp';
   const tempDir = path.join(baseDir, 'ecstatic-jampack-binaries');
   try {
     if (fs.existsSync(tempDir)) {

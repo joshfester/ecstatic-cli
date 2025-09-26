@@ -7,7 +7,7 @@ import siteOneDistTarXz from '../../packages/siteone/siteone-dist.tar.xz' with {
 
 /**
  * Get paths to siteone binaries - always extracts to temp directory for consistent behavior
- * @param {string} [extractDir] - Custom directory to extract binaries (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory to extract binaries (defaults to ./tmp)
  * @returns {Promise<{swooleCliPath: string, crawlerPhpPath: string}>}
  */
 export async function getSiteOneBinaryPaths(extractDir = null) {
@@ -16,12 +16,12 @@ export async function getSiteOneBinaryPaths(extractDir = null) {
 
 /**
  * Extract siteone distribution to temporary directory
- * @param {string} [extractDir] - Custom directory to extract binaries (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory to extract binaries (defaults to ./tmp)
  * @returns {Promise<{swooleCliPath: string, crawlerPhpPath: string}>}
  */
 async function extractBinariesToTemp(extractDir = null) {
   // Create temp directory for extracted binaries
-  const baseDir = extractDir || os.tmpdir();
+  const baseDir = extractDir || './tmp';
   const tempDir = path.join(baseDir, 'ecstatic-siteone-binaries');
   
   // Ensure temp directory exists
@@ -68,10 +68,10 @@ async function extractBinariesToTemp(extractDir = null) {
 
 /**
  * Clean up temporary binary files (optional, called during shutdown)
- * @param {string} [extractDir] - Custom directory where binaries were extracted (defaults to system temp directory)
+ * @param {string} [extractDir] - Custom directory where binaries were extracted (defaults to ./tmp)
  */
 export function cleanupTempBinaries(extractDir = null) {
-  const baseDir = extractDir || os.tmpdir();
+  const baseDir = extractDir || './tmp';
   const tempDir = path.join(baseDir, 'ecstatic-siteone-binaries');
   try {
     if (fs.existsSync(tempDir)) {

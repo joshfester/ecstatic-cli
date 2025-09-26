@@ -20,6 +20,8 @@ export const optimizeCommand = new Command("optimize")
   )
   .option("--output <dir>", "Output directory (overrides config)")
   .option("--config <path>", "Path to jampack config file")
+  .option("--preload-images <images>", "Comma-separated list of images to preload")
+  .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .action(createCommand("Optimization", optimizeWebsite));
 
 async function optimizeWebsite(inputDir, options, command) {
@@ -108,7 +110,7 @@ async function optimizeWebsite(inputDir, options, command) {
   if (isInPlaceOptimization) {
     // In-place optimization: run jampack directly on the directory
     logger.info("Running in-place optimization");
-    await runJampack(resolvedInputDir, config, jampackConfigPath, command);
+    await runJampack(resolvedInputDir, config, jampackConfigPath, command, options);
   } else {
     // Copy from input to output directory, then optimize in-place in output
     logger.info("Copying to output directory");
@@ -116,13 +118,13 @@ async function optimizeWebsite(inputDir, options, command) {
     await copyDirectory(resolvedInputDir, outputDir, config);
 
     logger.info("Running optimization in output directory");
-    await runJampack(outputDir, config, jampackConfigPath, command);
+    await runJampack(outputDir, config, jampackConfigPath, command, options);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
 }
 
-async function runJampack(distDir, config, jampackConfigPath, command) {
+async function runJampack(distDir, config, jampackConfigPath, command, options) {
   const suppressOutput = config?.logging?.suppressOutput;
 
   // Clean up _jampack directory if it exists
@@ -141,6 +143,16 @@ async function runJampack(distDir, config, jampackConfigPath, command) {
   const jampackArgs = [jampackPath, distDir];
   if (jampackConfigPath) {
     jampackArgs.push("--config", jampackConfigPath);
+  }
+
+  // Add preload-images option if provided
+  if (options.preloadImages) {
+    jampackArgs.push("--preload-images", options.preloadImages);
+  }
+
+  // Add fetchpriority-high option if provided
+  if (options.fetchpriorityHigh) {
+    jampackArgs.push("--fetchpriority-high", options.fetchpriorityHigh);
   }
 
   // Run jampack as a separate process with proper stdio control

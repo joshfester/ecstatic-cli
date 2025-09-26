@@ -1,5 +1,4 @@
 import { getSiteOneBinaryPaths } from '../utils/siteone-binaries.js';
-import os from 'os';
 import path from 'path';
 
 export class SiteOneCommandBuilder {
@@ -8,9 +7,8 @@ export class SiteOneCommandBuilder {
     const { swooleCliPath, crawlerPhpPath } = await getSiteOneBinaryPaths(extractDir);
 
     // Create temp directories for siteone crawler working files
-    const tempDir = path.join(os.tmpdir(), 'ecstatic-siteone-work');
-    const resultStorageDir = path.join(tempDir, 'result-storage');
-    const httpCacheDir = path.join(tempDir, 'http-client-cache');
+    const baseDir = extractDir || './tmp';
+    const tempDir = path.join(baseDir, 'ecstatic-siteone-work');
 
     const args = [
       crawlerPhpPath, // First argument is the extracted PHP source
