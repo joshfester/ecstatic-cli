@@ -48,9 +48,10 @@ export function parseImageList(imageString, outputDir) {
  * Get compression settings based on file extension and metadata
  * @param {string} extension - File extension (with dot)
  * @param {object} metadata - Sharp metadata object (optional for PNG intelligent compression)
+ * @param {string} imagePath - Path to image file (for file size analysis)
  * @returns {object} Compression settings for Sharp
  */
-export function getCompressionSettings(extension, metadata = null) {
+export function getCompressionSettings(extension, metadata = null, imagePath = null) {
   const ext = extension.toLowerCase();
 
   switch (ext) {
@@ -71,12 +72,33 @@ export function getCompressionSettings(extension, metadata = null) {
         adaptiveFiltering: true
       };
 
-      // Intelligent PNG compression based on original metadata
-      if (metadata && metadata.isPalette && metadata.bitsPerSample) {
-        // Original was palette-based, preserve or improve efficiency
-        const maxColors = Math.pow(2, metadata.bitsPerSample);
-        pngOptions.palette = true;
-        pngOptions.colors = maxColors;
+      // Intelligent PNG compression - detect if this was likely a simple/palette image
+      if (imagePath && metadata) {
+        try {
+          const originalStats = fs.statSync(imagePath);
+          const bytesPerPixel = originalStats.size / (metadata.width * metadata.height);
+
+          // If very small bytes per pixel (< 0.5), likely was a palette/simple image
+          if (bytesPerPixel < 0.5) {
+            pngOptions.palette = true;
+            // Aggressive quantization for simple images
+            if (bytesPerPixel < 0.1) {
+              pngOptions.colors = 2;  // Very simple, likely 2-color
+            } else if (bytesPerPixel < 0.25) {
+              pngOptions.colors = 16; // Simple palette
+            } else {
+              pngOptions.colors = 256; // Standard palette
+            }
+          }
+
+          // For any image with very low complexity, enable palette mode
+          if (bytesPerPixel < 1.0) {
+            pngOptions.palette = true;
+            pngOptions.colors = Math.min(256, Math.max(2, Math.floor(bytesPerPixel * 512)));
+          }
+        } catch (error) {
+          // If file analysis fails, use standard PNG compression
+        }
       }
 
       return {
@@ -136,14 +158,28 @@ export async function compressImage(imagePath) {
   const metadata = await sharp(imagePath).metadata();
   const needsResize = metadata.width > 1920 || metadata.height > 1920;
 
+  // Debug logging for resize decisions
+  const fileName = path.basename(imagePath);
+  logger.info(`  Processing ${fileName}: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
+
+  // Log PNG-specific metadata for debugging
+  if (extension.toLowerCase() === '.png') {
+    logger.info(`  PNG metadata: channels=${metadata.channels}, depth=${metadata.depth}, hasProfile=${!!metadata.icc}, hasAlpha=${metadata.hasAlpha}`);
+    if (metadata.palettes) {
+      logger.info(`  PNG palette info: colors=${metadata.palettes}`);
+    }
+  }
+
   // Get compression settings with metadata for intelligent PNG handling
-  const settings = getCompressionSettings(extension, metadata);
+  const settings = getCompressionSettings(extension, metadata, imagePath);
+  logger.info(`  Compression settings: ${JSON.stringify(settings)}`);
 
   // Create Sharp instance
   let sharpInstance = sharp(imagePath);
 
   // Only resize if necessary
   if (needsResize) {
+    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max 1920x1920`);
     sharpInstance = sharpInstance.resize(1920, 1920, {
       fit: 'inside',
       withoutEnlargement: true
@@ -173,18 +209,27 @@ export async function compressImage(imagePath) {
   const tempPath = `${imagePath}.tmp`;
   await sharpInstance.toFile(tempPath);
 
+  // Get final dimensions for logging
+  const finalMetadata = await sharp(tempPath).metadata();
+  logger.info(`  Final dimensions: ${finalMetadata.width}x${finalMetadata.height}`);
+
   // Check if compression actually helped
   const tempStats = fs.statSync(tempPath);
   const compressedSize = tempStats.size;
 
-  if (compressedSize >= originalSize) {
-    // Compression made it worse, keep original
+  if (compressedSize >= originalSize && !needsResize) {
+    // Compression made it worse and no resize was needed, keep original
     fs.unlinkSync(tempPath);
+    logger.info(`  Compression increased size, keeping original`);
     return { originalSize, compressedSize: originalSize };
   }
 
-  // Replace original with compressed version
+  // Replace original with compressed version (keep resized version even if larger)
   fs.renameSync(tempPath, imagePath);
+
+  if (needsResize) {
+    logger.info(`  Image resized and compressed (resize was primary goal)`);
+  }
 
   return { originalSize, compressedSize };
 }
