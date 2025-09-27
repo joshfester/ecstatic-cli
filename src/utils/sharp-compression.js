@@ -1,8 +1,19 @@
-import sharp from 'sharp';
 import * as logger from './logger.js';
 import { fileExists } from './paths.js';
+import { getJampackSharpPath } from './jampack-binaries.js';
 import path from 'path';
 import fs from 'fs';
+import { createRequire } from 'module';
+
+/**
+ * Dynamically load Sharp from extracted Jampack
+ * @returns {Promise<object>} Sharp module
+ */
+async function loadSharp() {
+  const sharpPath = await getJampackSharpPath();
+  const require = createRequire(import.meta.url);
+  return require(sharpPath);
+}
 
 /**
  * Parse comma-separated image list and validate paths
@@ -113,6 +124,9 @@ export function getCompressionSettings(extension, metadata = null) {
  */
 export async function compressImage(imagePath) {
   const extension = path.extname(imagePath);
+
+  // Load Sharp dynamically from Jampack
+  const sharp = await loadSharp();
 
   // Get original file size
   const originalStats = fs.statSync(imagePath);

@@ -1,6 +1,6 @@
 {
   "name": "ecstatic",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "CLI tool for website optimization - download, optimize, and deploy static sites",
   "type": "module",
   "bin": {
@@ -13,7 +13,7 @@
     "wrangler": "^4.36.0"
   },
   "scripts": {
-    "compile": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
+    "compile": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --target=bun-linux-x64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
     "compile:macos": "rm -rf ./dist-exec/* && NODE_ENV=production npx bun build --compile --define process.env.ECSTATIC_ENV='\"production\"' --minify --bytecode --target=bun-darwin-arm64 ./bin/ecstatic.js --outfile ./dist-exec/ecstatic",
     "jampack": "npm run jampack:install && npm run jampack:compress",
     "jampack:compress": "rm -rf packages/jampack/* && tar -cJf packages/jampack/jampack-dist.tar.xz -C tmp/jampack dist/ node_modules/ package.json",
@@ -38,7 +38,6 @@
     "@shinsenter/defer.js": "file:../defer.js",
     "cheerio": "^1.1.2",
     "commander": "^12.1.0",
-    "deepmerge": "^4.3.1",
-    "sharp": "^0.34.4"
+    "deepmerge": "^4.3.1"
   }
 }

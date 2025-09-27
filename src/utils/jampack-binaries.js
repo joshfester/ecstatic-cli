@@ -15,6 +15,31 @@ export async function getJampackBinaryPath(extractDir = null) {
 }
 
 /**
+ * Get path to Sharp module from extracted Jampack node_modules
+ * @param {string} [extractDir] - Custom directory where binaries were extracted (defaults to ./tmp)
+ * @returns {Promise<string>} Path to Sharp module in Jampack's node_modules
+ */
+export async function getJampackSharpPath(extractDir = null) {
+  const baseDir = extractDir || './tmp';
+  const tempDir = path.join(baseDir, 'ecstatic-jampack-binaries');
+  const jampackExtractDir = path.join(tempDir, 'jampack-extracted');
+  const sharpPath = path.join(jampackExtractDir, 'node_modules', 'sharp');
+
+  // Ensure Jampack is extracted first
+  await extractJampackToTemp(extractDir);
+
+  // Convert to absolute path for compiled binary compatibility
+  const absoluteSharpPath = path.resolve(sharpPath);
+
+  // Verify Sharp exists in the extracted location
+  if (!fs.existsSync(absoluteSharpPath)) {
+    throw new Error(`Sharp not found in extracted Jampack at: ${absoluteSharpPath}`);
+  }
+
+  return absoluteSharpPath;
+}
+
+/**
  * Extract jampack dist contents to temporary directory
  * @param {string} [extractDir] - Custom directory to extract binaries (defaults to ./tmp)
  * @returns {Promise<string>} Path to jampack's main entry point
