@@ -9,6 +9,7 @@ import {
 import * as logger from "../utils/logger.js";
 import { runCommand } from "../utils/process.js";
 import { createCommand } from "../utils/command.js";
+import { compressImages } from "../utils/sharp-compression.js";
 import fs from "fs";
 import path from "path";
 
@@ -22,6 +23,7 @@ export const optimizeCommand = new Command("optimize")
   .option("--config <path>", "Path to jampack config file")
   .option("--preload-images <images>", "Comma-separated list of images to preload")
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
+  .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
   .action(createCommand("Optimization", optimizeWebsite));
 
 async function optimizeWebsite(inputDir, options, command) {
@@ -119,6 +121,12 @@ async function optimizeWebsite(inputDir, options, command) {
 
     logger.info("Running optimization in output directory");
     await runJampack(outputDir, config, jampackConfigPath, command, options);
+  }
+
+  // Run Sharp image compression if specified
+  if (options.compressExtraImages) {
+    const suppressOutput = config?.logging?.suppressOutput;
+    await compressImages(options.compressExtraImages, outputDir, suppressOutput);
   }
 
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
