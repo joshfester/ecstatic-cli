@@ -25,6 +25,7 @@ export const optimizeCommand = new Command("optimize")
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
   .option("--convert-extra-images <images>", "Comma-separated list of images to convert to AVIF with Sharp")
+  .option("--copy-files <mappings>", "Comma-separated list of file copies in format source:destination")
   .action(createCommand("Optimization", optimizeWebsite));
 
 async function optimizeWebsite(inputDir, options, command) {
@@ -136,6 +137,11 @@ async function optimizeWebsite(inputDir, options, command) {
     await convertImages(options.convertExtraImages, outputDir, suppressOutput);
   }
 
+  // Copy files if specified
+  if (options.copyFiles) {
+    await copyFiles(options.copyFiles, outputDir);
+  }
+
   logger.success(`Website optimized successfully! Output: ${outputDir}`);
 }
 
@@ -177,4 +183,33 @@ async function runJampack(distDir, config, jampackConfigPath, command, options) 
 async function copyDirectory(src, dest, config) {
   const suppressOutput = config?.logging?.suppressOutput || false;
   return runCommand("cp", ["-r", `${src}/.`, dest], suppressOutput);
+}
+
+async function copyFiles(mappings, outputDir) {
+  const pairs = mappings.split(',').map(m => m.trim());
+
+  for (const pair of pairs) {
+    const [source, destination] = pair.split(':').map(p => p.trim());
+
+    if (!source || !destination) {
+      logger.warning(`Invalid copy mapping: ${pair}`);
+      continue;
+    }
+
+    const sourcePath = path.join(outputDir, source);
+    const destPath = path.join(outputDir, destination);
+
+    if (!fileExists(sourcePath)) {
+      logger.warning(`Source file not found: ${sourcePath}`);
+      continue;
+    }
+
+    // Ensure destination directory exists
+    const destDir = path.dirname(destPath);
+    ensureDirSafe(destDir);
+
+    // Copy the file
+    fs.copyFileSync(sourcePath, destPath);
+    logger.info(`Copied ${source} → ${destination}`);
+  }
 }

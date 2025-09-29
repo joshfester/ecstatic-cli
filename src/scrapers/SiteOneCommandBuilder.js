@@ -29,7 +29,7 @@ export class SiteOneCommandBuilder {
       "--replace-content='index.html -> \/'",
       "--replace-content='\/index.php.html -> \/'",
       "--replace-content='https_\/\/ -> https:\/\/'",
-      "--replace-content='homepage-hero.png -> homepage-hero.avif'",
+      "--replace-content='\/img\/background\/homepage-hero.png -> \/img\/background\/homepage-hero.avif'",
       "--ignore-robots-txt"
     ];
 
