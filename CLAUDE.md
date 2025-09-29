@@ -29,6 +29,7 @@ The CLI tool is powered by the Commander library. The entry point is at ./bin/ec
 - scrape
     - Download the taget website as static files
     - This is handled by either `httrack`, `siteone`, or `wget2` (which is just 'wget' with some extra features/optimizations)
+        - siteone is default
         - The siteone crawler is a third-party PHP library installed at ./packages/siteone/siteone-crawler
             - The library has been packaged into a tar.xz file at ./packages/siteone/siteone-dist.tar.xz
             - The tar.xz file gets unpacked and then executed via `swoole-cli src/crawler.php`
@@ -51,7 +52,9 @@ We use Bun to generate a single executable file. You can do this by running `npm
 
 ## Running locally
 
-Run the app via `bin/ecstatic`, which executes the app with Bun
+- Run the app via `bin/ecstatic`, which executes the app with Bun
+- ALWAYS use the --admin flag to bypass authentication
+- Use the --verbose flag to see output from third-party tools
 
 ## Documentation
 

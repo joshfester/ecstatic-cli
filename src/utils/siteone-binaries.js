@@ -84,7 +84,7 @@ export function cleanupTempBinaries(extractDir = null) {
 }
 
 // Register cleanup on process exit
-process.on('exit', cleanupTempBinaries);
+process.on('exit', () => cleanupTempBinaries());
 process.on('SIGINT', () => {
   cleanupTempBinaries();
   process.exit(0);

@@ -105,7 +105,7 @@ export function cleanupTempJampack(extractDir = null) {
 }
 
 // Register cleanup on process exit
-process.on('exit', cleanupTempJampack);
+process.on('exit', () => cleanupTempJampack());
 process.on('SIGINT', () => {
   cleanupTempJampack();
   process.exit(0);
