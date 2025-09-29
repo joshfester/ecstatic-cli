@@ -140,6 +140,73 @@ export function getCompressionSettings(extension, metadata = null, imagePath = n
 }
 
 /**
+ * Convert a single image to AVIF format
+ * @param {string} imagePath - Path to the image file
+ * @returns {Promise<{originalSize: number, compressedSize: number}>}
+ */
+export async function convertImage(imagePath) {
+  const extension = path.extname(imagePath);
+  const baseName = path.basename(imagePath, extension);
+  const directory = path.dirname(imagePath);
+  const avifPath = path.join(directory, `${baseName}.avif`);
+
+  // Load Sharp dynamically from Jampack
+  const sharp = await loadSharp();
+
+  // Get original file size
+  const originalStats = fs.statSync(imagePath);
+  const originalSize = originalStats.size;
+
+  // Get image metadata to make intelligent decisions
+  const metadata = await sharp(imagePath).metadata();
+  const needsResize = metadata.width > 1920 || metadata.height > 1920;
+
+  // Debug logging for resize decisions
+  const fileName = path.basename(imagePath);
+  logger.info(`  Converting ${fileName} to AVIF: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
+
+  // Get AVIF compression settings
+  const settings = getCompressionSettings('.avif', metadata, imagePath);
+  logger.info(`  AVIF settings: ${JSON.stringify(settings)}`);
+
+  // Create Sharp instance
+  let sharpInstance = sharp(imagePath);
+
+  // Only resize if necessary
+  if (needsResize) {
+    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max 1920x1920`);
+    sharpInstance = sharpInstance.resize(1920, 1920, {
+      fit: 'inside',
+      withoutEnlargement: true
+    });
+  }
+
+  // Convert to AVIF
+  sharpInstance = sharpInstance.avif(settings.options);
+
+  // Convert to AVIF file
+  await sharpInstance.toFile(avifPath);
+
+  // Get final dimensions for logging
+  const finalMetadata = await sharp(avifPath).metadata();
+  logger.info(`  Final dimensions: ${finalMetadata.width}x${finalMetadata.height}`);
+
+  // Get converted file size
+  const avifStats = fs.statSync(avifPath);
+  const compressedSize = avifStats.size;
+
+  // Remove original file and rename AVIF to replace it
+  fs.unlinkSync(imagePath);
+  fs.renameSync(avifPath, imagePath.replace(extension, '.avif'));
+
+  if (needsResize) {
+    logger.info(`  Image resized and converted to AVIF (resize was primary goal)`);
+  }
+
+  return { originalSize, compressedSize };
+}
+
+/**
  * Compress a single image while preserving its format
  * @param {string} imagePath - Path to the image file
  * @returns {Promise<{originalSize: number, compressedSize: number}>}
@@ -232,6 +299,57 @@ export async function compressImage(imagePath) {
   }
 
   return { originalSize, compressedSize };
+}
+
+/**
+ * Convert multiple images to AVIF format with Sharp
+ * @param {string} imageList - Comma-separated list of image paths
+ * @param {string} outputDir - Output directory to resolve relative paths
+ * @param {boolean} suppressOutput - Whether to suppress detailed output
+ * @returns {Promise<void>}
+ */
+export async function convertImages(imageList, outputDir, suppressOutput = false) {
+  if (!imageList) return;
+
+  const imagePaths = parseImageList(imageList, outputDir);
+
+  if (imagePaths.length === 0) {
+    logger.warning("No valid images found to convert");
+    return;
+  }
+
+  if (!suppressOutput) {
+    logger.info(`Converting ${imagePaths.length} images to AVIF with Sharp...`);
+  }
+
+  let totalOriginalSize = 0;
+  let totalCompressedSize = 0;
+  let successCount = 0;
+
+  for (const imagePath of imagePaths) {
+    try {
+      const result = await convertImage(imagePath);
+      totalOriginalSize += result.originalSize;
+      totalCompressedSize += result.compressedSize;
+      successCount++;
+
+      if (!suppressOutput) {
+        const reductionPercent = Math.round((1 - result.compressedSize / result.originalSize) * 100);
+        const originalFileName = path.basename(imagePath);
+        const extension = path.extname(imagePath);
+        const convertedFileName = originalFileName.replace(extension, '.avif');
+        logger.info(`  ${originalFileName} → ${convertedFileName}: ${formatBytes(result.originalSize)} → ${formatBytes(result.compressedSize)} (${reductionPercent}% reduction)`);
+      }
+    } catch (error) {
+      logger.warning(`Failed to convert ${path.basename(imagePath)}: ${error.message}`);
+    }
+  }
+
+  if (!suppressOutput && successCount > 0) {
+    const totalReductionPercent = Math.round((1 - totalCompressedSize / totalOriginalSize) * 100);
+    logger.success(`Successfully converted ${successCount}/${imagePaths.length} images to AVIF`);
+    logger.info(`Total size reduction: ${formatBytes(totalOriginalSize)} → ${formatBytes(totalCompressedSize)} (${totalReductionPercent}% reduction)`);
+  }
 }
 
 /**
