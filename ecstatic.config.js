@@ -61,7 +61,7 @@ export default {
                     /.*createElement\(.*/,
                     /.*cdn.native.ai.*/,
                     /.*score.open-up.io.*/,
-                    /.*\$\(document\).ready.*/
+                    /.*\$\(document\).ready.*/,
                 ],
             },
         }
@@ -71,11 +71,11 @@ export default {
     deploy: {
         bunny: {
             // Fill these in with your BunnyCDN credentials
-            accessKey: '1fda9529-c2ff-43cd-b0c4303916db-37cd-452e',
+            accessKey: '7a39ddbb-ef22-47fe-a5f925ea451a-279c-4541',
             globalApiKey: 'bb9baacc-200d-4ce9-abb3-28f72ad350b690e0ed11-8f18-4302-9c31-b4ff3bad0fcf',
-            storageZone: 'americor',
+            storageZone: 'shefinds',
             region: '', // Optional: e.g., 'ny' for New York
-            purgeUrl: 'https://americor.b-cdn.net/' // Your CDN URL to purge
+            purgeUrl: 'https://shefinds.b-cdn.net/' // Your CDN URL to purge
         }
     }
 };

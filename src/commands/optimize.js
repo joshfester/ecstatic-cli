@@ -13,6 +13,10 @@ import { compressImages, convertImages } from "../utils/sharp-compression.js";
 import fs from "fs";
 import path from "path";
 
+function collect(value, previous) {
+  return previous.concat([value]);
+}
+
 export const optimizeCommand = new Command("optimize")
   .description("Optimize HTML and assets")
   .argument(
@@ -21,7 +25,7 @@ export const optimizeCommand = new Command("optimize")
   )
   .option("--output <dir>", "Output directory (overrides config)")
   .option("--config <path>", "Path to jampack config file")
-  .option("--preload-images <images>", "Comma-separated list of images to preload")
+  .option("--preload-image <image>", "Image to preload (can be specified multiple times)", collect, [])
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
   .option("--convert-extra-images <images>", "Comma-separated list of images to convert to WebP with Sharp")
@@ -166,9 +170,11 @@ async function runJampack(distDir, config, jampackConfigPath, command, options) 
     jampackArgs.push("--config", jampackConfigPath);
   }
 
-  // Add preload-images option if provided
-  if (options.preloadImages) {
-    jampackArgs.push("--preload-images", options.preloadImages);
+  // Add preload-image option if provided
+  if (options.preloadImage && options.preloadImage.length > 0) {
+    options.preloadImage.forEach(img => {
+      jampackArgs.push("--preload-image", img);
+    });
   }
 
   // Add fetchpriority-high option if provided
