@@ -5,6 +5,9 @@ import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
 
+// Maximum dimension (width or height) for resized images
+const MAX_IMAGE_DIMENSION = 1600;
+
 /**
  * Dynamically load Sharp from extracted Jampack
  * @returns {Promise<object>} Sharp module
@@ -159,7 +162,7 @@ export async function convertImage(imagePath) {
 
   // Get image metadata to make intelligent decisions
   const metadata = await sharp(imagePath).metadata();
-  const needsResize = metadata.width > 1920 || metadata.height > 1920;
+  const needsResize = metadata.width > MAX_IMAGE_DIMENSION || metadata.height > MAX_IMAGE_DIMENSION;
 
   // Debug logging for resize decisions
   const fileName = path.basename(imagePath);
@@ -174,8 +177,8 @@ export async function convertImage(imagePath) {
 
   // Only resize if necessary
   if (needsResize) {
-    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max 1920x1920`);
-    sharpInstance = sharpInstance.resize(1920, 1920, {
+    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max ${MAX_IMAGE_DIMENSION}x${MAX_IMAGE_DIMENSION}`);
+    sharpInstance = sharpInstance.resize(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION, {
       fit: 'inside',
       withoutEnlargement: true
     });
@@ -223,7 +226,7 @@ export async function compressImage(imagePath) {
 
   // Get image metadata to make intelligent decisions
   const metadata = await sharp(imagePath).metadata();
-  const needsResize = metadata.width > 1920 || metadata.height > 1920;
+  const needsResize = metadata.width > MAX_IMAGE_DIMENSION || metadata.height > MAX_IMAGE_DIMENSION;
 
   // Debug logging for resize decisions
   const fileName = path.basename(imagePath);
@@ -246,8 +249,8 @@ export async function compressImage(imagePath) {
 
   // Only resize if necessary
   if (needsResize) {
-    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max 1920x1920`);
-    sharpInstance = sharpInstance.resize(1920, 1920, {
+    logger.info(`  Resizing ${fileName} from ${metadata.width}x${metadata.height} to max ${MAX_IMAGE_DIMENSION}x${MAX_IMAGE_DIMENSION}`);
+    sharpInstance = sharpInstance.resize(MAX_IMAGE_DIMENSION, MAX_IMAGE_DIMENSION, {
       fit: 'inside',
       withoutEnlargement: true
     });
