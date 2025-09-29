@@ -15,7 +15,7 @@ if (isProductionEnvironment()) {
 
 // Hardcode package info for Bun compatibility
 const packageJson = {
-  version: "1.1.5",
+  version: "1.1.6",
   description:
     "CLI tool for website optimization - download, optimize, and deploy static sites",
 };

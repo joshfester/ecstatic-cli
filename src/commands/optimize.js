@@ -24,7 +24,7 @@ export const optimizeCommand = new Command("optimize")
   .option("--preload-images <images>", "Comma-separated list of images to preload")
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
-  .option("--convert-extra-images <images>", "Comma-separated list of images to convert to AVIF with Sharp")
+  .option("--convert-extra-images <images>", "Comma-separated list of images to convert to WebP with Sharp")
   .option("--copy-files <mappings>", "Comma-separated list of file copies in format source:destination")
   .action(createCommand("Optimization", optimizeWebsite));
 

@@ -29,7 +29,8 @@ export class SiteOneCommandBuilder {
       "--replace-content='index.html -> \/'",
       "--replace-content='\/index.php.html -> \/'",
       "--replace-content='https_\/\/ -> https:\/\/'",
-      "--replace-content='\/img\/background\/homepage-hero.png -> \/img\/background\/homepage-hero.avif'",
+      "--replace-content='../../img/background/homepage-hero.png -> /wp-content/themes/americor-v2/img/background/homepage-hero.webp'",
+      "--replace-content='../images/wgarrowdown.png -> /wp-content/plugins/weglot/dist/images/wgarrowdown.png'",
       "--ignore-robots-txt"
     ];
 

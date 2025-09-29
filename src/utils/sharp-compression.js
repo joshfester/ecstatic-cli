@@ -140,7 +140,7 @@ export function getCompressionSettings(extension, metadata = null, imagePath = n
 }
 
 /**
- * Convert a single image to AVIF format
+ * Convert a single image to WebP format
  * @param {string} imagePath - Path to the image file
  * @returns {Promise<{originalSize: number, compressedSize: number}>}
  */
@@ -148,7 +148,7 @@ export async function convertImage(imagePath) {
   const extension = path.extname(imagePath);
   const baseName = path.basename(imagePath, extension);
   const directory = path.dirname(imagePath);
-  const avifPath = path.join(directory, `${baseName}.avif`);
+  const webpPath = path.join(directory, `${baseName}.webp`);
 
   // Load Sharp dynamically from Jampack
   const sharp = await loadSharp();
@@ -163,11 +163,11 @@ export async function convertImage(imagePath) {
 
   // Debug logging for resize decisions
   const fileName = path.basename(imagePath);
-  logger.info(`  Converting ${fileName} to AVIF: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
+  logger.info(`  Converting ${fileName} to WebP: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
 
-  // Get AVIF compression settings
-  const settings = getCompressionSettings('.avif', metadata, imagePath);
-  logger.info(`  AVIF settings: ${JSON.stringify(settings)}`);
+  // Get WebP compression settings
+  const settings = getCompressionSettings('.webp', metadata, imagePath);
+  logger.info(`  WebP settings: ${JSON.stringify(settings)}`);
 
   // Create Sharp instance
   let sharpInstance = sharp(imagePath);
@@ -181,26 +181,26 @@ export async function convertImage(imagePath) {
     });
   }
 
-  // Convert to AVIF
-  sharpInstance = sharpInstance.avif(settings.options);
+  // Convert to WebP
+  sharpInstance = sharpInstance.webp(settings.options);
 
-  // Convert to AVIF file
-  await sharpInstance.toFile(avifPath);
+  // Convert to WebP file
+  await sharpInstance.toFile(webpPath);
 
   // Get final dimensions for logging
-  const finalMetadata = await sharp(avifPath).metadata();
+  const finalMetadata = await sharp(webpPath).metadata();
   logger.info(`  Final dimensions: ${finalMetadata.width}x${finalMetadata.height}`);
 
   // Get converted file size
-  const avifStats = fs.statSync(avifPath);
-  const compressedSize = avifStats.size;
+  const webpStats = fs.statSync(webpPath);
+  const compressedSize = webpStats.size;
 
-  // Remove original file and rename AVIF to replace it
+  // Remove original file and rename WebP to replace it
   fs.unlinkSync(imagePath);
-  fs.renameSync(avifPath, imagePath.replace(extension, '.avif'));
+  fs.renameSync(webpPath, imagePath.replace(extension, '.webp'));
 
   if (needsResize) {
-    logger.info(`  Image resized and converted to AVIF (resize was primary goal)`);
+    logger.info(`  Image resized and converted to WebP (resize was primary goal)`);
   }
 
   return { originalSize, compressedSize };
@@ -302,7 +302,7 @@ export async function compressImage(imagePath) {
 }
 
 /**
- * Convert multiple images to AVIF format with Sharp
+ * Convert multiple images to WebP format with Sharp
  * @param {string} imageList - Comma-separated list of image paths
  * @param {string} outputDir - Output directory to resolve relative paths
  * @param {boolean} suppressOutput - Whether to suppress detailed output
@@ -319,7 +319,7 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
   }
 
   if (!suppressOutput) {
-    logger.info(`Converting ${imagePaths.length} images to AVIF with Sharp...`);
+    logger.info(`Converting ${imagePaths.length} images to WebP with Sharp...`);
   }
 
   let totalOriginalSize = 0;
@@ -337,7 +337,7 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
         const reductionPercent = Math.round((1 - result.compressedSize / result.originalSize) * 100);
         const originalFileName = path.basename(imagePath);
         const extension = path.extname(imagePath);
-        const convertedFileName = originalFileName.replace(extension, '.avif');
+        const convertedFileName = originalFileName.replace(extension, '.webp');
         logger.info(`  ${originalFileName} → ${convertedFileName}: ${formatBytes(result.originalSize)} → ${formatBytes(result.compressedSize)} (${reductionPercent}% reduction)`);
       }
     } catch (error) {
@@ -347,7 +347,7 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
 
   if (!suppressOutput && successCount > 0) {
     const totalReductionPercent = Math.round((1 - totalCompressedSize / totalOriginalSize) * 100);
-    logger.success(`Successfully converted ${successCount}/${imagePaths.length} images to AVIF`);
+    logger.success(`Successfully converted ${successCount}/${imagePaths.length} images to WebP`);
     logger.info(`Total size reduction: ${formatBytes(totalOriginalSize)} → ${formatBytes(totalCompressedSize)} (${totalReductionPercent}% reduction)`);
   }
 }
