@@ -22,24 +22,24 @@ export default {
     "offload": {
       "when": "always",
       "src_include": [
-        /.*bc.marfeelcache.com.*/,
-        /.*query.min.js.*/,
-        /.*googletagmanager.com.*/,
-        /.*blogherads.*/,
-        /.*bootstrap.min.js.*/,
-        /.*lightboxcdn.com.*/,
-        /.*wp-content\/themes\/shefinds_14\/js\/min.*/,
-        /.*amazon-adsystem.com.*/,
-        /.*sellwild.com\.*/
+        /.*cdn.jsdelivr.net.*/,
+        /.*googletagmanager\.com.*/,
+        /.*client-registry\.mutinycdn\.com.*/,
+        /.*widget\.trustpilot\.com.*/,
+        /.*email-decode\.min\.js.*/,
+        /.*wp-includes\/js\/dist\/hooks.*/,
+        /.*wp-includes\/js\/dist\/i18n.*/,
+        /.*wp-content\/plugins\/contact-form-7.*/,
+        /.*google\.com\/recaptcha.*/,
+        /.*wp-includes\/js\/dist\/vendor\/wp-polyfill.*/
       ],
       "content_include": [
-        /.*gtag\(.*/,
-        /.*wt.alcmpn.com.*/,
-        /.*blogherads.*/,
-        /.*createElement\(.*/,
-        /.*cdn.native.ai.*/,
-        /.*score.open-up.io.*/,
-        /.*\$\(document\).ready.*/
+        /.*document.getElementById.*/,
+        /.*window\.dataLayer.*/,
+        /.*posthog\.com.*/,
+        /.*wp\.i18n\.setLocaleData.*/,
+        /.*var wpcf7.*/,
+        /.*https:\/\/www\.googletagmanager\.com\/gtm\.js.*/
       ]
     }
   }
