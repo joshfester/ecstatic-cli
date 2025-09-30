@@ -8,6 +8,10 @@ import { createRequire } from 'module';
 // Maximum dimension (width or height) for resized images
 const MAX_IMAGE_DIMENSION = 1600;
 
+// Target format for image conversion
+// Change this to 'webp' to use WebP instead of AVIF
+const TARGET_IMAGE_FORMAT = 'webp';
+
 /**
  * Dynamically load Sharp from extracted Jampack
  * @returns {Promise<object>} Sharp module
@@ -143,7 +147,7 @@ export function getCompressionSettings(extension, metadata = null, imagePath = n
 }
 
 /**
- * Convert a single image to WebP format
+ * Convert a single image to target format (AVIF or WebP)
  * @param {string} imagePath - Path to the image file
  * @returns {Promise<{originalSize: number, compressedSize: number}>}
  */
@@ -151,7 +155,7 @@ export async function convertImage(imagePath) {
   const extension = path.extname(imagePath);
   const baseName = path.basename(imagePath, extension);
   const directory = path.dirname(imagePath);
-  const webpPath = path.join(directory, `${baseName}.webp`);
+  const convertedPath = path.join(directory, `${baseName}.${TARGET_IMAGE_FORMAT}`);
 
   // Load Sharp dynamically from Jampack
   const sharp = await loadSharp();
@@ -166,11 +170,12 @@ export async function convertImage(imagePath) {
 
   // Debug logging for resize decisions
   const fileName = path.basename(imagePath);
-  logger.info(`  Converting ${fileName} to WebP: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
+  const formatUpper = TARGET_IMAGE_FORMAT.toUpperCase();
+  logger.info(`  Converting ${fileName} to ${formatUpper}: ${metadata.width}x${metadata.height} (${needsResize ? 'will resize' : 'no resize needed'})`);
 
-  // Get WebP compression settings
-  const settings = getCompressionSettings('.webp', metadata, imagePath);
-  logger.info(`  WebP settings: ${JSON.stringify(settings)}`);
+  // Get compression settings for target format
+  const settings = getCompressionSettings(`.${TARGET_IMAGE_FORMAT}`, metadata, imagePath);
+  logger.info(`  ${formatUpper} settings: ${JSON.stringify(settings)}`);
 
   // Create Sharp instance
   let sharpInstance = sharp(imagePath);
@@ -184,26 +189,30 @@ export async function convertImage(imagePath) {
     });
   }
 
-  // Convert to WebP
-  sharpInstance = sharpInstance.webp(settings.options);
+  // Convert to target format
+  if (TARGET_IMAGE_FORMAT === 'avif') {
+    sharpInstance = sharpInstance.avif(settings.options);
+  } else if (TARGET_IMAGE_FORMAT === 'webp') {
+    sharpInstance = sharpInstance.webp(settings.options);
+  }
 
-  // Convert to WebP file
-  await sharpInstance.toFile(webpPath);
+  // Convert to target format file
+  await sharpInstance.toFile(convertedPath);
 
   // Get final dimensions for logging
-  const finalMetadata = await sharp(webpPath).metadata();
+  const finalMetadata = await sharp(convertedPath).metadata();
   logger.info(`  Final dimensions: ${finalMetadata.width}x${finalMetadata.height}`);
 
   // Get converted file size
-  const webpStats = fs.statSync(webpPath);
-  const compressedSize = webpStats.size;
+  const convertedStats = fs.statSync(convertedPath);
+  const compressedSize = convertedStats.size;
 
-  // Remove original file and rename WebP to replace it
+  // Remove original file and rename converted to replace it
   fs.unlinkSync(imagePath);
-  fs.renameSync(webpPath, imagePath.replace(extension, '.webp'));
+  fs.renameSync(convertedPath, imagePath.replace(extension, `.${TARGET_IMAGE_FORMAT}`));
 
   if (needsResize) {
-    logger.info(`  Image resized and converted to WebP (resize was primary goal)`);
+    logger.info(`  Image resized and converted to ${formatUpper} (resize was primary goal)`);
   }
 
   return { originalSize, compressedSize };
@@ -305,7 +314,7 @@ export async function compressImage(imagePath) {
 }
 
 /**
- * Convert multiple images to WebP format with Sharp
+ * Convert multiple images to target format (AVIF or WebP) with Sharp
  * @param {string} imageList - Comma-separated list of image paths
  * @param {string} outputDir - Output directory to resolve relative paths
  * @param {boolean} suppressOutput - Whether to suppress detailed output
@@ -321,8 +330,9 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
     return;
   }
 
+  const formatUpper = TARGET_IMAGE_FORMAT.toUpperCase();
   if (!suppressOutput) {
-    logger.info(`Converting ${imagePaths.length} images to WebP with Sharp...`);
+    logger.info(`Converting ${imagePaths.length} images to ${formatUpper} with Sharp...`);
   }
 
   let totalOriginalSize = 0;
@@ -340,7 +350,7 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
         const reductionPercent = Math.round((1 - result.compressedSize / result.originalSize) * 100);
         const originalFileName = path.basename(imagePath);
         const extension = path.extname(imagePath);
-        const convertedFileName = originalFileName.replace(extension, '.webp');
+        const convertedFileName = originalFileName.replace(extension, `.${TARGET_IMAGE_FORMAT}`);
         logger.info(`  ${originalFileName} → ${convertedFileName}: ${formatBytes(result.originalSize)} → ${formatBytes(result.compressedSize)} (${reductionPercent}% reduction)`);
       }
     } catch (error) {
@@ -350,7 +360,7 @@ export async function convertImages(imageList, outputDir, suppressOutput = false
 
   if (!suppressOutput && successCount > 0) {
     const totalReductionPercent = Math.round((1 - totalCompressedSize / totalOriginalSize) * 100);
-    logger.success(`Successfully converted ${successCount}/${imagePaths.length} images to WebP`);
+    logger.success(`Successfully converted ${successCount}/${imagePaths.length} images to ${formatUpper}`);
     logger.info(`Total size reduction: ${formatBytes(totalOriginalSize)} → ${formatBytes(totalCompressedSize)} (${totalReductionPercent}% reduction)`);
   }
 }

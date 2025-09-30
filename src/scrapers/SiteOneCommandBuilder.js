@@ -31,6 +31,7 @@ export class SiteOneCommandBuilder {
       "--replace-content='https_\/\/ -> https:\/\/'",
       "--replace-content='../../img/background/homepage-hero.png -> /wp-content/themes/americor-v2/img/background/homepage-hero.webp'",
       "--replace-content='../images/wgarrowdown.png -> /wp-content/plugins/weglot/dist/images/wgarrowdown.png'",
+      "--replace-content='html:not([data-mutiny-loaded]).mutiny-hider { opacity: 0!important } -> html {}'",
       "--ignore-robots-txt"
     ];
 

@@ -10,7 +10,6 @@ export default {
     "defer": {
       "when": "always",
       "src_include": [
-        /.*client-registry\.mutinycdn\.com.*/,
         /.*wp-content\/themes\/americor-v2\/dist\/\js\/app\..*/,
         /.*toolkit\.americor\.com.*/,
         /.*plugins\/weglot.*/
@@ -39,7 +38,8 @@ export default {
         /.*posthog\.com.*/,
         /.*wp\.i18n\.setLocaleData.*/,
         /.*var wpcf7.*/,
-        /.*https:\/\/www\.googletagmanager\.com\/gtm\.js.*/
+        /.*https:\/\/www\.googletagmanager\.com\/gtm\.js.*/,
+        /.*mutiny.*/
       ]
     }
   }

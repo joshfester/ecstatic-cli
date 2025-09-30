@@ -29,7 +29,7 @@ export const optimizeCommand = new Command("optimize")
   .option("--preload-font <font>", "Font to preload (can be specified multiple times)", collect, [])
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
-  .option("--convert-extra-images <images>", "Comma-separated list of images to convert to WebP with Sharp")
+  .option("--convert-extra-images <images>", "Comma-separated list of images to convert to AVIF/WebP with Sharp")
   .option("--copy-files <mappings>", "Comma-separated list of file copies in format source:destination")
   .action(createCommand("Optimization", optimizeWebsite));
 
@@ -136,7 +136,7 @@ async function optimizeWebsite(inputDir, options, command) {
     await compressImages(options.compressExtraImages, outputDir, suppressOutput);
   }
 
-  // Run Sharp image conversion to AVIF if specified
+  // Run Sharp image conversion if specified
   if (options.convertExtraImages) {
     const suppressOutput = config?.logging?.suppressOutput;
     await convertImages(options.convertExtraImages, outputDir, suppressOutput);
