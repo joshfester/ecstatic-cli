@@ -18,7 +18,7 @@ export default {
             memoryLimit: '2048M',
 
             includeRegex: [],
-            ignoreRegex: [/.*\/wp-json\/.*/i, /.*\?p=.*/i, /.*\/cdn-cgi\/.*/i],
+            ignoreRegex: [/.*\/wp-json\/.*/i, /.*\?p=.*/i],
             ignoreRobotsTxt: true,
             offlineExportNoAutoRedirectHtml: true,
             offlineExportRemoveUnwantedCode: 1
@@ -32,6 +32,7 @@ export default {
             defer: {
                 when: 'always',
                 src_include: [
+                    /.*client-registry\.mutinycdn\.com.*/,
                     /.*wp-content\/themes\/americor-v2\/dist\/\js\/app\..*/,
                     /.*toolkit\.americor\.com.*/,
                     /.*plugins\/weglot.*/,
@@ -43,25 +44,24 @@ export default {
             offload: {
                 when: 'always',
                 src_include: [
-                    /.*cdn.jsdelivr.net.*/,
-                    /.*googletagmanager\.com.*/,
-                    /.*client-registry\.mutinycdn\.com.*/,
-                    /.*widget\.trustpilot\.com.*/,
-                    /.*email-decode\.min\.js.*/,
-                    /.*wp-includes\/js\/dist\/hooks.*/,
-                    /.*wp-includes\/js\/dist\/i18n.*/,
-                    /.*wp-content\/plugins\/contact-form-7.*/,
-                    /.*google\.com\/recaptcha.*/,
-                    /.*wp-includes\/js\/dist\/vendor\/wp-polyfill.*/
+                    /.*bc.marfeelcache.com.*/,
+                    /.*query.min.js.*/,
+                    /.*googletagmanager.com.*/,
+                    /.*blogherads.*/,
+                    /.*bootstrap.min.js.*/,
+                    /.*lightboxcdn.com.*/,
+                    /.*wp-content\/themes\/shefinds_14\/js\/min.*/,
+                    /.*amazon-adsystem.com.*/,
+                    /.*sellwild.com\.*/
                 ],
                 content_include: [
-                    /.*document.getElementById.*/,
-                    /.*window\.dataLayer.*/,
-                    /.*posthog\.com.*/,
-                    /.*wp\.i18n\.setLocaleData.*/,
-                    /.*var wpcf7.*/,
-                    /.*https:\/\/www\.googletagmanager\.com\/gtm\.js.*/,
-                    /.*mutiny.*/
+                    /.*gtag\(.*/,
+                    /.*wt.alcmpn.com.*/,
+                    /.*blogherads.*/,
+                    /.*createElement\(.*/,
+                    /.*cdn.native.ai.*/,
+                    /.*score.open-up.io.*/,
+                    /.*\$\(document\).ready.*/,
                 ],
             },
         }
@@ -71,11 +71,11 @@ export default {
     deploy: {
         bunny: {
             // Fill these in with your BunnyCDN credentials
-            accessKey: '1fda9529-c2ff-43cd-b0c4303916db-37cd-452e',
+            accessKey: '7a39ddbb-ef22-47fe-a5f925ea451a-279c-4541',
             globalApiKey: 'bb9baacc-200d-4ce9-abb3-28f72ad350b690e0ed11-8f18-4302-9c31-b4ff3bad0fcf',
-            storageZone: 'americor',
+            storageZone: 'shefinds',
             region: '', // Optional: e.g., 'ny' for New York
-            purgeUrl: 'https://americor.b-cdn.net/' // Your CDN URL to purge
+            purgeUrl: 'https://shefinds.b-cdn.net/' // Your CDN URL to purge
         }
     }
 };
