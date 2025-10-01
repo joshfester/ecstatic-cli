@@ -27,6 +27,8 @@ export const optimizeCommand = new Command("optimize")
   .option("--config <path>", "Path to jampack config file")
   .option("--preload-image <image>", "Image to preload (can be specified multiple times)", collect, [])
   .option("--preload-font <font>", "Font to preload (can be specified multiple times)", collect, [])
+  .option("--preconnect-url <url>", "URL to preconnect (can be specified multiple times)", collect, [])
+  .option("--preconnect-url-crossorigin <url>", "URL to preconnect with crossorigin (can be specified multiple times)", collect, [])
   .option("--fetchpriority-high <selectors>", "Comma-separated CSS selectors for high fetchpriority")
   .option("--compress-extra-images <images>", "Comma-separated list of images to compress with Sharp")
   .option("--convert-extra-images <images>", "Comma-separated list of images to convert to AVIF/WebP with Sharp")
@@ -182,6 +184,20 @@ async function runJampack(distDir, config, jampackConfigPath, command, options) 
   if (options.preloadFont && options.preloadFont.length > 0) {
     options.preloadFont.forEach(font => {
       jampackArgs.push("--preload-font", font);
+    });
+  }
+
+  // Add preconnect-url option if provided
+  if (options.preconnectUrl && options.preconnectUrl.length > 0) {
+    options.preconnectUrl.forEach(url => {
+      jampackArgs.push("--preconnect-url", url);
+    });
+  }
+
+  // Add preconnect-url-crossorigin option if provided
+  if (options.preconnectUrlCrossorigin && options.preconnectUrlCrossorigin.length > 0) {
+    options.preconnectUrlCrossorigin.forEach(url => {
+      jampackArgs.push("--preconnect-url-crossorigin", url);
     });
   }
 
