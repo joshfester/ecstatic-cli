@@ -32,10 +32,6 @@ export default {
             defer: {
                 when: 'always',
                 src_include: [
-                    /.*client-registry\.mutinycdn\.com.*/,
-                    /.*wp-content\/themes\/americor-v2\/dist\/\js\/app\..*/,
-                    /.*toolkit\.americor\.com.*/,
-                    /.*plugins\/weglot.*/,
                 ],
                 content_include: [
 
@@ -44,24 +40,15 @@ export default {
             offload: {
                 when: 'always',
                 src_include: [
-                    /.*bc.marfeelcache.com.*/,
-                    /.*query.min.js.*/,
-                    /.*googletagmanager.com.*/,
-                    /.*blogherads.*/,
                     /.*bootstrap.min.js.*/,
-                    /.*lightboxcdn.com.*/,
-                    /.*wp-content\/themes\/shefinds_14\/js\/min.*/,
-                    /.*amazon-adsystem.com.*/,
-                    /.*sellwild.com\.*/
+                    /.*googletagmanager.com.*/,
+                    /.*weglot.*/,
                 ],
                 content_include: [
                     /.*gtag\(.*/,
-                    /.*wt.alcmpn.com.*/,
-                    /.*blogherads.*/,
-                    /.*createElement\(.*/,
-                    /.*cdn.native.ai.*/,
-                    /.*score.open-up.io.*/,
-                    /.*\$\(document\).ready.*/,
+                    /.*Weglot.*/,
+                    /.*bootstrap.esm.*/,
+                    /.*googletagmanager.com.*/
                 ],
             },
         }
@@ -71,11 +58,11 @@ export default {
     deploy: {
         bunny: {
             // Fill these in with your BunnyCDN credentials
-            accessKey: '7a39ddbb-ef22-47fe-a5f925ea451a-279c-4541',
+            accessKey: '9cb2f654-964d-4121-a53ff8722a7e-a8b1-402c',
             globalApiKey: 'bb9baacc-200d-4ce9-abb3-28f72ad350b690e0ed11-8f18-4302-9c31-b4ff3bad0fcf',
-            storageZone: 'shefinds',
+            storageZone: 'americor-dev',
             region: '', // Optional: e.g., 'ny' for New York
-            purgeUrl: 'https://shefinds.b-cdn.net/' // Your CDN URL to purge
+            purgeUrl: 'https://americor-dev.b-cdn.net/' // Your CDN URL to purge
         }
     }
 };

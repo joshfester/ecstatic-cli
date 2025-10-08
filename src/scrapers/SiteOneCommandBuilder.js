@@ -68,7 +68,8 @@ export class SiteOneCommandBuilder {
       "--replace-content='//  height -> height'",
       "--replace-content='// overflow -> overflow'",
       "--replace-content='/\\/\\/color/ -> color'",
-      "--ignore-robots-txt"
+      "--ignore-robots-txt",
+      "--disable-astro-inline-modules"
     ];
 
     // Add timeout if specified
